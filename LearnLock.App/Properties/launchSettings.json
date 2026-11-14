@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LearnLock.App (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "LearnLock.App (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at LearnLock_App.Views.ParentView.Subject_Checked(Object sender, RoutedEventArgs e) in e:\antigravity\begrenzung\LearnLock.App\Views\ParentView.xaml.cs:line 546
+   at System.Threading.Tasks.Task.<>c.<ThrowAsync>b__128_0(Object state)
+   at Microsoft.UI.Dispatching.DispatcherQueueSynchronizationContext.<>c__DisplayClass2_0.<Post>b__0()

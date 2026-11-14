@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LearnLock_App.Views.LoginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    RequestedTheme="Light"
+    Background="#FDFBF7">
+
+    <Grid Padding="40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Top Header & Language Selector -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="🔒 LearnLock" FontSize="24" FontWeight="Bold" Foreground="#F97316"/>
+            <ComboBox x:Name="LanguageComboBox" Grid.Column="1" Width="120" SelectionChanged="LanguageComboBox_SelectionChanged">
+                <ComboBoxItem Content="Deutsch" Tag="de" />
+                <ComboBoxItem Content="English" Tag="en" />
+            </ComboBox>
+        </Grid>
+
+        <!-- Center Workspace -->
+        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Left panel: Children switcher -->
+            <StackPanel x:Name="ChildProfilesPanel" Spacing="24" Width="500">
+                <TextBlock x:Name="WhoIsLearningText" Text="Wer lernt heute?" FontSize="22" FontWeight="Bold" Foreground="#2D3748" HorizontalAlignment="Center"/>
+                
+                <TextBlock x:Name="NoChildrenText" Text="Noch keine Profile angelegt." Foreground="#718096" FontSize="14" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                
+                <GridView x:Name="ChildrenGrid" 
+                          HorizontalAlignment="Center" 
+                          SelectionMode="None" 
+                          IsItemClickEnabled="True" 
+                          ItemClick="ChildrenGrid_ItemClick">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" Width="140" Height="140" CornerRadius="12" Padding="12" Margin="8">
+                                <StackPanel VerticalAlignment="Center" Spacing="12">
+                                    <FontIcon Glyph="&#xE77B;" FontSize="36" Foreground="#F97316" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="#2D3748" FontSize="14" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </StackPanel>
+
+            <!-- Right panel: Parent Login Form -->
+            <StackPanel x:Name="ParentLoginPanel" Spacing="16" Width="360" Visibility="Collapsed">
+                <TextBlock x:Name="ParentAreaText" Text="Elternbereich" FontSize="20" FontWeight="Bold" Foreground="#2D3748" HorizontalAlignment="Center"/>
+                
+                <!-- Email vs Password login panels -->
+                <StackPanel x:Name="PasswordLoginPanel" Spacing="12">
+                    <PasswordBox x:Name="ParentPasswordInput" 
+                                 PlaceholderText="Eltern-Passwort"
+                                 KeyDown="ParentPasswordInput_KeyDown"
+                                 Background="#FFFFFF" BorderBrush="#E2E8F0" Foreground="#2D3748" Height="38"/>
+                    <Button x:Name="LoginButton" Content="Anmelden" Style="{ThemeResource AccentButtonStyle}" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" HorizontalAlignment="Stretch" Click="ParentLogin_Click" Height="38"/>
+                    <Button Content="Passwort vergessen? Per E-Mail-Code zurücksetzen" FontSize="12" Foreground="#F97316" HorizontalAlignment="Center" Click="SwitchToResetPassword_Click" BorderThickness="0" Background="Transparent"/>
+                </StackPanel>
+
+                <!-- Password Reset Panel -->
+                <StackPanel x:Name="ResetPasswordPanel" Spacing="12" Visibility="Collapsed">
+                    <TextBlock Text="Passwort per E-Mail-Code zurücksetzen" FontSize="13" Foreground="#718096" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    <TextBox x:Name="ResetEmailInput" PlaceholderText="Eltern E-Mail-Adresse" Background="#FFFFFF" BorderBrush="#E2E8F0" Foreground="#2D3748" Height="38"/>
+                    <Button x:Name="SendResetCodeButton" Content="Sicherheitscode per E-Mail anfordern" Style="{ThemeResource AccentButtonStyle}" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" HorizontalAlignment="Stretch" Click="SendResetCode_Click" Height="38"/>
+                    
+                    <StackPanel x:Name="ResetFormFields" Spacing="8" Visibility="Collapsed">
+                        <TextBox x:Name="ResetOtpInput" PlaceholderText="6-stelliger Sicherheitscode" Background="#FFFFFF" BorderBrush="#E2E8F0" Foreground="#2D3748" Height="38"/>
+                        <PasswordBox x:Name="ResetNewPasswordInput" PlaceholderText="Neues Eltern-Passwort" Background="#FFFFFF" BorderBrush="#E2E8F0" Foreground="#2D3748" Height="38"/>
+                        <PasswordBox x:Name="ResetConfirmPasswordInput" PlaceholderText="Passwort bestätigen" Background="#FFFFFF" BorderBrush="#E2E8F0" Foreground="#2D3748" Height="38"/>
+                        <Button Content="Passwort ändern &amp; Anmelden" Style="{ThemeResource AccentButtonStyle}" Background="#10B981" Foreground="#FFFFFF" FontWeight="Bold" HorizontalAlignment="Stretch" Click="ConfirmResetPassword_Click" Height="38"/>
+                    </StackPanel>
+                    
+                    <Button Content="Zurück zur Passwort-Anmeldung" Foreground="#718096" HorizontalAlignment="Center" Click="SwitchToPasswordLogin_Click" BorderThickness="0" Background="Transparent"/>
+                </StackPanel>
+
+                <TextBlock x:Name="LoginErrorText" Foreground="#EF4444" FontSize="11" TextWrapping="Wrap" HorizontalAlignment="Center" Visibility="Collapsed"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Bottom Actions -->
+        <Grid Grid.Row="2">
+            <Button x:Name="ParentDashboardButton" Content="⚙️ Elternbereich" Background="Transparent" Foreground="#718096" BorderThickness="0" Click="ToggleParentDashboard_Click" HorizontalAlignment="Right"/>
+        </Grid>
+    </Grid>
+</Page>
+
+

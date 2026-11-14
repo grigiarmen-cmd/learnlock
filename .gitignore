@@ -1,0 +1,24 @@
+# Binaries & build artifacts
+bin/
+obj/
+*.user
+*.suo
+*.pdb
+
+# Installers and packages (too large for normal git push)
+*.zip
+*.exe
+*.msix
+*.appx
+learnlock-web/public/download/*.exe
+learnlock-web/public/download/*.zip
+
+# Node & Next.js
+node_modules/
+.next/
+.env.local
+
+# Databases
+*.db
+*.db-shm
+*.db-wal

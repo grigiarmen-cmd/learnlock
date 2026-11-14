@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="LearnLock_App.Views.RegistrationView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="#FDFBF7">
+
+    <Grid>
+        <StackPanel Width="400" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" 
+                    Spacing="20">
+            
+            <TextBlock Text="🔒 LearnLock" 
+                       FontSize="32" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center"
+                       Foreground="#F97316"/>
+            
+            <TextBlock Text="Elternkonto einrichten" 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       Foreground="#2D3748"
+                       HorizontalAlignment="Center"/>
+
+            <!-- STEP 1: Email Input Panel -->
+            <StackPanel x:Name="EmailInputPanel" Spacing="12">
+                <TextBlock Text="Bitte geben Sie Ihre E-Mail-Adresse ein, um einen Verifizierungscode zu erhalten." 
+                           FontSize="13" 
+                           Foreground="#718096" 
+                           TextWrapping="Wrap" 
+                           TextAlignment="Center"/>
+                <TextBox x:Name="EmailInput" 
+                         Header="E-Mail-Adresse" 
+                         PlaceholderText="parent@example.com"
+                         Background="#242424" BorderBrush="#3d3d3d" Foreground="#2D3748"/>
+                <Button x:Name="SendOtpButton" 
+                        Content="Verifizierungscode senden" 
+                        Style="{ThemeResource AccentButtonStyle}" 
+                        Background="#F97316"
+                        Foreground="#121212"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Stretch" 
+                        Click="SendOtp_Click"
+                        Height="40"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <!-- STEP 2: Verify OTP Code Panel -->
+            <StackPanel x:Name="VerifyOtpPanel" Spacing="12" Visibility="Collapsed">
+                <TextBlock Text="Wir haben Ihnen einen 6-stelligen Code gesendet. Bitte tragen Sie diesen hier ein:" 
+                           FontSize="13" 
+                           Foreground="#718096" 
+                           TextWrapping="Wrap" 
+                           TextAlignment="Center"/>
+                <TextBox x:Name="OtpInput" 
+                         Header="6-stelliger Code" 
+                         PlaceholderText="z.B. 123456"
+                         Background="#242424" BorderBrush="#3d3d3d" Foreground="#2D3748"/>
+                <Button x:Name="VerifyOtpButton" 
+                        Content="Code verifizieren" 
+                        Style="{ThemeResource AccentButtonStyle}" 
+                        Background="#F97316"
+                        Foreground="#121212"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Stretch" 
+                        Click="VerifyOtp_Click"
+                        Height="40"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <!-- STEP 3: Set Password Panel -->
+            <StackPanel x:Name="SetPasswordPanel" Spacing="12" Visibility="Collapsed">
+                <TextBlock Text="E-Mail verifiziert! Bitte legen Sie nun Ihr sicheres Eltern-Passwort fest." 
+                           FontSize="13" 
+                           Foreground="#10B981" 
+                           TextWrapping="Wrap" 
+                           TextAlignment="Center"
+                           FontWeight="SemiBold"/>
+                
+                <PasswordBox x:Name="PasswordInput" 
+                             Header="Neues Eltern-Passwort" 
+                             PlaceholderText="Mindestens 4 Zeichen"
+                             Background="#242424" BorderBrush="#3d3d3d" Foreground="#2D3748"/>
+                
+                <PasswordBox x:Name="ConfirmPasswordInput" 
+                             Header="Passwort bestätigen" 
+                             PlaceholderText="Passwort erneut eingeben"
+                             Background="#242424" BorderBrush="#3d3d3d" Foreground="#2D3748"/>
+                
+                <Button x:Name="CreateAccountButton" 
+                        Content="Registrierung abschließen" 
+                        Style="{ThemeResource AccentButtonStyle}" 
+                        Background="#F97316"
+                        Foreground="#121212"
+                        FontWeight="Bold"
+                        HorizontalAlignment="Stretch" 
+                        Click="CreateAccount_Click"
+                        Height="40"
+                        Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <TextBlock x:Name="ErrorText" 
+                       Foreground="#EF4444" 
+                       FontSize="12" 
+                       TextWrapping="Wrap"
+                       HorizontalAlignment="Center"
+                       Visibility="Collapsed"/>
+        </StackPanel>
+    </Grid>
+</Page>
+
+
