@@ -1,0 +1,2 @@
+learnlock-web/public/download/*.exe filter=lfs diff=lfs merge=lfs -text
+learnlock-web/public/download/*.zip filter=lfs diff=lfs merge=lfs -text
