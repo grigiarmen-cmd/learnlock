@@ -658,7 +658,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <!-- Premium Jährlich Plan -->
-                        <Border Grid.Column="0" Background="#FFFFFF" BorderThickness="1" BorderBrush="#E2E8F0" CornerRadius="20" Padding="32" Shadow="{ThemeResource SharedShadow}">
+                        <Border Grid.Column="0" Background="#FFFFFF" BorderThickness="1" BorderBrush="#E2E8F0" CornerRadius="20" Padding="32">
                             <StackPanel Spacing="12">
                                 <StackPanel Orientation="Horizontal" Spacing="8">
                                     <TextBlock Text="⭐" FontSize="18"/>
