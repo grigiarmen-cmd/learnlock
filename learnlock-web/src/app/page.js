@@ -253,13 +253,13 @@ export default function Home() {
                   <span className="text-[11px] text-slate-400">11 Jahre</span>
                 </div>
 
-                <div className="rounded-2xl bg-white/[0.04] border border-white/5 p-4 flex flex-col items-center text-center hover:border-white/20 transition">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-3xl mb-2 shadow-md">
-                    🐶
+                <Link href="/dashboard" className="rounded-2xl bg-white/[0.04] border border-dashed border-white/20 hover:border-cyan-400/60 p-4 flex flex-col items-center justify-center text-center hover:bg-white/[0.06] transition group">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 border border-white/20 flex items-center justify-center text-cyan-300 group-hover:scale-110 shadow-md mb-2 transition">
+                    <span className="text-2xl font-bold">+</span>
                   </div>
-                  <span className="text-sm font-bold text-white">Milo</span>
-                  <span className="text-[11px] text-slate-400">Haustier</span>
-                </div>
+                  <span className="text-sm font-bold text-white group-hover:text-cyan-300 transition">Profil anlegen</span>
+                  <span className="text-[11px] text-slate-400">Neu hinzufügen</span>
+                </Link>
               </div>
 
               {/* Toggles preview */}
