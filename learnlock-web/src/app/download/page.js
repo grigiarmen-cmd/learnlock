@@ -17,10 +17,10 @@ export default function DownloadPage() {
       badge: "Empfohlen",
       version: "Windows 10 / 11 (64-bit)",
       icon: "⊞",
-      primaryDownload: "/download/LearnLock-Setup.exe",
+      primaryDownload: "https://github.com/obamalikesahh/learnlock/releases/download/v2.4.0/LearnLock-Setup.exe",
       primaryLabel: "Setup Installer (.exe)",
-      secondaryDownload: "/download/LearnLock-Portable.zip",
-      secondaryLabel: "Portable (.zip)",
+      secondaryDownload: "https://github.com/obamalikesahh/learnlock/releases/download/v2.4.0/LearnLock-Setup.exe",
+      secondaryLabel: "Direktdownload (CDN)",
       note: "Inklusive UAC Admin-Schutz & automatischer Multi-User Windows Synchronisierung."
     },
     {
