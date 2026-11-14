@@ -505,6 +505,19 @@ namespace LearnLock_App.Views
 
 
 
+        private void LoadAegisPreset_Click(object sender, RoutedEventArgs e)
+        {
+            string aegisPresets = "porn, pron, porno, xxx, nsfw, hentai, pornhub, xvideos, xnxx, xhamster, redtube, youporn, chaturbate, onlyfans, erotik, sex, nude, rule34, cams, camgirl, milf, tits, boobs, hardcore, fetish, brazzers, stripchat, erotic, sexy, nudes, nackt, ficken, pussy, muschi, fotze, cock, dick, penis, schwanz, cum, squirt, blowjob, tiktok, roblox";
+            if (string.IsNullOrWhiteSpace(GlobalBlockedKeywordsInput.Text))
+            {
+                GlobalBlockedKeywordsInput.Text = aegisPresets;
+            }
+            else
+            {
+                GlobalBlockedKeywordsInput.Text += ", " + aegisPresets;
+            }
+        }
+
         private async void SaveGlobalBlockedApps_Click(object sender, RoutedEventArgs e)
         {
             AppBlockerSuccessText.Visibility = Visibility.Collapsed;

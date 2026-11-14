@@ -39,25 +39,29 @@
 
         <!-- Content Area -->
         <Grid Grid.Column="1" Padding="30">
-            <StackPanel>
-                
-                <!-- Update Banner -->
-                <Border x:Name="UpdateBanner" Background="#FFFBEB" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20" Visibility="Collapsed">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="UpdateTitleText" Text="🎉 Ein neues Update ist verfügbar!" FontWeight="Bold" Foreground="#92400E" FontSize="16"/>
-                            <TextBlock x:Name="UpdateDescText" Text="Es gibt eine neue Version von LearnLock mit Verbesserungen und neuen Funktionen." Foreground="#B45309" Margin="0,4,0,0" TextWrapping="Wrap"/>
-                        </StackPanel>
-                        <Button x:Name="InstallUpdateBtn" Grid.Column="1" Content="Jetzt installieren" Background="#F59E0B" Foreground="White" FontWeight="Bold" CornerRadius="6" Padding="20,10" Click="InstallUpdateBtn_Click" VerticalAlignment="Center"/>
-                    </Grid>
-                </Border>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
+            <!-- Update Banner -->
+            <Border x:Name="UpdateBanner" Background="#FFFBEB" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20" Visibility="Collapsed">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="UpdateTitleText" Text="🎉 Ein neues Update ist verfügbar!" FontWeight="Bold" Foreground="#92400E" FontSize="16"/>
+                        <TextBlock x:Name="UpdateDescText" Text="Es gibt eine neue Version von LearnLock mit Verbesserungen und neuen Funktionen." Foreground="#B45309" Margin="0,4,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <Button x:Name="InstallUpdateBtn" Grid.Column="1" Content="Jetzt installieren" Background="#F59E0B" Foreground="White" FontWeight="Bold" CornerRadius="6" Padding="20,10" Click="InstallUpdateBtn_Click" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1">
                 <!-- 📊 Dashboard Panel -->
-                <ScrollViewer x:Name="PanelDashboard" Visibility="Visible">
+                <ScrollViewer x:Name="PanelDashboard" Visibility="Visible" VerticalScrollBarVisibility="Auto">
                 <StackPanel Spacing="24" Background="#FDFBF7">
                     
                     <!-- Header -->
@@ -403,19 +407,19 @@
                                             </Grid>
                                             
                                             <StackPanel Spacing="8">
-                                                <TextBlock Text="Erlaubte Fächer" FontSize="13" FontWeight="SemiBold" Foreground="#F8FAFC"/>
-                                                <Border Background="#FDFBF7" CornerRadius="8" Padding="12,8">
-                                                    <TextBlock Text="{Binding AllowedSubjects}" FontSize="12" Foreground="#F97316" TextWrapping="Wrap"/>
+                                                <TextBlock Text="Erlaubte Fächer" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
+                                                <Border Background="#F1F5F9" CornerRadius="8" Padding="12,8">
+                                                    <TextBlock Text="{Binding AllowedSubjects}" FontSize="12" Foreground="#F97316" FontWeight="SemiBold" TextWrapping="Wrap"/>
                                                 </Border>
                                             </StackPanel>
                                             
                                             <StackPanel Spacing="6">
-                                                <TextBlock Text="Tageslimit" FontSize="13" FontWeight="SemiBold" Foreground="#F8FAFC"/>
-                                                <ProgressBar Value="70" Maximum="100" Height="8" CornerRadius="4" Foreground="#F97316" Background="#FDFBF7"/>
+                                                <TextBlock Text="Tageslimit" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
+                                                <ProgressBar Value="70" Maximum="100" Height="8" CornerRadius="4" Foreground="#F97316" Background="#E2E8F0"/>
                                                 <Grid>
                                                     <StackPanel Orientation="Horizontal" Spacing="4">
-                                                        <TextBlock Text="Limit (Min):" FontSize="11" Foreground="#718096"/>
-                                                        <TextBlock Text="{Binding DailyLimitMinutes}" FontSize="11" Foreground="#718096"/>
+                                                        <TextBlock Text="Limit (Min):" FontSize="11" Foreground="#64748B"/>
+                                                        <TextBlock Text="{Binding DailyLimitMinutes}" FontSize="11" Foreground="#64748B" FontWeight="Bold"/>
                                                     </StackPanel>
                                                 </Grid>
                                             </StackPanel>
@@ -426,9 +430,9 @@
                                                     <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
                                                 <StackPanel Spacing="8">
-                                                    <TextBlock Text="App Usage" FontSize="13" FontWeight="SemiBold" Foreground="#F8FAFC"/>
+                                                    <TextBlock Text="App-Nutzung" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
                                                     <StackPanel Orientation="Horizontal" Spacing="8">
-                                                        <Border Width="32" Height="32" CornerRadius="8" Background="#FF0000">
+                                                        <Border Width="32" Height="32" CornerRadius="8" Background="#EF4444">
                                                             <FontIcon Glyph="&#xE714;" FontSize="16" Foreground="White"/>
                                                         </Border>
                                                         <Border Width="32" Height="32" CornerRadius="8" Background="#F59E0B">
@@ -437,7 +441,7 @@
                                                     </StackPanel>
                                                 </StackPanel>
                                                 <StackPanel Grid.Column="1" Spacing="8">
-                                                    <TextBlock Text="Focus Score: 92%" FontSize="13" FontWeight="SemiBold" Foreground="#F8FAFC"/>
+                                                    <TextBlock Text="Fokus-Score: 92%" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
                                                     <TextBlock Text="〰〰📈" FontSize="18" Foreground="#F97316" HorizontalAlignment="Right"/>
                                                 </StackPanel>
                                             </Grid>
@@ -552,29 +556,29 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Left Column: App Toggles -->
-                            <Border Background="#151E32" CornerRadius="16" Padding="24">
+                            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24" Shadow="{ThemeResource SharedShadow}">
                                 <StackPanel Spacing="20">
                                     <StackPanel Spacing="4">
-                                        <TextBlock Text="Aktive Programme" FontSize="18" FontWeight="SemiBold" Foreground="#2D3748"/>
-                                        <TextBlock Text="Sperre Programme mit nur einem Klick." FontSize="12" Foreground="#718096" TextWrapping="Wrap"/>
+                                        <TextBlock Text="Aktive Programme" FontSize="18" FontWeight="Bold" Foreground="#1E293B"/>
+                                        <TextBlock Text="Sperre Programme mit nur einem Klick." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
                                     </StackPanel>
                                     
-                                    <Border Background="#0D1326" CornerRadius="12" Padding="12" Height="280">
-                                        <ScrollViewer>
+                                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="12" Height="280">
+                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
                                             <ItemsControl x:Name="RunningAppsList">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Border Background="#1A243A" CornerRadius="8" Padding="16,12" Margin="0,0,0,8">
+                                                        <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="16,12" Margin="0,0,0,8">
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition Width="Auto" />
                                                                     <ColumnDefinition Width="*" />
                                                                     <ColumnDefinition Width="Auto" />
                                                                 </Grid.ColumnDefinitions>
-                                                                <Border Width="32" Height="32" CornerRadius="8" Background="#0D1326">
+                                                                <Border Width="32" Height="32" CornerRadius="8" Background="#F1F5F9">
                                                                     <FontIcon Glyph="{Binding IconGlyph}" FontSize="16" Foreground="{Binding IconColor}" VerticalAlignment="Center"/>
                                                                 </Border>
-                                                                <TextBlock Grid.Column="1" Text="{Binding AppName}" VerticalAlignment="Center" Foreground="#F8FAFC" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding AppName}" VerticalAlignment="Center" Foreground="#1E293B" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0"/>
                                                                 <ToggleSwitch Grid.Column="2" IsOn="{Binding IsBlocked, Mode=TwoWay}" OnContent="" OffContent="" MinWidth="0" Margin="0" VerticalAlignment="Center" Foreground="#10B981"/>
                                                             </Grid>
                                                         </Border>
@@ -584,28 +588,23 @@
                                         </ScrollViewer>
                                     </Border>
                                     
-                                    <TextBox x:Name="GlobalBlockedAppsInput" Header="Manuell hinzufügen (.exe)" PlaceholderText="z.B. discord.exe; chrome.exe" Background="#0D1326" BorderBrush="#2A3441" BorderThickness="1" CornerRadius="8" Foreground="#2D3748"/>
+                                    <TextBox x:Name="GlobalBlockedAppsInput" Header="Manuell hinzufügen (.exe)" PlaceholderText="z.B. discord.exe; chrome.exe; roblox.exe" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Foreground="#1E293B"/>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Right Column: Keyword / Website Blocker -->
-                            <Border Grid.Column="1" Background="#151E32" CornerRadius="16" Padding="24">
+                            <!-- Right Column: Keyword / Website Blocker (Aegis Style) -->
+                            <Border Grid.Column="1" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24">
                                 <StackPanel Spacing="20">
                                     <StackPanel Spacing="4">
-                                        <TextBlock Text="Web-Filter &amp; Stichwörter" FontSize="18" FontWeight="SemiBold" Foreground="#2D3748"/>
-                                        <TextBlock Text="Wird ein Stichwort im Fenstertitel erkannt, wird es sofort blockiert." FontSize="12" Foreground="#718096" TextWrapping="Wrap"/>
+                                        <TextBlock Text="Web-Filter &amp; Stichwörter (Aegis Engine)" FontSize="18" FontWeight="Bold" Foreground="#1E293B"/>
+                                        <TextBlock Text="Wird ein Stichwort im Browser oder Fenster erkannt, wird die App sofort geschlossen." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
                                     </StackPanel>
                                     
-                                    <TextBox x:Name="GlobalBlockedKeywordsInput" Header="Aktive Stichwörter (durch Komma getrennt)" PlaceholderText="z.B. youtube, netflix, roblox" AcceptsReturn="True" TextWrapping="Wrap" Height="150" Background="#0D1326" BorderBrush="#2A3441" BorderThickness="1" CornerRadius="8" Foreground="#2D3748" Padding="12"/>
+                                    <TextBox x:Name="GlobalBlockedKeywordsInput" Header="Aktive Stichwörter &amp; Domains (durch Komma getrennt)" PlaceholderText="z.B. youtube, tiktok, roblox, porn, xxx, omegle" AcceptsReturn="True" TextWrapping="Wrap" Height="140" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Padding="12"/>
                                     
-                                    <Border Background="#FDFBF7" CornerRadius="8" Padding="12">
-                                        <StackPanel Orientation="Horizontal" Spacing="12">
-                                            <FontIcon Glyph="&#xE946;" FontSize="16" Foreground="#F97316"/>
-                                            <TextBlock Text="Tipp: Halte Stichwörter spezifisch (z.B. 'Roblox' statt 'Spiel'), um Fehlalarme zu vermeiden." FontSize="11" Foreground="#718096" TextWrapping="Wrap" Width="300"/>
-                                        </StackPanel>
-                                    </Border>
+                                    <Button Content="🛡️ 30+ Schutz-Stichwörter (Aegis Preset laden)" Click="LoadAegisPreset_Click" Background="#F1F5F9" Foreground="#0284C7" FontWeight="Bold" CornerRadius="8" Height="36" HorizontalAlignment="Stretch"/>
 
-                                    <Button Content="Alle Regeln speichern" Click="SaveGlobalBlockedApps_Click" Background="#6366F1" Foreground="#2D3748" FontWeight="Bold" CornerRadius="20" Height="40" HorizontalAlignment="Stretch" Margin="0,10,0,0"/>
+                                    <Button Content="Alle Regeln speichern &amp; aktivieren" Click="SaveGlobalBlockedApps_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="20" Height="42" HorizontalAlignment="Stretch" Margin="0,6,0,0"/>
                                     <TextBlock x:Name="AppBlockerSuccessText" Text="Sperrliste aktualisiert und aktiv!" Foreground="#10B981" FontSize="12" Visibility="Collapsed" HorizontalAlignment="Center"/>
                                 </StackPanel>
                             </Border>
@@ -738,7 +737,7 @@
                     <TextBlock x:Name="SettingsSuccessText" Text="Einstellungen erfolgreich gespeichert!" Foreground="#10B981" FontSize="12" Visibility="Collapsed" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ScrollViewer>
-            </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>
