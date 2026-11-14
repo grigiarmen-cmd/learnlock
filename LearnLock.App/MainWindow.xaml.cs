@@ -61,6 +61,9 @@ namespace LearnLock_App
             _lockTimer = new DispatcherTimer();
             _lockTimer.Interval = TimeSpan.FromMilliseconds(200);
             _lockTimer.Tick += (s, e) => EnforceLock();
+
+            // Check for background auto-updates asynchronously via GitHub Releases
+            _ = AutoUpdateService.CheckAndApplyUpdateInBackgroundAsync();
         }
 
         private void AppWindow_Closing(Microsoft.UI.Windowing.AppWindow sender, Microsoft.UI.Windowing.AppWindowClosingEventArgs args)

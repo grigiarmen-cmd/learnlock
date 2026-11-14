@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -16,24 +17,66 @@ namespace LearnLock.Core.Services
 
     public class AutoUpdateService
     {
+        private const string GitHubOwner = "obamalikesahh";
+        private const string GitHubRepo = "learnlock";
+        public const string CurrentVersion = "v2.4.0";
+
         private readonly HttpClient _httpClient;
-        private readonly string _updateUrl = "http://localhost:3000/download/version.json";
 
         public AutoUpdateService()
         {
             _httpClient = new HttpClient();
+            _httpClient.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("LearnLock", "2.4.0"));
         }
 
-        public async Task<UpdateInfo?> CheckForUpdatesAsync(string currentVersion)
+        public async Task<UpdateInfo?> CheckForUpdatesAsync(string currentVersion = CurrentVersion)
         {
             try
             {
-                var json = await _httpClient.GetStringAsync(_updateUrl);
-                var updateInfo = JsonSerializer.Deserialize<UpdateInfo>(json);
+                string apiUrl = $"https://api.github.com/repos/{GitHubOwner}/{GitHubRepo}/releases/latest";
+                var response = await _httpClient.GetAsync(apiUrl);
+                if (!response.IsSuccessStatusCode) return null;
 
-                if (updateInfo != null && IsNewerVersion(currentVersion, updateInfo.version))
+                string json = await response.Content.ReadAsStringAsync();
+                using var doc = JsonDocument.Parse(json);
+                var root = doc.RootElement;
+
+                if (!root.TryGetProperty("tag_name", out var tagProp)) return null;
+                string latestTag = tagProp.GetString() ?? "";
+
+                if (string.IsNullOrWhiteSpace(latestTag) || latestTag.Equals(currentVersion, StringComparison.OrdinalIgnoreCase))
                 {
-                    return updateInfo;
+                    return null;
+                }
+
+                if (!root.TryGetProperty("assets", out var assetsProp) || assetsProp.ValueKind != JsonValueKind.Array)
+                {
+                    return null;
+                }
+
+                string downloadUrl = "";
+                foreach (var asset in assetsProp.EnumerateArray())
+                {
+                    if (asset.TryGetProperty("name", out var nameProp) && 
+                        asset.TryGetProperty("browser_download_url", out var urlProp))
+                    {
+                        string name = nameProp.GetString() ?? "";
+                        if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                        {
+                            downloadUrl = urlProp.GetString() ?? "";
+                            break;
+                        }
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(downloadUrl))
+                {
+                    return new UpdateInfo
+                    {
+                        version = latestTag,
+                        url = downloadUrl,
+                        releaseNotes = root.TryGetProperty("body", out var b) ? b.GetString() ?? "" : ""
+                    };
                 }
             }
             catch (Exception ex)
@@ -47,13 +90,9 @@ namespace LearnLock.Core.Services
         {
             try
             {
-                var tempPath = Path.Combine(Path.GetTempPath(), "LearnLock-Portable.zip");
-                var response = await _httpClient.GetAsync(downloadUrl);
-                response.EnsureSuccessStatusCode();
-
-                using var fs = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None);
-                await response.Content.CopyToAsync(fs);
-                
+                var tempPath = Path.Combine(Path.GetTempPath(), "LearnLock-Update-Setup.exe");
+                var bytes = await _httpClient.GetByteArrayAsync(downloadUrl);
+                await File.WriteAllBytesAsync(tempPath, bytes);
                 return tempPath;
             }
             catch (Exception ex)
@@ -63,42 +102,39 @@ namespace LearnLock.Core.Services
             }
         }
 
-        public void InstallUpdateAndRestart(string zipPath)
+        public void InstallUpdateAndRestart(string installerPath)
         {
-            string exePath = Process.GetCurrentProcess().MainModule?.FileName ?? "";
-            string appDir = Path.GetDirectoryName(exePath) ?? "";
-            
-            // Expected updater path
-            string updaterPath = Path.Combine(appDir, "LearnLock.Updater.exe");
-            
-            if (!File.Exists(updaterPath))
+            try
             {
-                Debug.WriteLine("Updater not found at " + updaterPath);
-                return;
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = installerPath,
+                    Arguments = "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-",
+                    UseShellExecute = true,
+                    Verb = "runas"
+                };
+
+                Process.Start(startInfo);
+                Environment.Exit(0);
             }
-
-            int pid = Process.GetCurrentProcess().Id;
-            string arguments = $"{pid} \"{zipPath}\" \"{appDir}\" \"{exePath}\"";
-
-            Process.Start(new ProcessStartInfo
+            catch (Exception ex)
             {
-                FileName = updaterPath,
-                Arguments = arguments,
-                UseShellExecute = true, // To pop out of the current process group
-                CreateNoWindow = false
-            });
-
-            // The main app should exit right after this
-            Environment.Exit(0);
+                Debug.WriteLine("Failed to launch updater: " + ex.Message);
+            }
         }
 
-        private bool IsNewerVersion(string current, string latest)
+        public static async Task CheckAndApplyUpdateInBackgroundAsync()
         {
-            if (Version.TryParse(current, out var vCurrent) && Version.TryParse(latest, out var vLatest))
+            var service = new AutoUpdateService();
+            var update = await service.CheckForUpdatesAsync(CurrentVersion);
+            if (update != null && !string.IsNullOrEmpty(update.url))
             {
-                return vLatest > vCurrent;
+                string? file = await service.DownloadUpdateAsync(update.url);
+                if (!string.IsNullOrEmpty(file) && File.Exists(file))
+                {
+                    service.InstallUpdateAndRestart(file);
+                }
             }
-            return false;
         }
     }
 }
