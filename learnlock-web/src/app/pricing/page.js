@@ -1,181 +1,160 @@
-"use client";
-
 import Link from "next/link";
-import { Check, Sparkles, Crown, ShieldCheck } from "lucide-react";
+import { 
+  Check, 
+  Sparkles, 
+  Zap, 
+  Crown, 
+  ShieldCheck, 
+  HelpCircle,
+  Clock,
+  Infinity as InfinityIcon
+} from "lucide-react";
 
 export default function PricingPage() {
+  const plans = [
+    {
+      name: "Free",
+      tagline: "Perfekt zum Kennenlernen",
+      price: "0 €",
+      period: "Dauerhaft kostenlos",
+      description: "Alle Grundfunktionen für ein einzelnes Kind auf einem PC.",
+      features: [
+        "1 Kinderprofil inklusive",
+        "Bis zu 2 Lernfächer (z.B. Mathe & Deutsch)",
+        "Automatische App-Sperren (Minecraft, Roblox, etc.)",
+        "Basis Web-Filter auf DNS-Ebene",
+        "Lokale Zeitkontrolle"
+      ],
+      ctaText: "Kostenlos starten",
+      ctaHref: "/download",
+      popular: false,
+      glow: "border-white/10"
+    },
+    {
+      name: "Pro (Jährlich)",
+      tagline: "Maximale Flexibilität für Familien",
+      price: "100 €",
+      period: "pro Jahr (ca. 8,33 € / Monat)",
+      description: "Voller Zugriff auf alle Fächer, unbegrenzte Profile und KI-Lernmodi.",
+      features: [
+        "Unbegrenzte Kinderprofile",
+        "Alle Fächer & Klassenstufen (1 - 10)",
+        "Multi-User Windows Synchronisierung",
+        "Avatar-Upload & Presets",
+        "Locky KI-Tutor & Aufgaben-Generator",
+        "Erweiterte Web- & URL-Filter",
+        "Detaillierte E-Mail Wochenberichte"
+      ],
+      ctaText: "Jetzt abonnieren",
+      ctaHref: "/api/checkout?plan=yearly",
+      popular: true,
+      glow: "border-cyan-400 shadow-[0_0_50px_rgba(6,182,212,0.35)]"
+    },
+    {
+      name: "Lifetime",
+      tagline: "Einmal zahlen, für immer nutzen",
+      price: "250 €",
+      period: "Einmalige Zahlung – Lebenslang",
+      description: "Das Rundum-sorglos-Paket: Keine monatlichen Kosten, lebenslange Updates.",
+      features: [
+        "Alles aus dem Pro-Plan inklusive",
+        "Einmalig 250 € – Nie wieder Abo-Gebühren",
+        "Lebenslange Updates & neue Fächer",
+        "Unbegrenzte PCs & Geräte",
+        "Prioritäts-Support via WhatsApp/E-Mail",
+        "VIP Beta-Zugang zu neuen Features"
+      ],
+      ctaText: "Lebenslang sichern",
+      ctaHref: "/api/checkout?plan=lifetime",
+      popular: false,
+      glow: "border-purple-400/60 shadow-[0_0_40px_rgba(168,85,247,0.25)]"
+    }
+  ];
+
   return (
-    <main className="min-h-screen bg-[#FDFBF7] py-24">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="bg-[#07090E] text-slate-100 min-h-screen relative overflow-hidden font-sans selection:bg-cyan-500/30 selection:text-cyan-200 py-20">
+      
+      {/* Background glow */}
+      <div className="absolute top-0 right-1/4 w-[650px] h-[650px] bg-gradient-to-br from-cyan-500/15 via-purple-600/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-indigo-700/20 to-transparent rounded-full blur-[150px] pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
-            <Sparkles className="w-4 h-4" /> Transparente Familien-Preise
+        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-xs font-semibold text-cyan-300">
+            <Crown className="w-4 h-4 text-cyan-400" />
+            <span>TRANSPARENTE PREISE OHNE VERSTECKTE KOSTEN</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-            Schutz & Motivation, die sich auszahlen
+
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+            Wähle den passenden Plan
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Starte kostenlos mit einem Kind oder schalte alle Fächer, KI-Lernassistenz und Schutzfunktionen für die ganze Familie frei.
+
+          <p className="text-lg text-slate-400">
+            Kostenlos mit 1 Profil starten oder einmalig auf Lifetime upgraden.
           </p>
         </div>
 
-        {/* Pricing Cards Grid (Liquid Glass / Modern UI) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
-          
-          {/* Card 1: Free Tier */}
-          <div className="bg-white/80 backdrop-blur-md border border-slate-200/80 rounded-3xl p-8 flex flex-col justify-between shadow-sm hover:shadow-md transition">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck className="w-6 h-6 text-slate-500" />
-                <h3 className="text-xl font-bold text-slate-900">Kostenlos</h3>
-              </div>
-              <p className="text-sm text-slate-500 mb-6 min-h-[40px]">
-                Ideal zum Ausprobieren für ein einzelnes Kind.
-              </p>
-              
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-4xl font-extrabold text-slate-900">0 €</span>
-                <span className="text-sm text-slate-500">dauerhaft</span>
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch mb-20">
+          {plans.map((p, idx) => (
+            <div
+              key={idx}
+              className={`rounded-[32px] backdrop-blur-2xl p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden ${
+                p.popular
+                  ? "bg-gradient-to-b from-white/[0.09] to-white/[0.03] border-2 " + p.glow
+                  : "bg-white/[0.04] border border-white/[0.08] hover:border-white/20 " + p.glow
+              }`}
+            >
+              {p.popular && (
+                <div className="absolute top-0 right-0 bg-gradient-to-l from-cyan-500 to-indigo-600 text-white font-extrabold text-[11px] uppercase tracking-wider py-1.5 px-6 rounded-bl-2xl shadow-md">
+                  Beliebteste Wahl
+                </div>
+              )}
+
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-1">{p.name}</h3>
+                <p className="text-xs text-slate-400 mb-6">{p.tagline}</p>
+
+                <div className="mb-6 pb-6 border-b border-white/[0.08]">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">{p.price}</span>
+                  </div>
+                  <span className="text-xs text-slate-400 mt-1 block">{p.period}</span>
+                </div>
+
+                <p className="text-sm text-slate-300 mb-6 leading-relaxed">
+                  {p.description}
+                </p>
+
+                {/* Features list */}
+                <div className="space-y-3 mb-8">
+                  {p.features.map((feat, i) => (
+                    <div key={i} className="flex items-start gap-3 text-sm text-slate-300">
+                      <div className="w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-400/20 flex items-center justify-center shrink-0 mt-0.5 text-cyan-300">
+                        <Check className="w-3.5 h-3.5" />
+                      </div>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="border-t border-slate-100 pt-6">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Enthalten:</p>
-                <ul className="space-y-3.5 text-sm text-slate-600">
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span><strong>1 Kinderprofil</strong></span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Mathematik-Aufgaben</span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <span>Bildschirmsperre & Zeitkontingent</span>
-                  </li>
-                  <li className="flex gap-3 items-center text-slate-400 line-through">
-                    <span>Keine weiteren Schulfächer</span>
-                  </li>
-                  <li className="flex gap-3 items-center text-slate-400 line-through">
-                    <span>Keine App-Sperren</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-4">
-              <Link href="/download" className="block w-full py-3.5 text-center bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl transition text-sm">
-                Kostenlos herunterladen
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 2: 100€ Jährlich */}
-          <div className="bg-white border-2 border-blue-500/30 rounded-3xl p-8 flex flex-col justify-between shadow-lg relative">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="w-6 h-6 text-blue-500" />
-                <h3 className="text-xl font-bold text-slate-900">Premium Jährlich</h3>
-              </div>
-              <p className="text-sm text-slate-500 mb-6 min-h-[40px]">
-                Voller Zugriff für die ganze Familie mit allen Fächern &amp; KI.
-              </p>
-              
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-5xl font-extrabold text-slate-900">100 €</span>
-                <span className="text-sm text-slate-500 font-medium">/ Jahr</span>
-              </div>
-
-              <div className="border-t border-slate-100 pt-6">
-                <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-4">Alles freigeschaltet:</p>
-                <ul className="space-y-3.5 text-sm text-slate-700">
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0" />
-                    <span><strong>Unbegrenzte Kinderprofile</strong></span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0" />
-                    <span><strong>Alle Schulfächer</strong> (Deutsch, Englisch, Bio...)</span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0" />
-                    <span>Intelligente <strong>App-Sperren &amp; Webfilter</strong></span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0" />
-                    <span><strong>Locky KI Lern-Tutor</strong></span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-blue-500 shrink-0" />
-                    <span>Automatische Updates &amp; Support</span>
-                  </li>
-                </ul>
+              <div>
+                <Link
+                  href={p.ctaHref}
+                  className={`w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2 transition duration-200 ${
+                    p.popular
+                      ? "bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white shadow-[0_0_30px_rgba(6,182,212,0.4)]"
+                      : "bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/10"
+                  }`}
+                >
+                  {p.ctaText}
+                </Link>
               </div>
             </div>
-
-            <div className="mt-8 pt-4">
-              <Link href="/login" className="block w-full py-3.5 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition shadow-md shadow-blue-500/20 text-sm">
-                Jetzt abonnieren
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 3: 250€ Lebenslang (Featured Liquid Glow) */}
-          <div className="bg-gradient-to-b from-orange-50/90 to-amber-50/70 border-2 border-orange-500 rounded-3xl p-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-orange-500 text-white text-[11px] font-black uppercase px-4 py-1 rounded-bl-xl tracking-wider">
-              Bester Wert
-            </div>
-
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <Crown className="w-6 h-6 text-orange-500" />
-                <h3 className="text-xl font-bold text-slate-900">Lifetime Unlimited</h3>
-              </div>
-              <p className="text-sm text-amber-900/80 mb-6 min-h-[40px]">
-                Einmalige Zahlung. Lebenslanger Schutz ohne wiederkehrende Abo-Kosten.
-              </p>
-              
-              <div className="flex items-baseline gap-1 mb-8">
-                <span className="text-5xl font-extrabold text-slate-900">250 €</span>
-                <span className="text-sm text-orange-600 font-bold ml-1">einmalig</span>
-              </div>
-
-              <div className="border-t border-orange-200/60 pt-6">
-                <p className="text-xs font-bold text-orange-600 uppercase tracking-wider mb-4">Komplett-Paket für immer:</p>
-                <ul className="space-y-3.5 text-sm text-slate-800">
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-orange-500 shrink-0" />
-                    <span><strong>Lebenslanger Zugriff</strong> – Nie wieder zahlen</span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-orange-500 shrink-0" />
-                    <span><strong>Unbegrenzte Kinder &amp; Geräte</strong></span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-orange-500 shrink-0" />
-                    <span>Alle jetzigen &amp; zukünftigen Fächer</span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-orange-500 shrink-0" />
-                    <span>Locky KI Lern-Tutor dauerhaft inklusive</span>
-                  </li>
-                  <li className="flex gap-3 items-center">
-                    <Check className="w-4 h-4 text-orange-500 shrink-0" />
-                    <span>Höchste Priorität bei Support &amp; Updates</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="mt-8 pt-4">
-              <Link href="/login" className="block w-full py-4 text-center bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold rounded-xl transition shadow-lg shadow-orange-500/30 text-sm">
-                Lebenslang sichern
-              </Link>
-            </div>
-          </div>
-
+          ))}
         </div>
 
       </div>

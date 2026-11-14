@@ -2,50 +2,77 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Lock } from "lucide-react";
 
 export default function Navbar() {
   const pathname = usePathname();
 
+  // If we are on dashboard, let the dashboard handle its own custom macOS glass frame
+  if (pathname?.startsWith("/dashboard")) {
+    return null;
+  }
+
   const links = [
-    { href: "/", label: "Startseite" },
-    { href: "/features", label: "Funktionen" },
-    { href: "/pedagogy", label: "Pädagogik" },
-    { href: "/about", label: "Über uns" },
-    { href: "/download", label: "Download" },
+    { href: "/features", label: "Features" },
+    { href: "/security", label: "Security" },
+    { href: "/release-notes", label: "Release Notes" },
     { href: "/pricing", label: "Preise" },
-    { href: "/notifications", label: "Reports" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-          </svg>
-          <span className="font-bold text-xl tracking-tight text-gray-900">LearnLock</span>
+    <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-[#07090E]/80 backdrop-blur-2xl transition">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        
+        {/* Brand Logo */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-cyan-400/40 group-hover:scale-105 transition">
+            <Lock className="w-5 h-5 text-white" />
+          </div>
+          <span className="font-extrabold text-2xl tracking-tight text-white font-sans">
+            Learn<span className="text-cyan-400">lock</span>
+          </span>
         </Link>
         
-        <nav className="hidden md:flex items-center gap-6">
-          {links.map((link) => (
-            <Link 
-              key={link.href} 
-              href={link.href}
-              className={`text-sm font-medium transition ${pathname === link.href ? 'text-orange-500' : 'text-gray-600 hover:text-gray-900'}`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* Nav Links */}
+        <nav className="hidden md:flex items-center gap-8">
+          {links.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link 
+                key={link.href} 
+                href={link.href}
+                className={`text-sm font-semibold transition ${
+                  isActive 
+                    ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]' 
+                    : 'text-slate-300 hover:text-white'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
+        {/* Action Buttons */}
         <div className="flex items-center gap-4">
-          <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900 hidden sm:block">
+          <Link 
+            href="/login" 
+            className="text-sm font-semibold text-slate-300 hover:text-white hidden sm:block transition px-3 py-2"
+          >
             Login
           </Link>
-          <Link href="/dashboard" className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold px-5 py-2 rounded-xl transition shadow-md shadow-orange-500/20">
-            Dashboard
+          <Link 
+            href="/download" 
+            className="relative group px-6 py-2.5 rounded-2xl font-bold text-sm text-white overflow-hidden transition"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-2xl group-hover:opacity-90 transition shadow-[0_0_25px_rgba(6,182,212,0.5)]" />
+            <div className="absolute inset-[1px] bg-[#0C1019]/30 backdrop-blur-md rounded-[15px] group-hover:bg-transparent transition duration-300" />
+            <span className="relative z-10 flex items-center gap-2">
+              Download
+            </span>
           </Link>
         </div>
+
       </div>
     </header>
   );

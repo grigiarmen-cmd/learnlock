@@ -1,212 +1,379 @@
+"use client";
+
 import Link from "next/link";
-import { Heart, Sparkles, Gamepad2, Smile, Star, ShieldCheck } from "lucide-react";
+import { 
+  DownloadCloud, 
+  Sparkles, 
+  ShieldCheck, 
+  Lock, 
+  Clock, 
+  CheckCircle2, 
+  Check, 
+  ArrowRight, 
+  Play, 
+  Sliders, 
+  Smile, 
+  Award,
+  ChevronRight,
+  Monitor
+} from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="bg-[#FDFBF7] text-[#2D3748]">
-      {/* Warm Hero Section */}
-      <section className="py-20 md:py-32 flex flex-col items-center justify-center relative overflow-hidden">
-        {/* Soft background accents */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-100 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-emerald-100 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3"></div>
+    <main className="bg-[#07090E] text-slate-100 min-h-screen relative overflow-hidden font-sans selection:bg-cyan-500/30 selection:text-cyan-200">
+      
+      {/* Liquid Glass Background Orbs & Lights */}
+      <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-gradient-to-br from-cyan-500/20 via-blue-600/10 to-transparent rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 -right-40 w-[650px] h-[650px] bg-gradient-to-bl from-purple-600/25 via-pink-600/15 to-transparent rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute top-2/3 left-1/4 w-[700px] h-[700px] bg-gradient-to-tr from-indigo-700/20 via-cyan-500/10 to-transparent rounded-full blur-[160px] pointer-events-none" />
 
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 text-orange-700 text-sm font-bold mb-6">
-            <Heart className="w-4 h-4" /> Von Eltern für Eltern
-          </span>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight mb-6">
-            Mehr Motivation, <br className="hidden md:block"/> weniger Streit.
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Der freundliche Begleiter, der Computerspiele in eine Belohnung verwandelt. 
-            Lass dein Kind erst spielerisch lernen, bevor Minecraft & Co. starten. 
-            <strong className="text-gray-900 font-semibold"> Stressfrei und automatisch.</strong>
-          </p>
+      {/* Floating 3D Glass Pebbles from reference image */}
+      <div className="absolute top-32 right-1/3 w-16 h-16 rounded-3xl bg-gradient-to-br from-white/20 to-transparent backdrop-blur-2xl border border-white/30 shadow-[0_8px_32px_0_rgba(56,189,248,0.25)] rotate-45 pointer-events-none hidden lg:block animate-pulse" />
+      <div className="absolute top-[420px] left-[48%] w-14 h-14 rounded-full bg-gradient-to-tr from-white/25 via-purple-400/20 to-transparent backdrop-blur-2xl border border-white/30 shadow-[0_8px_32px_0_rgba(168,85,247,0.3)] pointer-events-none hidden lg:block" />
+      <div className="absolute top-[680px] right-12 w-20 h-20 rounded-3xl bg-gradient-to-bl from-white/20 via-cyan-400/20 to-transparent backdrop-blur-2xl border border-white/30 shadow-[0_8px_32px_0_rgba(6,182,212,0.3)] rotate-12 pointer-events-none hidden lg:block" />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/download" className="w-full sm:w-auto px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition shadow-lg shadow-orange-500/30 text-lg flex items-center justify-center gap-2">
-              Kostenlos ausprobieren <Sparkles className="w-5 h-5" />
-            </Link>
-            <Link href="/about" className="w-full sm:w-auto px-8 py-4 bg-white hover:bg-gray-50 text-gray-700 font-bold border border-gray-200 rounded-2xl transition text-lg">
-              So funktioniert's
-            </Link>
-          </div>
+      {/* Hero Section */}
+      <section className="relative z-10 pt-16 pb-24 md:pt-24 md:pb-36 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           
-          <div className="mt-12 flex items-center justify-center gap-2 text-sm text-gray-500 font-medium">
-            <div className="flex -space-x-1 mr-2">
-              <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
-              <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
-              <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
-              <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
-              <Star className="w-4 h-4 text-orange-400 fill-orange-400" />
+          {/* Left Column: Heading & CTAs */}
+          <div className="lg:col-span-6 space-y-8">
+            {/* Tag Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 backdrop-blur-xl text-xs font-semibold text-cyan-300 shadow-inner">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>DESKTOP-ONLY WORKSPACE</span>
             </div>
-            Über 2.000 entspannte Familien
-          </div>
-        </div>
 
-        {/* Hero Images Grid */}
-        <div className="max-w-6xl mx-auto px-4 mt-20 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-orange-200 rounded-3xl transform -rotate-2 scale-105 transition-transform group-hover:rotate-0"></div>
-              <img src="/hero-learning.png" alt="Kind lernt am PC mit LearnLock" className="relative z-10 w-full h-auto rounded-3xl shadow-xl border border-gray-100 object-cover aspect-video" />
-              <div className="absolute -bottom-6 -right-6 bg-white border border-gray-100 p-4 rounded-2xl shadow-lg z-20 flex items-center gap-3">
-                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 font-bold">1.</div>
-                 <div>
-                   <p className="font-bold text-gray-900">Lernzeit</p>
-                   <p className="text-xs text-gray-500">Matheaufgaben lösen</p>
-                 </div>
-              </div>
-            </div>
-            
-            <div className="relative group mt-12 md:mt-0">
-              <div className="absolute inset-0 bg-emerald-200 rounded-3xl transform rotate-2 scale-105 transition-transform group-hover:rotate-0"></div>
-              <img src="/hero-gaming.png" alt="Kind spielt nach dem Lernen" className="relative z-10 w-full h-auto rounded-3xl shadow-xl border border-gray-100 object-cover aspect-video" />
-              <div className="absolute -bottom-6 -left-6 bg-white border border-gray-100 p-4 rounded-2xl shadow-lg z-20 flex items-center gap-3">
-                 <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 font-bold">2.</div>
-                 <div>
-                   <p className="font-bold text-gray-900">Spielzeit</p>
-                   <p className="text-xs text-gray-500">Erfolgreich freigeschaltet</p>
-                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            {/* Main Headline */}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+              Learnlock / <br />
+              <span className="bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                Lock in your focus.
+              </span> <br />
+              <span className="bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(34,211,238,0.4)]">
+                Master your mind.
+              </span>
+            </h1>
 
-      {/* Visual Data Section */}
-      <section className="py-12 bg-[#FDFBF7]">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white border border-gray-100 rounded-[2.5rem] p-8 md:p-12 shadow-xl shadow-gray-200/50 flex flex-col md:flex-row items-center gap-12">
-            
-            <div className="flex-1 w-full">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Erwiesene Wirkung</h3>
-              <p className="text-gray-600 mb-8">Durchschnittliche Entwicklung nach 4 Wochen mit LearnLock.</p>
+            {/* Description */}
+            <p className="text-lg text-slate-400 max-w-xl leading-relaxed">
+              A gorgeous, immersive desktop-exclusive application designed to block distractions, manage study flows, and elevate your productivity.
+            </p>
+
+            {/* Download CTA Button */}
+            <div className="space-y-3">
+              <Link
+                href="/download"
+                className="group relative inline-flex items-center justify-between gap-6 px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500/20 via-indigo-500/20 to-purple-500/20 border border-cyan-400/40 backdrop-blur-xl hover:border-cyan-400 shadow-[0_0_35px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.55)] transition-all duration-300 text-white font-bold text-lg"
+              >
+                <div className="flex items-center gap-3">
+                  <DownloadCloud className="w-6 h-6 text-cyan-400 group-hover:scale-110 transition" />
+                  <span>Download for Desktop</span>
+                </div>
+                {/* Platform Icons */}
+                <div className="flex items-center gap-2 pl-3 border-l border-white/10 text-slate-300">
+                  <span className="text-base" title="macOS"></span>
+                  <span className="text-sm font-bold" title="Windows">⊞</span>
+                  <span className="text-xs uppercase font-mono px-1 py-0.5 rounded bg-white/10">Linux</span>
+                </div>
+              </Link>
               
-              {/* CSS Bar Chart */}
-              <div className="space-y-6">
+              <p className="text-xs text-slate-500 flex items-center gap-2 pl-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-[0_0_6px_#22d3ee]" />
+                Free download for macOS, Windows & Linux
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column: Liquid Glass App Mockup (From Screenshot) */}
+          <div className="lg:col-span-6 relative">
+            {/* Grid Pattern Behind Mockup */}
+            <div className="absolute -inset-4 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px] rounded-3xl pointer-events-none" />
+
+            {/* Outer Window Frame */}
+            <div className="relative rounded-3xl bg-[#0C1019]/80 backdrop-blur-2xl border border-white/10 shadow-[0_20px_70px_rgba(0,0,0,0.85)] p-5 overflow-hidden">
+              
+              {/* Window Controls (Mac Dots) */}
+              <div className="flex items-center justify-between pb-4 border-b border-white/[0.06] mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#FF5F56] border border-[#E0443E]/50" />
+                  <div className="w-3 h-3 rounded-full bg-[#FFBD2E] border border-[#DEA123]/50" />
+                  <div className="w-3 h-3 rounded-full bg-[#27C93F] border border-[#1AAB29]/50" />
+                </div>
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
+                  <Lock className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Learnlock Client Preview</span>
+                </div>
+                <div className="w-12" />
+              </div>
+
+              {/* Mockup Dashboard Content Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
                 
-                {/* Week 1 */}
-                <div>
-                  <div className="flex justify-between text-sm mb-2 font-bold text-gray-700">
-                    <span>Woche 1</span>
+                {/* Circular Study Timer (Centerpiece) */}
+                <div className="md:col-span-7 rounded-2xl bg-white/[0.03] border border-white/5 p-4 flex flex-col items-center justify-center relative">
+                  <p className="text-[11px] uppercase tracking-wider text-slate-400 font-bold mb-2">Study Session</p>
+                  
+                  {/* Glowing Timer Circle */}
+                  <div className="relative w-44 h-44 flex items-center justify-center">
+                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+                      <defs>
+                        <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#22d3ee" />
+                          <stop offset="50%" stopColor="#818cf8" />
+                          <stop offset="100%" stopColor="#ec4899" />
+                        </linearGradient>
+                      </defs>
+                      <circle cx="80" cy="80" r="64" stroke="rgba(255,255,255,0.06)" strokeWidth="10" fill="transparent" />
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="64"
+                        stroke="url(#heroGradient)"
+                        strokeWidth="10"
+                        strokeDasharray={2 * Math.PI * 64}
+                        strokeDashoffset={2 * Math.PI * 64 * 0.3}
+                        strokeLinecap="round"
+                        fill="transparent"
+                        className="shadow-[0_0_20px_#22d3ee]"
+                      />
+                    </svg>
+
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+                      <Lock className="w-4 h-4 text-cyan-300 mb-1" />
+                      <span className="text-2xl font-extrabold text-white tracking-tight">45:00</span>
+                      <span className="text-[10px] text-slate-400">Locked In</span>
+                    </div>
                   </div>
-                  <div className="flex h-6 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="bg-orange-400 h-full w-[20%] flex items-center px-2 text-[10px] text-white font-bold" title="Lernzeit">Lernzeit</div>
-                    <div className="bg-gray-300 h-full w-[80%] flex items-center px-2 text-[10px] text-gray-600 font-bold justify-end" title="Konsum">Reiner Konsum</div>
+
+                  <div className="mt-3 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-[11px] text-cyan-300 font-semibold flex items-center gap-1.5">
+                    <Play className="w-3 h-3 fill-cyan-300" /> Plan Aktiv
                   </div>
                 </div>
 
-                {/* Week 2 */}
-                <div>
-                  <div className="flex justify-between text-sm mb-2 font-bold text-gray-700">
-                    <span>Woche 2</span>
+                {/* Right Mini Cards */}
+                <div className="md:col-span-5 space-y-4">
+                  {/* Interactive Progress */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-3.5 space-y-2">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-slate-300 font-semibold">Interactive Progress</span>
+                      <span className="text-cyan-400 font-bold">40%</span>
+                    </div>
+                    <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div className="h-full bg-gradient-to-r from-cyan-400 to-indigo-500 rounded-full w-[40%]" />
+                    </div>
                   </div>
-                  <div className="flex h-6 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="bg-orange-500 h-full w-[45%] flex items-center px-2 text-[10px] text-white font-bold transition-all duration-1000">Gesteigerte Lernzeit</div>
-                    <div className="bg-gray-300 h-full w-[55%] flex items-center px-2 text-[10px] text-gray-600 font-bold justify-end transition-all duration-1000">Weniger Konsum</div>
+
+                  {/* Task Lists */}
+                  <div className="rounded-2xl bg-white/[0.03] border border-white/5 p-3.5 space-y-2">
+                    <p className="text-xs font-semibold text-slate-300">Active Tasks</p>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-300 bg-white/[0.03] p-1.5 rounded-lg border border-white/5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="truncate">Mathe: Bruchrechnung</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-[11px] text-slate-300 bg-white/[0.03] p-1.5 rounded-lg border border-white/5">
+                        <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                        <span className="truncate">Englisch: Vokabeln 4</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Week 4 */}
-                <div>
-                  <div className="flex justify-between text-sm mb-2 font-bold text-gray-700">
-                    <span className="text-emerald-600">Woche 4 (Ziel erreicht)</span>
+                {/* Bottom Analytics Sparkline */}
+                <div className="md:col-span-12 rounded-2xl bg-white/[0.03] border border-white/5 p-4 flex items-center justify-between">
+                  <div className="space-y-1">
+                    <p className="text-xs font-semibold text-white">Live Analytics</p>
+                    <p className="text-[11px] text-slate-400">+1.5 Std. Spielzeit freigeschaltet</p>
                   </div>
-                  <div className="flex h-8 w-full bg-gray-100 rounded-full overflow-hidden shadow-inner border border-emerald-100">
-                    <div className="bg-emerald-500 h-full w-[65%] flex items-center px-3 text-xs text-white font-bold shadow-sm transition-all duration-1000">Produktive Lernzeit</div>
-                    <div className="bg-emerald-100 h-full w-[35%] flex items-center px-3 text-xs text-emerald-800 font-bold justify-end transition-all duration-1000">Belohnung</div>
+                  <div className="h-10 w-44">
+                    <svg className="w-full h-full" viewBox="0 0 150 40">
+                      <path
+                        d="M 0 35 Q 30 10, 60 25 T 110 15 T 150 5"
+                        fill="none"
+                        stroke="#22d3ee"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
                   </div>
                 </div>
 
               </div>
-            </div>
 
-            <div className="md:w-72 shrink-0 bg-orange-50 p-6 rounded-3xl border border-orange-100 text-center">
-               <div className="text-5xl font-extrabold text-orange-600 mb-2">+120%</div>
-               <p className="font-bold text-gray-900 mb-4">Mehr gelöste Schulaufgaben</p>
-               <p className="text-sm text-gray-600">Kinder lösen freiwillig Aufgaben, um sich ihre Bildschirmzeit zu verdienen.</p>
             </div>
-            
           </div>
+
         </div>
       </section>
 
-      {/* Feature Highlights */}
-      <section className="py-24 bg-white">
+      {/* Second Showcase Section (From Image 2: "Volle Kontrolle, spielend leicht") */}
+      <section className="relative z-10 py-24 border-t border-white/[0.08] bg-[#07090E]/60 backdrop-blur-2xl">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Ein positiver Ansatz zur Bildschirmzeit</h2>
-            <p className="text-gray-600 text-lg">Keine harten Verbote, die nur für Tränen sorgen. Wir setzen auf spielerische Motivation und Eigenverantwortung.</p>
-          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-[#FDFBF7] border border-gray-100 p-8 rounded-3xl hover:shadow-lg transition">
-              <div className="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-6">
-                <Smile className="w-7 h-7 text-orange-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Lernen als Mini-Spiel</h3>
-              <p className="text-gray-600 leading-relaxed">Dein Kind löst kleine, spaßige Mathe-Aufgaben. Jede richtige Antwort füllt das "Spielzeit-Konto" auf. Lernen wird zum Level-Up!</p>
-            </div>
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+              Volle Kontrolle, <br />
+              <span className="bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                spielend leicht.
+              </span>
+            </h2>
+            <p className="text-lg text-slate-400">
+              Die smarte Elternkontrolle für ein gesundes digitales Gleichgewicht. Bildschirmzeit durch Aufgaben verdienen.
+            </p>
+          </div>
+
+          {/* Interactive Feature Cards Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
             
-            <div className="bg-[#FDFBF7] border border-gray-100 p-8 rounded-3xl hover:shadow-lg transition relative overflow-hidden">
-              <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-6">
-                <ShieldCheck className="w-7 h-7 text-emerald-600" />
+            {/* Feature Card 1: Kinderprofile anlegen & Avatare */}
+            <div className="rounded-3xl bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex flex-col justify-between space-y-6">
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-2">Kinderprofile anlegen</h3>
+                <p className="text-slate-400 text-sm">
+                  Wähle liebevolle Avatar-Vorlagen aus oder lade eigene Fotos direkt im Eltern-Dashboard hoch.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Sicheres Umfeld</h3>
-              <p className="text-gray-600 leading-relaxed">Während gelernt wird, sind Ablenkungen blockiert. Wir sorgen leise im Hintergrund dafür, dass nicht-jugendfreie Seiten unsichtbar bleiben.</p>
+
+              {/* Profile Avatars Display */}
+              <div className="grid grid-cols-3 gap-4 pt-2">
+                <div className="rounded-2xl bg-white/[0.04] border border-cyan-400/40 p-4 flex flex-col items-center text-center shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-pink-400 to-rose-500 flex items-center justify-center text-3xl mb-2 shadow-md">
+                    👧
+                  </div>
+                  <span className="text-sm font-bold text-white">Anna</span>
+                  <span className="text-[11px] text-slate-400">8 Jahre</span>
+                </div>
+
+                <div className="rounded-2xl bg-white/[0.04] border border-white/5 p-4 flex flex-col items-center text-center hover:border-white/20 transition">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-cyan-400 to-blue-600 flex items-center justify-center text-3xl mb-2 shadow-md">
+                    👦
+                  </div>
+                  <span className="text-sm font-bold text-white">Lukas</span>
+                  <span className="text-[11px] text-slate-400">11 Jahre</span>
+                </div>
+
+                <div className="rounded-2xl bg-white/[0.04] border border-white/5 p-4 flex flex-col items-center text-center hover:border-white/20 transition">
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-3xl mb-2 shadow-md">
+                    🐶
+                  </div>
+                  <span className="text-sm font-bold text-white">Milo</span>
+                  <span className="text-[11px] text-slate-400">Haustier</span>
+                </div>
+              </div>
+
+              {/* Toggles preview */}
+              <div className="space-y-3 pt-4 border-t border-white/[0.06]">
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+                  <span className="text-sm text-slate-300 font-medium">Tägliche Zeitlimits</span>
+                  <div className="w-12 h-6 bg-cyan-500 rounded-full p-1 flex justify-end shadow-[0_0_10px_#22d3ee]">
+                    <div className="w-4 h-4 bg-white rounded-full shadow" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between p-3 rounded-2xl bg-white/[0.02] border border-white/5">
+                  <span className="text-sm text-slate-300 font-medium">Automatische App-Sperren</span>
+                  <div className="w-12 h-6 bg-purple-500 rounded-full p-1 flex justify-end shadow-[0_0_10px_#a855f7]">
+                    <div className="w-4 h-4 bg-white rounded-full shadow" />
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="bg-[#FDFBF7] border border-gray-100 p-8 rounded-3xl hover:shadow-lg transition">
-              <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6">
-                <Gamepad2 className="w-7 h-7 text-blue-600" />
+            {/* Feature Card 2: Bildschirmzeit gewinnen */}
+            <div className="rounded-3xl bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex flex-col justify-between space-y-6">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/20 text-xs font-semibold text-amber-300 mb-3">
+                  <Award className="w-3.5 h-3.5 text-amber-400" />
+                  <span>MOTIVATION STATT STREIT</span>
+                </div>
+                <h3 className="text-2xl font-bold text-white mb-2">Bildschirmzeit gewinnen</h3>
+                <p className="text-slate-400 text-sm">
+                  Bildschirmzeit durch Mathe, Deutsch oder Vokabeltraining Schritt für Schritt freischalten.
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Stolz auf die Spielzeit</h3>
-              <p className="text-gray-600 leading-relaxed">Kinder genießen ihre Spielzeit viel mehr, wenn sie wissen, dass sie sich diese ehrlich "verdient" haben. Das stärkt das Selbstbewusstsein.</p>
+
+              {/* Task Completion Box */}
+              <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5 space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-bold text-white">Aufgaben-Status</span>
+                  <span className="text-xs font-bold text-cyan-400 bg-cyan-400/10 px-2.5 py-1 rounded-full border border-cyan-400/20">
+                    75% erledigt
+                  </span>
+                </div>
+                
+                <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden">
+                  <div className="h-full bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 rounded-full w-[75%]" />
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <div className="flex items-center gap-2 text-sm text-slate-200">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <span>15 Min. Matheaufgaben gelöst</span>
+                    </div>
+                    <span className="text-xs font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded">
+                      +30 Min. Gaming
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <div className="flex items-center gap-2 text-sm text-slate-200">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <span>Englisch Vokabeltest bestanden</span>
+                    </div>
+                    <span className="text-xs font-bold text-purple-400 bg-purple-400/10 px-2 py-0.5 rounded">
+                      +1 Std. Gaming
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reward Callout */}
+              <div className="flex items-center justify-between text-xs text-slate-400 pt-2 border-t border-white/[0.06]">
+                <span>Total heute verdient: <strong className="text-white">1:30 Std.</strong></span>
+                <span className="text-amber-300 font-semibold flex items-center gap-1">
+                  ⭐ 33 Sterne erhalten
+                </span>
+              </div>
             </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* How it Works Section */}
-      <section className="py-24 bg-orange-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-16">In 3 einfachen Schritten zur Harmonie</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-20 h-20 bg-white shadow-md rounded-full flex items-center justify-center mb-6 text-2xl font-bold text-orange-500">1</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">App installieren</h3>
-              <p className="text-gray-600 max-w-xs text-center">Einmalig auf dem Computer des Kindes einrichten. Es dauert nur eine Minute.</p>
-            </div>
-            
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-20 h-20 bg-white shadow-md rounded-full flex items-center justify-center mb-6 text-2xl font-bold text-orange-500">2</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Regeln festlegen</h3>
-              <p className="text-gray-600 max-w-xs text-center">Bestimme auf deinem Handy ganz entspannt, welche Lernziele erreicht werden sollen.</p>
-            </div>
+      {/* Multi-Platform Download Banner */}
+      <section className="relative z-10 py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="rounded-[36px] bg-gradient-to-b from-white/[0.08] to-white/[0.02] border border-white/10 backdrop-blur-2xl p-10 md:p-16 shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative overflow-hidden">
+          
+          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white">
+              Bereit für stressfreien Bildschirm-Alltag?
+            </h2>
+            <p className="text-slate-400 text-base">
+              Lade LearnLock jetzt für Windows, macOS oder Linux herunter. Die Einrichtung dauert unter 2 Minuten.
+            </p>
 
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-20 h-20 bg-orange-500 shadow-xl shadow-orange-500/30 rounded-full flex items-center justify-center mb-6 text-2xl font-bold text-white">3</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Durchatmen</h3>
-              <p className="text-gray-600 max-w-xs text-center">Kein Diskutieren mehr. Die App übernimmt die Motivation und du erhältst stolze Erfolgsberichte.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Link
+                href="/download"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-bold text-base shadow-[0_0_30px_rgba(6,182,212,0.5)] transition flex items-center justify-center gap-2"
+              >
+                <DownloadCloud className="w-5 h-5" />
+                Jetzt herunterladen
+              </Link>
+              <Link
+                href="/pricing"
+                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/[0.05] hover:bg-white/[0.1] text-slate-200 font-bold border border-white/10 transition"
+              >
+                Preise ansehen (ab 0 €)
+              </Link>
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-white text-center border-t border-gray-100">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">Mach den Alltag wieder entspannter</h2>
-          <p className="text-gray-600 text-lg mb-10">Lass uns gemeinsam den Medienkonsum deiner Kinder in eine positive Lernerfahrung verwandeln.</p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/download" className="w-full sm:w-auto px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl transition shadow-lg shadow-orange-500/30">
-              Jetzt kostenlos starten
-            </Link>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }
