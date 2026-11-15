@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import nodemailer from "nodemailer";
 
 const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL || "file:./dev.db" });
 const prisma = new PrismaClient({ adapter });
@@ -10,6 +11,15 @@ const admin2faCodes = new Map();
 
 const ADMIN_EMAIL = "grizzlygoegym@gmail.com";
 const ADMIN_PASS = "Dfj6GszVwhygo1*4";
+
+// Transporter using your Gmail App Password
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.GMAIL_USER || "grizzlygoegym@gmail.com",
+    pass: (process.env.GMAIL_APP_PASSWORD || "vflk txdb qdzp iukz").replace(/\s+/g, ""),
+  },
+});
 
 // 1. POST: Handles Login, 2FA Request, Plan Updates, and Email Sending
 export async function POST(req) {
@@ -31,28 +41,56 @@ export async function POST(req) {
         expiresAt: Date.now() + 10 * 60 * 1000 // 10 minutes valid
       });
 
-      // Send Code via Resend
-      const resendApiKey = process.env.RESEND_API_KEY;
-      if (resendApiKey) {
-        await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${resendApiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            from: "LearnLock Security <onboarding@resend.dev>",
-            to: ADMIN_EMAIL,
-            subject: "🔐 Dein LearnLock Admin 2FA-Sicherheitscode",
-            html: `<div style="font-family: Arial, sans-serif; padding: 20px; background: #0f172a; color: #fff; border-radius: 12px;">
-                    <h2 style="color: #f97316;">LearnLock Master Admin Login</h2>
-                    <p>Es wurde ein Login-Versuch in dein administratives Kontrollzentrum erkannt.</p>
-                    <p>Dein einmaliger Sicherheitscode lautet:</p>
-                    <div style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #38bdf8; margin: 20px 0;">${code}</div>
-                    <p style="color: #94a3b8; font-size: 12px;">Der Code ist für 10 Minuten gültig. Gib diesen Code niemals weiter.</p>
-                   </div>`
-          })
+      let emailSent = false;
+
+      // 1. Send Code directly via your Gmail App Password (Nodemailer)
+      try {
+        await transporter.sendMail({
+          from: `"LearnLock Security" <${process.env.GMAIL_USER || ADMIN_EMAIL}>`,
+          to: ADMIN_EMAIL,
+          subject: "🔐 Dein LearnLock Admin 2FA-Sicherheitscode",
+          html: `<div style="font-family: Arial, sans-serif; padding: 25px; background: #0f172a; color: #ffffff; border-radius: 12px; border: 1px solid #1e293b;">
+                  <h2 style="color: #f97316; margin-top: 0;">LearnLock Master Admin Login</h2>
+                  <p>Es wurde ein Login-Versuch in dein administratives Web-Kontrollzentrum erkannt.</p>
+                  <p>Dein einmaliger Sicherheitscode lautet:</p>
+                  <div style="font-size: 34px; font-weight: bold; letter-spacing: 6px; color: #38bdf8; margin: 25px 0; background: #1e293b; padding: 15px; border-radius: 8px; text-align: center; border: 1px dashed #38bdf8;">${code}</div>
+                  <p style="color: #94a3b8; font-size: 13px;">Der Code ist für 10 Minuten gültig. Gib diesen Code niemals an Dritte weiter.</p>
+                 </div>`
         });
+        emailSent = true;
+      } catch (gmailErr) {
+        console.error("Gmail SMTP error:", gmailErr);
+      }
+
+      // 2. Fallback to Resend if available and Gmail failed
+      if (!emailSent) {
+        const resendApiKey = process.env.RESEND_API_KEY;
+        if (resendApiKey) {
+          try {
+            await fetch("https://api.resend.com/emails", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${resendApiKey}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({
+                from: "LearnLock Security <onboarding@resend.dev>",
+                to: ADMIN_EMAIL,
+                subject: "🔐 Dein LearnLock Admin 2FA-Sicherheitscode",
+                html: `<div style="font-family: Arial, sans-serif; padding: 20px; background: #0f172a; color: #fff; border-radius: 12px;">
+                        <h2 style="color: #f97316;">LearnLock Master Admin Login</h2>
+                        <p>Es wurde ein Login-Versuch in dein administratives Kontrollzentrum erkannt.</p>
+                        <p>Dein einmaliger Sicherheitscode lautet:</p>
+                        <div style="font-size: 32px; font-weight: bold; letter-spacing: 6px; color: #38bdf8; margin: 20px 0;">${code}</div>
+                        <p style="color: #94a3b8; font-size: 12px;">Der Code ist für 10 Minuten gültig. Gib diesen Code niemals weiter.</p>
+                       </div>`
+              })
+            });
+            emailSent = true;
+          } catch (resendErr) {
+            console.error("Resend error:", resendErr);
+          }
+        }
       }
 
       return NextResponse.json({ success: true, message: "Sicherheitscode an E-Mail gesendet." });
