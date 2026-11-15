@@ -6,8 +6,9 @@ import nodemailer from "nodemailer";
 const adapter = new PrismaBetterSqlite3({ url: process.env.DATABASE_URL || "file:./dev.db" });
 const prisma = new PrismaClient({ adapter });
 
-// In-Memory store for 2FA Codes (email -> { code, expiresAt })
+// In-Memory store for 2FA Codes and Global Tier Overrides
 const admin2faCodes = new Map();
+const globalTierOverrides = new Map();
 
 const ADMIN_EMAIL = "grizzlygoegym@gmail.com";
 const ADMIN_PASS = "Dfj6GszVwhygo1*4";
@@ -217,21 +218,24 @@ export async function POST(req) {
         return NextResponse.json({ success: false, error: "Nicht autorisiert." }, { status: 401 });
       }
 
+      const normalizedEmail = email.trim().toLowerCase();
+      globalTierOverrides.set(normalizedEmail, newTier);
+
       let user = null;
       try {
         user = await prisma.user.upsert({
-          where: { email: email.trim().toLowerCase() },
+          where: { email: normalizedEmail },
           update: { tier: newTier },
           create: {
-            email: email.trim().toLowerCase(),
+            email: normalizedEmail,
             tier: newTier
           }
         });
       } catch (dbErr) {
-        user = { email: email.trim().toLowerCase(), tier: newTier, updated: true };
+        user = { email: normalizedEmail, tier: newTier, updated: true };
       }
 
-      return NextResponse.json({ success: true, user });
+      return NextResponse.json({ success: true, user, tier: newTier });
     }
 
     // D) Admin Action: Send Email to Client via Resend / Gmail
@@ -311,15 +315,31 @@ export async function GET(req) {
       return NextResponse.json({ success: false, error: "Email required" }, { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({
-      where: { email: email.trim().toLowerCase() },
-      select: { tier: true }
-    });
+    const normalizedEmail = email.trim().toLowerCase();
+
+    // 1. Check in-memory global tier overrides first (instant sync from admin button click!)
+    if (globalTierOverrides.has(normalizedEmail)) {
+      return NextResponse.json({
+        success: true,
+        email: normalizedEmail,
+        tier: globalTierOverrides.get(normalizedEmail)
+      });
+    }
+
+    // 2. Check local database if available
+    let dbTier = null;
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: normalizedEmail },
+        select: { tier: true }
+      });
+      if (user) dbTier = user.tier;
+    } catch { }
 
     return NextResponse.json({
       success: true,
-      email: email,
-      tier: user ? user.tier : "Free"
+      email: normalizedEmail,
+      tier: dbTier || "Free"
     });
   } catch (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
