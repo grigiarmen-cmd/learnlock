@@ -1,25 +1,20 @@
 using System;
 using System.Linq;
 using LearnLock.Database;
-using LearnLock.Auth;
 
 try
 {
     using var db = new LearnLockDbContext();
-    var parent = db.ParentProfiles.FirstOrDefault();
-    if (parent != null)
+    Console.WriteLine("ParentProfiles count: " + db.ParentProfiles.Count());
+    foreach (var p in db.ParentProfiles.ToList())
     {
-        string[] testPasswords = new string[] { "1234", "admin", "123456", "password", "LearnLock", "learnlock", "Grigor", "grigor", "Grigi", "grigi" };
-        foreach (var p in testPasswords)
-        {
-            bool ok = PBKDF2Hasher.VerifyPassword(p, parent.HashedPassword, parent.Salt);
-            if (ok)
-            {
-                Console.WriteLine($"MATCH FOUND: Password is '{p}'");
-                return;
-            }
-        }
-        Console.WriteLine("No standard password match found.");
+        Console.WriteLine($"Parent: ID={p.Id}, Email={p.Email}");
+    }
+
+    Console.WriteLine("ChildProfiles count: " + db.ChildProfiles.Count());
+    foreach (var c in db.ChildProfiles.ToList())
+    {
+        Console.WriteLine($"Child: ID={c.Id}, Name={c.Name}");
     }
 }
 catch (Exception ex)

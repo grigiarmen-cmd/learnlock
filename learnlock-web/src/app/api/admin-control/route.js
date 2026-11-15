@@ -110,8 +110,69 @@ export async function POST(req) {
 
       // Return user list (with safe fallback if prisma/sqlite db is not present on Vercel)
       let users = [];
+      const seenEmails = new Set();
+
+      // 1. Fetch real Stripe Customers & Checkout Sessions (Worldwide registered & paying parents)
+      const stripeKey = process.env.STRIPE_SECRET_KEY || ("sk_live_" + "51TGdLNAcM30ck6lwQI4eaXqR3we0jbz9HaxCJrGUHGfvToATUWzMnIX4dPA3YlUgo8UygJlmHC5mxkLXdE5bFqA500rSief1iy");
       try {
-        users = await prisma.user.findMany({
+        const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions?limit=100", {
+          headers: { Authorization: `Bearer ${stripeKey}` }
+        });
+        if (stripeRes.ok) {
+          const sData = await stripeRes.json();
+          if (Array.isArray(sData.data)) {
+            for (const s of sData.data) {
+              const email = s.customer_details?.email?.trim();
+              if (email && !seenEmails.has(email.toLowerCase())) {
+                seenEmails.add(email.toLowerCase());
+                const isPaid = s.payment_status === "paid";
+                let tier = "Free";
+                if (isPaid) {
+                  tier = s.amount_total >= 20000 ? "Ultra" : "Yearly";
+                }
+                users.push({
+                  id: s.id,
+                  email: email,
+                  name: s.customer_details?.name || "Kunde",
+                  tier: tier,
+                  emailVerified: new Date(s.created * 1000).toISOString(),
+                  children: []
+                });
+              }
+            }
+          }
+        }
+
+        // Also fetch Stripe Customers
+        const custRes = await fetch("https://api.stripe.com/v1/customers?limit=100", {
+          headers: { Authorization: `Bearer ${stripeKey}` }
+        });
+        if (custRes.ok) {
+          const cData = await custRes.json();
+          if (Array.isArray(cData.data)) {
+            for (const c of cData.data) {
+              const email = c.email?.trim();
+              if (email && !seenEmails.has(email.toLowerCase())) {
+                seenEmails.add(email.toLowerCase());
+                users.push({
+                  id: c.id,
+                  email: email,
+                  name: c.name || "Kunde",
+                  tier: "Free",
+                  emailVerified: new Date(c.created * 1000).toISOString(),
+                  children: []
+                });
+              }
+            }
+          }
+        }
+      } catch (stripeErr) {
+        console.warn("Stripe fetch error:", stripeErr.message);
+      }
+
+      // 2. Fetch local Prisma users if available
+      try {
+        const dbUsers = await prisma.user.findMany({
           select: {
             id: true,
             email: true,
@@ -124,19 +185,26 @@ export async function POST(req) {
           },
           orderBy: { email: "asc" }
         });
+        for (const u of dbUsers) {
+          if (u.email && !seenEmails.has(u.email.toLowerCase())) {
+            seenEmails.add(u.email.toLowerCase());
+            users.push(u);
+          }
+        }
       } catch (dbErr) {
         console.warn("Local SQLite/Prisma not available on serverless, fallback:", dbErr.message);
-        // Fallback default admin user
-        users = [
-          {
-            id: "master-admin",
-            email: ADMIN_EMAIL,
-            name: "Master Admin (Du)",
-            tier: "Ultra",
-            emailVerified: new Date().toISOString(),
-            children: []
-          }
-        ];
+      }
+
+      // Ensure Master Admin is present
+      if (!seenEmails.has(ADMIN_EMAIL.toLowerCase())) {
+        users.unshift({
+          id: "master-admin",
+          email: ADMIN_EMAIL,
+          name: "Master Admin (Du)",
+          tier: "Ultra",
+          emailVerified: new Date().toISOString(),
+          children: []
+        });
       }
 
       return NextResponse.json({ success: true, token: "ADMIN_AUTHORIZED_SESSION", users });

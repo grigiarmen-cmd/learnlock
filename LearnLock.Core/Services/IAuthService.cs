@@ -17,6 +17,7 @@ namespace LearnLock.Core.Services
         Task UpdateParentProfileAsync(ParentProfile parent);
         Task<bool> ChangeParentPasswordAsync(string oldPassword, string newPassword);
         Task<bool> ResetParentPasswordAsync(string newPassword);
+        Task<bool> DeleteParentAccountAsync();
         Task<bool> SendOtpCodeAsync(string email, string code);
         Task<bool> SendPasswordResetCodeAsync(string email, string code);
     }

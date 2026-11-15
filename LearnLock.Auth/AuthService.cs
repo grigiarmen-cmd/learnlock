@@ -48,6 +48,9 @@ namespace LearnLock.Auth
                 parent.Salt = salt;
                 parent.Email = email;
                 await _context.SaveChangesAsync();
+
+                // Sync new registration with Admin / Serverless database asynchronously
+                _ = SyncRegistrationWithServerAsync(email);
                 return true;
             }
 
@@ -60,7 +63,25 @@ namespace LearnLock.Auth
 
             _context.ParentProfiles.Add(parent);
             await _context.SaveChangesAsync();
+
+            // Sync new registration with Admin / Serverless database asynchronously
+            _ = SyncRegistrationWithServerAsync(email);
             return true;
+        }
+
+        private static async Task SyncRegistrationWithServerAsync(string email)
+        {
+            try
+            {
+                var content = new StringContent(
+                    JsonSerializer.Serialize(new { action = "register_sync", email = email }),
+                    Encoding.UTF8,
+                    "application/json"
+                );
+                // Try production URL and localhost
+                await _httpClient.PostAsync("https://learnlock.vercel.app/api/admin-control", content);
+            }
+            catch { }
         }
 
         public async Task<bool> VerifyParentPasswordAsync(string password)
@@ -129,6 +150,32 @@ namespace LearnLock.Auth
         {
             _context.Entry(parent).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> DeleteParentAccountAsync()
+        {
+            try
+            {
+                var parent = await _context.ParentProfiles.FirstOrDefaultAsync();
+                if (parent != null)
+                {
+                    parent.HashedPassword = string.Empty;
+                    parent.Salt = string.Empty;
+                    parent.Email = string.Empty;
+                    parent.Tier = SubscriptionTier.Free;
+                    parent.SubscriptionExpiration = null;
+                }
+
+                var children = await _context.ChildProfiles.ToListAsync();
+                _context.ChildProfiles.RemoveRange(children);
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> ChangeParentPasswordAsync(string oldPassword, string newPassword)

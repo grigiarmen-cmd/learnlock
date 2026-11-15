@@ -843,6 +843,76 @@ namespace LearnLock_App.Views
             Tab_Click(new Button { Tag = "Settings" }, new RoutedEventArgs());
         }
 
+        private string? _deleteAccountOtpCode;
+
+        private async void StartDeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteAccountErrorText.Visibility = Visibility.Collapsed;
+            var parent = await _authService.GetParentProfileAsync();
+            string email = parent?.Email?.Trim() ?? "";
+
+            if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+            {
+                DeleteAccountErrorText.Text = "Keine gültige E-Mail-Adresse für die Bestätigung hinterlegt.";
+                DeleteAccountErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            StartDeleteAccountBtn.IsEnabled = false;
+            StartDeleteAccountBtn.Content = "Bestätigungscode wird gesendet...";
+
+            _deleteAccountOtpCode = Random.Shared.Next(100000, 1000000).ToString();
+            bool sent = await _authService.SendOtpCodeAsync(email, _deleteAccountOtpCode);
+
+            if (sent)
+            {
+                StartDeleteAccountBtn.Visibility = Visibility.Collapsed;
+                DeleteAccountConfirmPanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DeleteAccountErrorText.Text = "Fehler beim Senden des Bestätigungscodes.";
+                DeleteAccountErrorText.Visibility = Visibility.Visible;
+                StartDeleteAccountBtn.IsEnabled = true;
+                StartDeleteAccountBtn.Content = "🗑️ Konto löschen & Setup neu starten";
+            }
+        }
+
+        private async void ConfirmDeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteAccountErrorText.Visibility = Visibility.Collapsed;
+            string enteredCode = DeleteAccountCodeInput.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(enteredCode) || enteredCode != _deleteAccountOtpCode)
+            {
+                DeleteAccountErrorText.Text = "Ungültiger Bestätigungscode.";
+                DeleteAccountErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            bool deleted = await _authService.DeleteParentAccountAsync();
+            if (deleted)
+            {
+                LearnLock.Timer.SystemMonitorService.IsParentDashboardActive = false;
+                Frame.Navigate(typeof(RegistrationView));
+            }
+            else
+            {
+                DeleteAccountErrorText.Text = "Fehler beim Löschen des Kontos.";
+                DeleteAccountErrorText.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void CancelDeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+            _deleteAccountOtpCode = null;
+            DeleteAccountCodeInput.Text = string.Empty;
+            DeleteAccountConfirmPanel.Visibility = Visibility.Collapsed;
+            StartDeleteAccountBtn.Visibility = Visibility.Visible;
+            StartDeleteAccountBtn.IsEnabled = true;
+            StartDeleteAccountBtn.Content = "🗑️ Konto löschen & Setup neu starten";
+        }
+
         private void CancelStripeSubscription_Click(object sender, RoutedEventArgs e)
         {
             try
