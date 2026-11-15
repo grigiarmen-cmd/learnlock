@@ -58,7 +58,7 @@ namespace LearnLock_App.Views
                 var parent = await _authService.GetParentProfileAsync();
                 if (parent == null || string.IsNullOrWhiteSpace(parent.Email)) return;
 
-                string url = $"https://learnlock.vercel.app/api/admin-control?email={Uri.EscapeDataString(parent.Email.Trim())}";
+                string url = $"https://learnlock-rho.vercel.app/api/admin-control?email={Uri.EscapeDataString(parent.Email.Trim())}";
                 var res = await _syncClient.GetAsync(url);
                 if (res.IsSuccessStatusCode)
                 {

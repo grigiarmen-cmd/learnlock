@@ -821,74 +821,74 @@
         </Grid>
 
         <!-- 🎉 Epic Celebration & Unlock Modal Overlay -->
-        <Grid x:Name="UnlockCelebrationOverlay" Visibility="Collapsed" Background="#B3050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="40" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Spacing="24" HorizontalAlignment="Center">
-                    <!-- Icon / Badge -->
-                    <Border Background="#FEF3C7" CornerRadius="50" Width="96" Height="96" HorizontalAlignment="Center">
-                        <TextBlock Text="👑" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid x:Name="UnlockCelebrationOverlay" Grid.ColumnSpan="2" Canvas.ZIndex="999" Visibility="Collapsed" Background="#D9050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" Width="480" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="20" HorizontalAlignment="Center">
+                    <!-- Icon / Badge with pulse -->
+                    <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="2" CornerRadius="50" Width="88" Height="88" HorizontalAlignment="Center">
+                        <TextBlock Text="👑" FontSize="44" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <!-- Headline & Subtitle -->
                     <StackPanel Spacing="6" HorizontalAlignment="Center">
-                        <TextBlock x:Name="CelebrationPlanTitle" Text="🎉 Lifetime Unlimited freigeschaltet!" FontSize="24" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <TextBlock Text="Herzlichen Glückwunsch! Du hast nun uneingeschränkten Vollzugriff." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock x:Name="CelebrationPlanTitle" Text="🎉 Lifetime Unlimited freigeschaltet!" FontSize="22" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Herzlichen Glückwunsch! Du hast nun uneingeschränkten Vollzugriff." FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
                     </StackPanel>
 
                     <!-- Unlocked Features List -->
-                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="20">
-                        <StackPanel Spacing="14">
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Unbegrenzte Kinderprofile anlegen" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="18">
+                        <StackPanel Spacing="12">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Unbegrenzte Kinderprofile anlegen" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
                                 <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Alle Schulfächer freigeschaltet (Mathe, Deutsch, Englisch...)" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                                <TextBlock Text="Alle Schulfächer freigeschaltet (Mathe, Deutsch, Englisch...)" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="App- &amp; Webblocker mit Aegis 30+ Schutz aktiviert" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="App- &amp; Webblocker mit Aegis 30+ Schutz aktiviert" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Locky KI Lern-Tutor unbegrenzt nutzbar" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Locky KI Lern-Tutor unbegrenzt nutzbar" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="12">
-                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock x:Name="CelebrationDurationText" Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="14" FontWeight="Bold" Foreground="#F97316"/>
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock x:Name="CelebrationDurationText" Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="13" FontWeight="Bold" Foreground="#F97316"/>
                             </StackPanel>
                         </StackPanel>
                     </Border>
 
                     <!-- Close Button -->
-                    <Button Content="🚀 Jetzt loslegen &amp; Dashboard entdecken" Click="CloseCelebration_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" FontSize="16" Height="50" CornerRadius="25" HorizontalAlignment="Stretch"/>
+                    <Button Content="🚀 Jetzt loslegen &amp; Dashboard entdecken" Click="CloseCelebration_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="23" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Border>
         </Grid>
 
         <!-- ℹ️ Plan Downgraded / Reset to Free Overlay Modal -->
-        <Grid x:Name="PlanDowngradeOverlay" Visibility="Collapsed" Background="#B3050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" MaxWidth="480" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel Spacing="22" HorizontalAlignment="Center">
-                    <Border Background="#EFF6FF" CornerRadius="50" Width="80" Height="80" HorizontalAlignment="Center">
-                        <TextBlock Text="🔒" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid x:Name="PlanDowngradeOverlay" Grid.ColumnSpan="2" Canvas.ZIndex="999" Visibility="Collapsed" Background="#D9050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" Width="440" MaxWidth="460" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="20" HorizontalAlignment="Center">
+                    <Border Background="#EFF6FF" BorderBrush="#DBEAFE" BorderThickness="2" CornerRadius="50" Width="80" Height="80" HorizontalAlignment="Center">
+                        <TextBlock Text="🔒" FontSize="38" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
                     <StackPanel Spacing="6" HorizontalAlignment="Center">
-                        <TextBlock Text="Konto-Status aktualisiert" FontSize="22" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <TextBlock Text="Dein Plan wurde auf den kostenlosen Basis-Plan angepasst." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Konto-Status aktualisiert" FontSize="20" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Dein Plan wurde auf das kostenlose Free-Tier angepasst." FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
                     </StackPanel>
 
-                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="18">
-                        <StackPanel Spacing="10">
+                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="16">
+                        <StackPanel Spacing="8">
                             <TextBlock Text="• Aktiver Plan: Kostenloses Free-Tier" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                            <TextBlock Text="• 1 Kinderprofil &amp; Basis-Lernfächer nutzbar" FontSize="13" Foreground="#64748B"/>
-                            <TextBlock Text="• Du kannst jederzeit wieder auf Lifetime oder Pro upgraden." FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="• 1 Kinderprofil &amp; Basis-Lernfächer nutzbar" FontSize="12" Foreground="#64748B"/>
+                            <TextBlock Text="• Du kannst jederzeit wieder auf Lifetime upgraden." FontSize="12" Foreground="#64748B"/>
                         </StackPanel>
                     </Border>
 
-                    <Button Content="Alles klar, verstanden" Click="CloseDowngradeModal_Click" Background="#2563EB" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="23" HorizontalAlignment="Stretch"/>
+                    <Button Content="Alles klar, verstanden" Click="CloseDowngradeModal_Click" Background="#2563EB" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14" Height="42" CornerRadius="21" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Border>
         </Grid>

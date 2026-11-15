@@ -6,7 +6,7 @@ namespace LearnLock.Core.Services
 {
     public interface IMathService
     {
-        MathTask GenerateTaskForSubject(DifficultyLevel difficulty, string allowedSubjects);
+        MathTask GenerateTaskForSubject(DifficultyLevel difficulty, string allowedSubjects, int schoolGrade = 5);
         bool VerifyAnswer(MathTask task, int userAnswer);
         int GetRewardTimeSeconds(DifficultyLevel difficulty, bool isCorrect);
         Task SaveTaskHistoryAsync(int childProfileId, MathTask task, int userAnswer, bool isCorrect, int earnedTimeSeconds);

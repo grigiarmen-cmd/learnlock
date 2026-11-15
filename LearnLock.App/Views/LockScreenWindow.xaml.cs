@@ -317,9 +317,10 @@ namespace LearnLock_App.Views
 
         private void GenerateChallenge()
         {
-            _currentTask = _mathService.GenerateTaskForSubject(_child.DifficultyLevel, _child.AllowedSubjects ?? "Mathematik");
+            int grade = _child.SchoolGrade > 0 ? _child.SchoolGrade : 5;
+            _currentTask = _mathService.GenerateTaskForSubject(_child.DifficultyLevel, _child.AllowedSubjects ?? "Mathematik", grade);
             
-            SubjectLabel.Text = $"FACH: {_currentTask.Subject.ToUpper()}";
+            SubjectLabel.Text = $"FACH: {_currentTask.Subject.ToUpper()} (KLASSE {grade})";
 
             // Support general knowledge Multiple Choice layout
             if (!string.IsNullOrEmpty(_currentTask.CustomQuestion))

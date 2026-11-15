@@ -79,7 +79,7 @@ namespace LearnLock.Auth
                     "application/json"
                 );
                 // Try production URL and localhost
-                await _httpClient.PostAsync("https://learnlock.vercel.app/api/admin-control", content);
+                await _httpClient.PostAsync("https://learnlock-rho.vercel.app/api/admin-control", content);
             }
             catch { }
         }
