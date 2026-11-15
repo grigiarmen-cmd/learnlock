@@ -74,6 +74,12 @@ namespace LearnLock_App
                 args.Cancel = false;
                 Application.Current.Exit();
             }
+            else if (RootFrame.CurrentSourcePageType == typeof(ChildView))
+            {
+                // In child playtime mode: closing or clicking X just hides window to background so they can play
+                args.Cancel = true;
+                HideWindow();
+            }
             else
             {
                 // Child selection / active mode -> prevent closing
@@ -144,7 +150,7 @@ namespace LearnLock_App
 
         public void ShowAndNavigate(Type pageType, object? parameter = null)
         {
-            if (pageType == typeof(ParentView) || pageType == typeof(RegistrationView))
+            if (pageType == typeof(ParentView) || pageType == typeof(RegistrationView) || pageType == typeof(ChildView))
             {
                 _lockTimer.Stop();
                 AppWindow.SetPresenter(AppWindowPresenterKind.Default);
@@ -153,6 +159,10 @@ namespace LearnLock_App
                 if (pageType == typeof(RegistrationView))
                 {
                     AppWindow.Resize(new Windows.Graphics.SizeInt32(500, 650));
+                }
+                else if (pageType == typeof(ChildView))
+                {
+                    AppWindow.Resize(new Windows.Graphics.SizeInt32(750, 550));
                 }
                 else
                 {

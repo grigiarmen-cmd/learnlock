@@ -113,6 +113,12 @@ namespace LearnLock_App.Views
             }
         }
 
+        private void PlayNow_Click(object sender, RoutedEventArgs e)
+        {
+            // Allow child to use the PC during earned playtime
+            App.MainWindowInstance?.HideWindow();
+        }
+
         private void SolveMore_Click(object sender, RoutedEventArgs e)
         {
             // Manually trigger lock screen to accumulate more time balance

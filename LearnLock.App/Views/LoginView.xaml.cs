@@ -104,6 +104,13 @@ namespace LearnLock_App.Views
             bool authenticated = await _authService.VerifyParentPasswordAsync(password);
             if (authenticated)
             {
+                var parent = await _authService.GetParentProfileAsync();
+                if (parent != null && (parent.IsBanned || parent.Tier == SubscriptionTier.Banned))
+                {
+                    ShowLoginError("🚫 Dieses Konto wurde vom Administrator gesperrt.");
+                    return;
+                }
+
                 App.MainWindowInstance?.ShowAndNavigate(typeof(ParentView));
             }
             else

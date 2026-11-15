@@ -9,6 +9,7 @@ const prisma = new PrismaClient({ adapter });
 // In-Memory store for 2FA Codes and Global Tier Overrides
 const admin2faCodes = new Map();
 const globalTierOverrides = new Map();
+const bannedUsers = new Set();
 
 const ADMIN_EMAIL = "grizzlygoegym@gmail.com";
 const ADMIN_PASS = "Dfj6GszVwhygo1*4";
@@ -238,6 +239,25 @@ export async function POST(req) {
       return NextResponse.json({ success: true, user, tier: newTier });
     }
 
+    // C2) Admin Action: Ban / Unban User from App
+    if (action === "toggle_ban_user") {
+      const { email, isBanned, masterPassword } = body;
+      if (masterPassword !== ADMIN_PASS) {
+        return NextResponse.json({ success: false, error: "Nicht autorisiert." }, { status: 401 });
+      }
+
+      const normalizedEmail = email.trim().toLowerCase();
+      if (isBanned) {
+        bannedUsers.add(normalizedEmail);
+        globalTierOverrides.set(normalizedEmail, "Banned");
+      } else {
+        bannedUsers.delete(normalizedEmail);
+        globalTierOverrides.set(normalizedEmail, "Free");
+      }
+
+      return NextResponse.json({ success: true, email: normalizedEmail, isBanned });
+    }
+
     // D) Admin Action: Send Email to Client via Resend / Gmail
     if (action === "send_client_email") {
       const { targetEmail, subject, message, masterPassword } = body;
@@ -317,12 +337,24 @@ export async function GET(req) {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    // 1. Check in-memory global tier overrides first (instant sync from admin button click!)
-    if (globalTierOverrides.has(normalizedEmail)) {
+    // 0. Check if user is banned
+    if (bannedUsers.has(normalizedEmail)) {
       return NextResponse.json({
         success: true,
         email: normalizedEmail,
-        tier: globalTierOverrides.get(normalizedEmail)
+        tier: "Banned",
+        isBanned: true
+      });
+    }
+
+    // 1. Check in-memory global tier overrides first (instant sync from admin button click!)
+    if (globalTierOverrides.has(normalizedEmail)) {
+      const currentTier = globalTierOverrides.get(normalizedEmail);
+      return NextResponse.json({
+        success: true,
+        email: normalizedEmail,
+        tier: currentTier,
+        isBanned: currentTier === "Banned"
       });
     }
 

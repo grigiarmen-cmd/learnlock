@@ -13,6 +13,7 @@ namespace LearnLock.Core.Models
         public string LockedFreeSubject { get; set; } = string.Empty;
         public bool IsAIAssistantEnabled { get; set; } = true;
         public string ProtectedWindowsUsers { get; set; } = string.Empty;
+        public bool IsBanned { get; set; } = false;
         public System.DateTime? SubscriptionExpiration { get; set; }
     }
 }

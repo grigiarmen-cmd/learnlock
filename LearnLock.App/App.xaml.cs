@@ -97,6 +97,15 @@ namespace LearnLock_App
                     );
                 }
                 catch { }
+
+                try
+                {
+                    Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(
+                        context.Database, 
+                        "ALTER TABLE ParentProfiles ADD COLUMN IsBanned INTEGER DEFAULT 0"
+                    );
+                }
+                catch { }
             }
             
             // Start the global app blocker

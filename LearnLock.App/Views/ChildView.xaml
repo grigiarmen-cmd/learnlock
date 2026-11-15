@@ -31,8 +31,9 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="12" HorizontalAlignment="Right">
-            <Button Content="Zusätzliche Aufgaben lösen" Click="SolveMore_Click" Background="#F97316" Foreground="#121212" FontWeight="Bold" CornerRadius="6" Height="36"/>
-            <Button Content="Bildschirm sofort sperren" Click="LockNow_Click" Background="#EF4444" Foreground="#121212" FontWeight="Bold" CornerRadius="6" Height="36"/>
+            <Button Content="🎮 Jetzt am PC spielen / Fenster minimieren" Click="PlayNow_Click" Background="#10B981" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="6" Height="36"/>
+            <Button Content="Zusätzliche Aufgaben lösen" Click="SolveMore_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="6" Height="36"/>
+            <Button Content="Bildschirm sofort sperren" Click="LockNow_Click" Background="#EF4444" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="6" Height="36"/>
         </StackPanel>
     </Grid>
 </Page>

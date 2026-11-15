@@ -326,7 +326,7 @@ namespace LearnLock_App.Views
             if (!string.IsNullOrEmpty(_currentTask.CustomQuestion))
             {
                 EquationText.Text = _currentTask.CustomQuestion;
-                EquationText.FontSize = 18;
+                EquationText.FontSize = _currentTask.CustomQuestion.Length > 60 ? 15 : 18;
                 AnswerInput.Visibility = Visibility.Collapsed;
                 OptionsPanel.Children.Clear();
                 OptionsPanel.Visibility = Visibility.Visible;
@@ -339,7 +339,8 @@ namespace LearnLock_App.Views
                         Content = choices[i],
                         Tag = i,
                         Foreground = new SolidColorBrush(Colors.White),
-                        FontSize = 14
+                        FontSize = 14,
+                        Margin = new Thickness(0, 2, 0, 2)
                     };
                     OptionsPanel.Children.Add(rb);
                 }
@@ -467,20 +468,10 @@ namespace LearnLock_App.Views
             {
                 _isUnlocked = true;
 
-                int unlockReward = 15 * 60;
-                try
-                {
-                    var children = await _authService.GetChildrenAsync();
-                    var child = children.Find(c => c.Id == _child.Id);
-                    if (child != null)
-                    {
-                        child.CurrentTimeBalanceSeconds += unlockReward;
-                        await _authService.UpdateChildAsync(child);
-                    }
-                    _timerService.Start(_child.Id, _child.CurrentTimeBalanceSeconds + unlockReward);
-                }
-                catch { }
+                // Stop child timer so parent can freely configure settings
+                _timerService.Stop();
 
+                // Open Parent Dashboard directly
                 App.MainWindowInstance?.ShowAndNavigate(typeof(ParentView));
                 this.Close();
             }

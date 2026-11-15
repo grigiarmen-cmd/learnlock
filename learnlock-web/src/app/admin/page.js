@@ -104,6 +104,35 @@ export default function AdminPage() {
     }
   };
 
+  // Ban or Unban User
+  const handleToggleBan = async (userEmail, isCurrentlyBanned) => {
+    const actionName = isCurrentlyBanned ? "entsperren" : "bannen";
+    if (!confirm(`Möchtest du ${userEmail} wirklich ${actionName}?`)) return;
+
+    try {
+      const res = await fetch("/api/admin-control", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "toggle_ban_user",
+          email: userEmail,
+          isBanned: !isCurrentlyBanned,
+          masterPassword: password,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUsers((prev) =>
+          prev.map((u) =>
+            u.email === userEmail ? { ...u, tier: !isCurrentlyBanned ? "Banned" : "Free" } : u
+          )
+        );
+      }
+    } catch (err) {
+      alert("Fehler beim Bannen: " + err.message);
+    }
+  };
+
   // Send Direct Email via Resend
   const handleSendEmail = async (e) => {
     e.preventDefault();
@@ -294,6 +323,12 @@ export default function AdminPage() {
                       </div>
 
                       <div className="flex items-center gap-2">
+                        {u.tier === "Banned" ? (
+                          <span className="px-2.5 py-1 bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold rounded-lg">
+                            🚫 GEBANNT
+                          </span>
+                        ) : null}
+
                         <button
                           onClick={() => handleUpdatePlan(u.email, "Ultra")}
                           className="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-lg transition shadow"
@@ -305,6 +340,16 @@ export default function AdminPage() {
                           className="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-semibold rounded-lg transition"
                         >
                           ❌ Free
+                        </button>
+                        <button
+                          onClick={() => handleToggleBan(u.email, u.tier === "Banned")}
+                          className={`px-3 py-1.5 text-xs font-bold rounded-lg transition ${
+                            u.tier === "Banned"
+                              ? "bg-emerald-600 hover:bg-emerald-500 text-white"
+                              : "bg-red-600 hover:bg-red-500 text-white"
+                          }`}
+                        >
+                          {u.tier === "Banned" ? "Entbannen" : "🚫 Bann"}
                         </button>
                         <button
                           onClick={() => {
@@ -387,22 +432,30 @@ export default function AdminPage() {
                   className="w-full mb-3 px-3.5 py-2.5 bg-slate-800/80 border border-slate-700 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500"
                 />
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     onClick={() => {
                       if (overrideEmail) handleUpdatePlan(overrideEmail, "Ultra");
                     }}
                     className="py-2.5 bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs rounded-xl transition"
                   >
-                    👑 Lifetime zuweisen
+                    👑 Lifetime
                   </button>
                   <button
                     onClick={() => {
                       if (overrideEmail) handleUpdatePlan(overrideEmail, "Free");
                     }}
+                    className="py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs rounded-xl transition"
+                  >
+                    ❌ Free
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (overrideEmail) handleToggleBan(overrideEmail, false);
+                    }}
                     className="py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl transition"
                   >
-                    ❌ Free zurücksetzen
+                    🚫 Bannen
                   </button>
                 </div>
               </div>

@@ -56,15 +56,16 @@
             <Border BorderThickness="1" 
                     BorderBrush="#252525" 
                     Background="#161616" 
-                    CornerRadius="12" 
-                    Padding="20" 
-                    Width="380"
+                    CornerRadius="16" 
+                    Padding="24" 
+                    Width="540"
+                    MaxWidth="600"
                     HorizontalAlignment="Center">
-                <StackPanel Spacing="14">
+                <StackPanel Spacing="16">
                     
                     <TextBlock x:Name="SubjectLabel" 
                                Text="FACH: MATHEMATIK" 
-                               FontSize="10" 
+                               FontSize="11" 
                                FontWeight="Bold" 
                                Foreground="#F97316" 
                                HorizontalAlignment="Center" 
@@ -72,9 +73,12 @@
 
                     <TextBlock x:Name="EquationText" 
                                Text="8 + 4 = ?" 
-                               FontSize="28" 
+                               FontSize="20" 
                                FontWeight="Bold" 
                                HorizontalAlignment="Center" 
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"
+                               MaxWidth="490"
                                Foreground="#2D3748"/>
 
                     <!-- Options list for Multiple Choice general knowledge -->
@@ -194,11 +198,11 @@
                                  Height="36"
                                  CornerRadius="6"/>
                     <Button Grid.Column="1" 
-                            Content="Entsperren" 
+                            Content="Dashboard öffnen" 
                             Click="ParentUnlock_Click"
-                            Background="Transparent"
-                            BorderBrush="#444444"
-                            Foreground="#2D3748"
+                            Background="#F97316"
+                            Foreground="#FFFFFF"
+                            FontWeight="Bold"
                             Height="36"
                             CornerRadius="6"/>
                 </Grid>

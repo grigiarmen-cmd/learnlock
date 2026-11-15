@@ -22,6 +22,7 @@ namespace LearnLock.Core.Models
         Free,
         Basic,
         Pro,
-        Ultra
+        Ultra,
+        Banned
     }
 }

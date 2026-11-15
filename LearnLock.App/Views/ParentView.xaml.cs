@@ -67,13 +67,31 @@ namespace LearnLock_App.Views
                     if (doc.RootElement.TryGetProperty("tier", out var tierProp))
                     {
                         string remoteTierStr = tierProp.GetString() ?? "Free";
+                        bool isBanned = doc.RootElement.TryGetProperty("isBanned", out var bProp) && bProp.GetBoolean();
+                        if (remoteTierStr.Equals("Banned", StringComparison.OrdinalIgnoreCase) || isBanned)
+                        {
+                            remoteTierStr = "Banned";
+                        }
+
                         SubscriptionTier remoteTier = remoteTierStr switch
                         {
+                            "Banned" => SubscriptionTier.Banned,
                             "Ultra" or "Lifetime" => SubscriptionTier.Ultra,
                             "Pro" or "Yearly" => SubscriptionTier.Pro,
                             "Basic" => SubscriptionTier.Basic,
                             _ => SubscriptionTier.Free
                         };
+
+                        if (remoteTier == SubscriptionTier.Banned)
+                        {
+                            parent.IsBanned = true;
+                            parent.Tier = SubscriptionTier.Banned;
+                            await _authService.UpdateParentProfileAsync(parent);
+                            // Enforce lockout on banned account
+                            _liveSyncTimer?.Stop();
+                            App.MainWindowInstance?.ShowAndNavigate(typeof(LoginView));
+                            return;
+                        }
 
                         if (parent.Tier != remoteTier)
                         {
