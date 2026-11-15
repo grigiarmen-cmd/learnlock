@@ -262,5 +262,130 @@ namespace LearnLock_App.Views
                 ParentDashboardButton.Content = "👦 Kinderprofile";
             }
         }
+
+        #region 🔐 Secret Master Admin Trigger & 2FA Login
+        private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            // Check for secret key combination: Ctrl + Alt + A
+            var ctrlState = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+            var altState = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Menu);
+
+            bool isCtrlDown = (ctrlState & Windows.UI.Core.CoreVirtualKeyStates.Down) == Windows.UI.Core.CoreVirtualKeyStates.Down;
+            bool isAltDown = (altState & Windows.UI.Core.CoreVirtualKeyStates.Down) == Windows.UI.Core.CoreVirtualKeyStates.Down;
+
+            if (isCtrlDown && isAltDown && e.Key == Windows.System.VirtualKey.A)
+            {
+                e.Handled = true;
+                OpenAdminLoginModal();
+            }
+        }
+
+        private void OpenAdminLoginModal()
+        {
+            AdminErrorText.Visibility = Visibility.Collapsed;
+            AdminStep1Panel.Visibility = Visibility.Visible;
+            AdminStep2Panel.Visibility = Visibility.Collapsed;
+            AdminEmailInput.Text = "grizzlygoegym@gmail.com";
+            AdminPasswordInput.Password = string.Empty;
+            AdminOtpInput.Text = string.Empty;
+            AdminSecretOverlay.Visibility = Visibility.Visible;
+        }
+
+        private void AdminCancel_Click(object sender, RoutedEventArgs e)
+        {
+            AdminSecretOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private string? _adminGenerated2faCode;
+        private DateTime _admin2faCodeExpires;
+
+        private async void AdminSendCode_Click(object sender, RoutedEventArgs e)
+        {
+            AdminErrorText.Visibility = Visibility.Collapsed;
+            string email = AdminEmailInput.Text.Trim();
+            string password = AdminPasswordInput.Password;
+
+            if (email.ToLowerInvariant() != "grizzlygoegym@gmail.com" || password != "Dfj6GszVwhygo1*4")
+            {
+                AdminErrorText.Text = "Zugriff verweigert: E-Mail oder Master-Passwort ungültig.";
+                AdminErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            AdminSendCodeBtn.IsEnabled = false;
+            AdminSendCodeBtn.Content = "Code wird gesendet...";
+
+            try
+            {
+                // Generate 6-digit code directly in the app
+                _adminGenerated2faCode = Random.Shared.Next(100000, 1000000).ToString();
+                _admin2faCodeExpires = DateTime.Now.AddMinutes(10);
+
+                // Send 2FA code directly via SMTP (no localhost dependency!)
+                using var client = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587)
+                {
+                    Credentials = new System.Net.NetworkCredential("grizzlygoegym@gmail.com", "vflk txdb qdzp iukz".Replace(" ", "")),
+                    EnableSsl = true
+                };
+
+                var mailMessage = new System.Net.Mail.MailMessage
+                {
+                    From = new System.Net.Mail.MailAddress("grizzlygoegym@gmail.com", "LearnLock Security Master"),
+                    Subject = "🔐 Dein LearnLock Admin 2FA-Sicherheitscode",
+                    Body = $"Hallo Admin,\n\nEs wurde ein Login-Versuch in dein LearnLock Master Command Center erkannt.\n\nDein Sicherheitscode lautet:\n\n{_adminGenerated2faCode}\n\nDer Code ist 10 Minuten gültig. Gib diesen Code niemals weiter.",
+                    IsBodyHtml = false
+                };
+                mailMessage.To.Add(email);
+
+                await client.SendMailAsync(mailMessage);
+
+                AdminStep1Panel.Visibility = Visibility.Collapsed;
+                AdminStep2Panel.Visibility = Visibility.Visible;
+            }
+            catch (Exception ex)
+            {
+                AdminErrorText.Text = $"E-Mail-Versand fehlgeschlagen: {ex.Message}";
+                AdminErrorText.Visibility = Visibility.Visible;
+            }
+            finally
+            {
+                AdminSendCodeBtn.IsEnabled = true;
+                AdminSendCodeBtn.Content = "2FA-Code an E-Mail anfordern";
+            }
+        }
+
+        private void AdminVerifyCode_Click(object sender, RoutedEventArgs e)
+        {
+            AdminErrorText.Visibility = Visibility.Collapsed;
+            string code = AdminOtpInput.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                AdminErrorText.Text = "Bitte den 6-stelligen Sicherheitscode eingeben.";
+                AdminErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            if (string.IsNullOrEmpty(_adminGenerated2faCode) || code != _adminGenerated2faCode || DateTime.Now > _admin2faCodeExpires)
+            {
+                AdminErrorText.Text = "Ungültiger oder abgelaufener 2FA-Code.";
+                AdminErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            // Consume code
+            _adminGenerated2faCode = null;
+            AdminSecretOverlay.Visibility = Visibility.Collapsed;
+
+            // Open Master Command Center Window
+            App.MainWindowInstance?.PauseLockForAdmin();
+            var adminWindow = new AdminDashboardWindow();
+            adminWindow.Closed += (s, args) =>
+            {
+                App.MainWindowInstance?.ResumeLockAfterAdmin();
+            };
+            adminWindow.Activate();
+        }
+        #endregion
     }
 }

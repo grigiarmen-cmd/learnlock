@@ -31,6 +31,7 @@
                     <Button x:Name="TabChildren" Content="👦 Kinderprofile" Click="Tab_Click" Tag="Children" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
                     <Button x:Name="TabAppBlocker" Content="🚫 App-Sperre" Click="Tab_Click" Tag="AppBlocker" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
                     <Button x:Name="TabSettings" Content="⚙️ Einstellungen" Click="Tab_Click" Tag="Settings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
+                    <Button x:Name="TabAccount" Content="👤 Mein Konto" Click="Tab_Click" Tag="Account" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
                 </StackPanel>
 
                 <Button Grid.Row="2" Content="🚪 Abmelden" Click="Logout_Click" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="#E2E8F0" Foreground="#2D3748" CornerRadius="6"/>
@@ -556,7 +557,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Left Column: App Toggles -->
-                            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24" Shadow="{ThemeResource SharedShadow}">
+                            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24">
                                 <StackPanel Spacing="20">
                                     <StackPanel Spacing="4">
                                         <TextBlock Text="Aktive Programme" FontSize="18" FontWeight="Bold" Foreground="#1E293B"/>
@@ -737,7 +738,108 @@
                     <TextBlock x:Name="SettingsSuccessText" Text="Einstellungen erfolgreich gespeichert!" Foreground="#10B981" FontSize="12" Visibility="Collapsed" HorizontalAlignment="Center"/>
                 </StackPanel>
             </ScrollViewer>
+
+            <!-- 👤 Mein Konto Panel -->
+            <ScrollViewer x:Name="PanelAccount" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                <StackPanel Spacing="24" MaxWidth="600" HorizontalAlignment="Left" Padding="0,0,16,40">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Mein Konto &amp; Abonnement" FontSize="26" FontWeight="Bold" Foreground="#1E293B"/>
+                        <TextBlock Text="Verwalte deine E-Mail-Adresse, Lizenz und Zahlungsoptionen." FontSize="14" Foreground="#64748B"/>
+                    </StackPanel>
+
+                    <!-- Account Card -->
+                    <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="18" Padding="28">
+                        <StackPanel Spacing="20">
+                            <!-- Email row -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Registrierte Eltern-E-Mail" FontSize="12" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                    <TextBlock x:Name="AccountEmailText" Text="eltern@learnlock.local" FontSize="16" FontWeight="Bold" Foreground="#1E293B"/>
+                                </StackPanel>
+                                <Border Grid.Column="1" Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="12" Padding="10,4">
+                                    <TextBlock Text="Aktiv" FontSize="12" FontWeight="Bold" Foreground="#10B981"/>
+                                </Border>
+                            </Grid>
+
+                            <Border Height="1" Background="#F1F5F9"/>
+
+                            <!-- Current Plan Row -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="2">
+                                    <TextBlock Text="Aktueller Plan" FontSize="12" FontWeight="SemiBold" Foreground="#94A3B8"/>
+                                    <TextBlock x:Name="AccountPlanText" Text="Free Tier (1 Kind / 1 Fach)" FontSize="18" FontWeight="Bold" Foreground="#F97316"/>
+                                </StackPanel>
+                                <Button Content="Plan upgraden" Click="UpgradeAccountPlan_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="16" Height="36" Padding="16,0" Grid.Column="1"/>
+                            </Grid>
+
+                            <Border Height="1" Background="#F1F5F9"/>
+
+                            <!-- Actions & Cancel -->
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Abo-Verwaltung &amp; Kündigung" FontSize="13" FontWeight="Bold" Foreground="#1E293B"/>
+                                <TextBlock Text="Du kannst dein Jahresabonnement jederzeit mit einem Klick kündigen oder deine Zahlungsmethode anpassen." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
+                                <Button Content="💳 Abo bei Stripe kündigen / verwalten" Click="CancelStripeSubscription_Click" Background="#F1F5F9" Foreground="#334155" BorderBrush="#CBD5E1" BorderThickness="1" FontWeight="SemiBold" CornerRadius="16" Height="40" Padding="18,0" HorizontalAlignment="Left" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
             </Grid>
+        </Grid>
+
+        <!-- 🎉 Epic Celebration & Unlock Modal Overlay -->
+        <Grid x:Name="UnlockCelebrationOverlay" Visibility="Collapsed" Background="#B3050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="40" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="24" HorizontalAlignment="Center">
+                    <!-- Icon / Badge -->
+                    <Border Background="#FEF3C7" CornerRadius="50" Width="96" Height="96" HorizontalAlignment="Center">
+                        <TextBlock Text="👑" FontSize="48" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <!-- Headline & Subtitle -->
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <TextBlock x:Name="CelebrationPlanTitle" Text="🎉 Lifetime Unlimited freigeschaltet!" FontSize="24" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Herzlichen Glückwunsch! Du hast nun uneingeschränkten Vollzugriff." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Unlocked Features List -->
+                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="20">
+                        <StackPanel Spacing="14">
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Unbegrenzte Kinderprofile anlegen" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Alle Schulfächer freigeschaltet (Mathe, Deutsch, Englisch...)" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="App- &amp; Webblocker mit Aegis 30+ Schutz aktiviert" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock Text="Locky KI Lern-Tutor unbegrenzt nutzbar" FontSize="14" FontWeight="SemiBold" Foreground="#1E293B"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Spacing="12">
+                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
+                                <TextBlock x:Name="CelebrationDurationText" Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="14" FontWeight="Bold" Foreground="#F97316"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Close Button -->
+                    <Button Content="🚀 Jetzt loslegen &amp; Dashboard entdecken" Click="CloseCelebration_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" FontSize="16" Height="50" CornerRadius="25" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </Page>

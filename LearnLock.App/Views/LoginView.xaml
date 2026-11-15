@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     RequestedTheme="Light"
-    Background="#FDFBF7">
+    Background="#FDFBF7"
+    KeyDown="Page_KeyDown">
 
     <Grid Padding="40">
         <Grid.RowDefinitions>
@@ -92,6 +93,36 @@
         <!-- Bottom Actions -->
         <Grid Grid.Row="2">
             <Button x:Name="ParentDashboardButton" Content="⚙️ Elternbereich" Background="Transparent" Foreground="#718096" BorderThickness="0" Click="ToggleParentDashboard_Click" HorizontalAlignment="Right"/>
+        </Grid>
+
+        <!-- 🔐 Secret Master Admin 2FA Login Modal (Triggered by Ctrl+Alt+A) -->
+        <Grid x:Name="AdminSecretOverlay" Grid.RowSpan="3" Visibility="Collapsed" Background="#D9050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="#0F172A" BorderBrush="#334155" BorderThickness="1" CornerRadius="24" Padding="36" Width="440" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="20">
+                    <StackPanel Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="🔒 Master Control System" FontSize="20" FontWeight="Bold" Foreground="#F8FAFC" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Zwei-Faktor-Authentifizierung erforderlich" FontSize="12" Foreground="#94A3B8" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Step 1: Email & Master Password -->
+                    <StackPanel x:Name="AdminStep1Panel" Spacing="12">
+                        <TextBox x:Name="AdminEmailInput" Header="Admin E-Mail" PlaceholderText="admin@domain.com" Background="#1E293B" BorderBrush="#334155" Foreground="#F8FAFC" Height="60"/>
+                        <PasswordBox x:Name="AdminPasswordInput" Header="Master-Passwort" PlaceholderText="••••••••" Background="#1E293B" BorderBrush="#334155" Foreground="#F8FAFC" Height="60"/>
+                        <Button x:Name="AdminSendCodeBtn" Content="2FA-Code an E-Mail anfordern" Click="AdminSendCode_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" Height="42" CornerRadius="21" HorizontalAlignment="Stretch" Margin="0,8,0,0"/>
+                    </StackPanel>
+
+                    <!-- Step 2: 2FA OTP Code Verification -->
+                    <StackPanel x:Name="AdminStep2Panel" Spacing="12" Visibility="Collapsed">
+                        <TextBlock Text="Sicherheitscode wurde an deine E-Mail gesendet!" FontSize="12" Foreground="#38BDF8" TextWrapping="Wrap"/>
+                        <TextBox x:Name="AdminOtpInput" Header="6-stelliger Sicherheitscode" PlaceholderText="z.B. 123456" Background="#1E293B" BorderBrush="#334155" Foreground="#F8FAFC" Height="60"/>
+                        <Button x:Name="AdminVerifyCodeBtn" Content="Code bestätigen &amp; Einloggen" Click="AdminVerifyCode_Click" Background="#10B981" Foreground="#FFFFFF" FontWeight="Bold" Height="42" CornerRadius="21" HorizontalAlignment="Stretch" Margin="0,8,0,0"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="AdminErrorText" Foreground="#EF4444" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Center" Visibility="Collapsed"/>
+
+                    <Button Content="Abbrechen" Click="AdminCancel_Click" Background="Transparent" Foreground="#64748B" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
         </Grid>
     </Grid>
 </Page>

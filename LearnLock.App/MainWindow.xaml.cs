@@ -176,6 +176,21 @@ namespace LearnLock_App
             }
         }
 
+        public void PauseLockForAdmin()
+        {
+            _lockTimer.Stop();
+            var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            SetWindowPos(hWnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+        }
+
+        public void ResumeLockAfterAdmin()
+        {
+            if (RootFrame.CurrentSourcePageType == typeof(LoginView))
+            {
+                _lockTimer.Start();
+            }
+        }
+
         public void HideWindow()
         {
             _lockTimer.Stop();

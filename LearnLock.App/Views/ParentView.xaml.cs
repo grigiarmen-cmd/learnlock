@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Text.Json;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -94,6 +96,11 @@ namespace LearnLock_App.Views
                 TabAppBlocker.Background = unselectedBackground;
                 TabSettings.Foreground = unselectedForeground;
                 TabSettings.Background = unselectedBackground;
+                if (TabAccount != null)
+                {
+                    TabAccount.Foreground = unselectedForeground;
+                    TabAccount.Background = unselectedBackground;
+                }
 
                 // Set selected button style (Consistent with Light Theme)
                 btn.Foreground = new SolidColorBrush(ColorHelper.ToColor("#2D3748"));
@@ -104,6 +111,7 @@ namespace LearnLock_App.Views
                 PanelChildren.Visibility = tabName == "Children" ? Visibility.Visible : Visibility.Collapsed;
                 PanelAppBlocker.Visibility = tabName == "AppBlocker" ? Visibility.Visible : Visibility.Collapsed;
                 PanelSettings.Visibility = tabName == "Settings" ? Visibility.Visible : Visibility.Collapsed;
+                if (PanelAccount != null) PanelAccount.Visibility = tabName == "Account" ? Visibility.Visible : Visibility.Collapsed;
 
                 if (tabName == "AppBlocker")
                 {
@@ -125,13 +133,34 @@ namespace LearnLock_App.Views
             }
         }
 
-        private async void LoadChildrenProfiles()
+        private void LoadChildrenProfiles()
+        {
+            _ = LoadChildrenProfilesAsync();
+        }
+
+        private async Task LoadChildrenProfilesAsync()
         {
             try
             {
                 _children = await _authService.GetChildrenAsync();
                 ChildrenItemsControl.ItemsSource = null;
                 ChildrenItemsControl.ItemsSource = _children;
+                if (DashboardChildrenList != null) DashboardChildrenList.ItemsSource = _children;
+
+                var parent = await _authService.GetParentProfileAsync();
+                var tier = parent?.Tier ?? SubscriptionTier.Free;
+                int childCount = _children.Count;
+                int maxChildren = tier switch {
+                    SubscriptionTier.Free => 1,
+                    SubscriptionTier.Basic => 2,
+                    SubscriptionTier.Pro => 5,
+                    SubscriptionTier.Ultra => 10,
+                    _ => 1
+                };
+
+                bool canAdd = childCount < maxChildren;
+                if (AddProfileHeaderBtn != null) AddProfileHeaderBtn.Visibility = canAdd ? Visibility.Visible : Visibility.Collapsed;
+                if (AddProfileDashboardBtn != null) AddProfileDashboardBtn.Visibility = canAdd ? Visibility.Visible : Visibility.Collapsed;
             }
             catch { }
         }
@@ -248,12 +277,60 @@ namespace LearnLock_App.Views
                     AIToggle.IsOn = parent.IsAIAssistantEnabled;
                     AutoStartToggle.IsOn = StartupHelper.IsAutoStartEnabled();
                     
+                    // Sync live license from Cloud Admin API
+                    try
+                    {
+                        if (!string.IsNullOrWhiteSpace(parent.Email))
+                        {
+                            using var syncClient = new HttpClient { Timeout = TimeSpan.FromSeconds(3) };
+                            var syncRes = await syncClient.GetAsync($"http://localhost:3000/api/admin-control?email={Uri.EscapeDataString(parent.Email)}");
+                            if (syncRes.IsSuccessStatusCode)
+                            {
+                                var jsonDoc = JsonDocument.Parse(await syncRes.Content.ReadAsStringAsync());
+                                if (jsonDoc.RootElement.TryGetProperty("tier", out var cloudTier))
+                                {
+                                    string tierStr = cloudTier.GetString() ?? "Free";
+                                    var parsedTier = tierStr switch {
+                                        "Ultra" or "Lifetime" => SubscriptionTier.Ultra,
+                                        "Pro" => SubscriptionTier.Pro,
+                                        "Basic" => SubscriptionTier.Basic,
+                                        _ => SubscriptionTier.Free
+                                    };
+
+                                    if (parent.Tier != parsedTier)
+                                    {
+                                        parent.Tier = parsedTier;
+                                        await _authService.UpdateParentProfileAsync(parent);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    catch { }
+
                     // Check if subscription has expired
                     if (parent.Tier != SubscriptionTier.Free && parent.SubscriptionExpiration.HasValue && parent.SubscriptionExpiration.Value < DateTime.Now)
                     {
                         parent.Tier = SubscriptionTier.Free;
                         parent.SubscriptionExpiration = null;
                         await _authService.UpdateParentProfileAsync(parent);
+                    }
+
+                    // Update Account Tab Info
+                    if (AccountEmailText != null) AccountEmailText.Text = string.IsNullOrEmpty(parent.Email) ? "Keine E-Mail hinterlegt" : parent.Email;
+                    if (AccountPlanText != null)
+                    {
+                        AccountPlanText.Text = parent.Tier switch {
+                            SubscriptionTier.Ultra => "👑 Lifetime Unlimited (Vollzugriff)",
+                            SubscriptionTier.Pro => "⭐ LearnLock Pro (Jahresabo)",
+                            SubscriptionTier.Basic => "LearnLock Basic",
+                            _ => "Free Tier (1 Kind / 1 Fach)"
+                        };
+                        AccountPlanText.Foreground = parent.Tier switch {
+                            SubscriptionTier.Ultra => new SolidColorBrush(ColorHelper.ToColor("#F97316")),
+                            SubscriptionTier.Pro => new SolidColorBrush(ColorHelper.ToColor("#3B82F6")),
+                            _ => new SolidColorBrush(ColorHelper.ToColor("#64748B"))
+                        };
                     }
 
                     // Check limits to disable add profile button
@@ -279,8 +356,25 @@ namespace LearnLock_App.Views
             catch { }
         }
 
-        private void CreateChildButton_Click(object sender, RoutedEventArgs e)
+        private async void CreateChildButton_Click(object sender, RoutedEventArgs e)
         {
+            var parent = await _authService.GetParentProfileAsync();
+            var tier = parent?.Tier ?? SubscriptionTier.Free;
+            int childCount = _children.Count;
+            int maxChildren = tier switch {
+                SubscriptionTier.Free => 1,
+                SubscriptionTier.Basic => 2,
+                SubscriptionTier.Pro => 5,
+                SubscriptionTier.Ultra => 10,
+                _ => 1
+            };
+
+            if (childCount >= maxChildren)
+            {
+                Tab_Click(new Button { Tag = "Settings" }, new RoutedEventArgs());
+                return;
+            }
+
             _editingChildId = null;
             if (CreateChildTitle != null) CreateChildTitle.Text = "Neues Profil einrichten";
             if (SubjectsPanel != null)
@@ -704,9 +798,23 @@ namespace LearnLock_App.Views
                     StripeWaitingPanel.Visibility = Visibility.Collapsed;
                     if (parent != null)
                     {
-                        parent.Tier = SubscriptionTier.Ultra; // Unlock all features
-                        parent.SubscriptionExpiration = selectedPlan == "Ultra" ? DateTime.Now.AddYears(100) : DateTime.Now.AddYears(1);
+                        bool isUltra = selectedPlan.Equals("Ultra", StringComparison.OrdinalIgnoreCase);
+                        parent.Tier = isUltra ? SubscriptionTier.Ultra : SubscriptionTier.Pro;
+                        parent.SubscriptionExpiration = isUltra ? DateTime.Now.AddYears(100) : DateTime.Now.AddYears(1);
                         await _authService.UpdateParentProfileAsync(parent);
+
+                        // Refresh parent settings & children UI immediately
+                        LoadParentSettings();
+                        _ = LoadChildrenProfilesAsync();
+
+                        // Show epic celebration modal with unlocked perks
+                        CelebrationPlanTitle.Text = isUltra 
+                            ? "🎉 Lifetime Unlimited freigeschaltet!" 
+                            : "🎉 LearnLock Pro freigeschaltet!";
+                        CelebrationDurationText.Text = isUltra 
+                            ? "Lebenslanger Zugriff ohne Verlängerung" 
+                            : "1 Jahr voller Zugriff auf alle Premium-Features";
+                        UnlockCelebrationOverlay.Visibility = Visibility.Visible;
                     }
                 }
                 else
@@ -715,11 +823,37 @@ namespace LearnLock_App.Views
                     StripeCheckoutButton.IsEnabled = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
                 StripeWaitingPanel.Visibility = Visibility.Collapsed;
                 StripeCheckoutButton.IsEnabled = true;
+                System.Diagnostics.Debug.WriteLine($"[Stripe Checkout Error] {ex}");
             }
+        }
+
+        private void CloseCelebration_Click(object sender, RoutedEventArgs e)
+        {
+            UnlockCelebrationOverlay.Visibility = Visibility.Collapsed;
+            // Switch tab to Dashboard
+            Tab_Click(new Button { Tag = "Dashboard" }, new RoutedEventArgs());
+        }
+
+        private void UpgradeAccountPlan_Click(object sender, RoutedEventArgs e)
+        {
+            Tab_Click(new Button { Tag = "Settings" }, new RoutedEventArgs());
+        }
+
+        private void CancelStripeSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Open Stripe customer portal or email support for instant cancellation
+                Process.Start(new ProcessStartInfo { 
+                    FileName = "https://billing.stripe.com/p/login/test", 
+                    UseShellExecute = true 
+                });
+            }
+            catch { }
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)
