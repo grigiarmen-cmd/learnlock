@@ -866,6 +866,32 @@
                 </StackPanel>
             </Border>
         </Grid>
+
+        <!-- ℹ️ Plan Downgraded / Reset to Free Overlay Modal -->
+        <Grid x:Name="PlanDowngradeOverlay" Visibility="Collapsed" Background="#B3050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" MaxWidth="480" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel Spacing="22" HorizontalAlignment="Center">
+                    <Border Background="#EFF6FF" CornerRadius="50" Width="80" Height="80" HorizontalAlignment="Center">
+                        <TextBlock Text="🔒" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+
+                    <StackPanel Spacing="6" HorizontalAlignment="Center">
+                        <TextBlock Text="Konto-Status aktualisiert" FontSize="22" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Dein Plan wurde auf den kostenlosen Basis-Plan angepasst." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                    </StackPanel>
+
+                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="18">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="• Aktiver Plan: Kostenloses Free-Tier" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
+                            <TextBlock Text="• 1 Kinderprofil &amp; Basis-Lernfächer nutzbar" FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="• Du kannst jederzeit wieder auf Lifetime oder Pro upgraden." FontSize="13" Foreground="#64748B"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Content="Alles klar, verstanden" Click="CloseDowngradeModal_Click" Background="#2563EB" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="23" HorizontalAlignment="Stretch"/>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Page>
 

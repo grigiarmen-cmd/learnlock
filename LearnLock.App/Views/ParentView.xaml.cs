@@ -26,6 +26,8 @@ namespace LearnLock_App.Views
         private string _selectedPlanForCheckout = "Basic";
         private int? _editingChildId = null;
         private string? _pendingUpdateUrl = null;
+        private DispatcherTimer? _liveSyncTimer;
+        private static readonly HttpClient _syncClient = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
 
         public ParentView()
         {
@@ -38,6 +40,81 @@ namespace LearnLock_App.Views
             LoadChildrenProfiles();
             
             CheckForUpdatesAsync();
+            StartLivePlanSync();
+        }
+
+        private void StartLivePlanSync()
+        {
+            _liveSyncTimer = new DispatcherTimer();
+            _liveSyncTimer.Interval = TimeSpan.FromSeconds(5); // poll every 5 seconds for instant admin triggers
+            _liveSyncTimer.Tick += async (s, e) => await CheckLivePlanSyncAsync();
+            _liveSyncTimer.Start();
+        }
+
+        private async Task CheckLivePlanSyncAsync()
+        {
+            try
+            {
+                var parent = await _authService.GetParentProfileAsync();
+                if (parent == null || string.IsNullOrWhiteSpace(parent.Email)) return;
+
+                string url = $"https://learnlock.vercel.app/api/admin-control?email={Uri.EscapeDataString(parent.Email.Trim())}";
+                var res = await _syncClient.GetAsync(url);
+                if (res.IsSuccessStatusCode)
+                {
+                    var json = await res.Content.ReadAsStringAsync();
+                    using var doc = JsonDocument.Parse(json);
+                    if (doc.RootElement.TryGetProperty("tier", out var tierProp))
+                    {
+                        string remoteTierStr = tierProp.GetString() ?? "Free";
+                        SubscriptionTier remoteTier = remoteTierStr switch
+                        {
+                            "Ultra" or "Lifetime" => SubscriptionTier.Ultra,
+                            "Pro" or "Yearly" => SubscriptionTier.Pro,
+                            "Basic" => SubscriptionTier.Basic,
+                            _ => SubscriptionTier.Free
+                        };
+
+                        if (parent.Tier != remoteTier)
+                        {
+                            var oldTier = parent.Tier;
+                            parent.Tier = remoteTier;
+                            if (remoteTier == SubscriptionTier.Ultra)
+                            {
+                                parent.SubscriptionExpiration = DateTime.Now.AddYears(100);
+                            }
+                            else if (remoteTier == SubscriptionTier.Free)
+                            {
+                                parent.SubscriptionExpiration = null;
+                            }
+                            await _authService.UpdateParentProfileAsync(parent);
+
+                            // Refresh UI
+                            LoadParentSettings();
+                            _ = LoadChildrenProfilesAsync();
+
+                            // Trigger corresponding animation / popup modal!
+                            if (remoteTier == SubscriptionTier.Ultra || remoteTier == SubscriptionTier.Pro)
+                            {
+                                CelebrationPlanTitle.Text = remoteTier == SubscriptionTier.Ultra 
+                                    ? "🎉 Lifetime Unlimited freigeschaltet!" 
+                                    : "🎉 LearnLock Pro freigeschaltet!";
+                                CelebrationDurationText.Text = remoteTier == SubscriptionTier.Ultra 
+                                    ? "Lebenslanger Zugriff ohne Verlängerung" 
+                                    : "1 Jahr voller Zugriff auf alle Premium-Features";
+                                PlanDowngradeOverlay.Visibility = Visibility.Collapsed;
+                                UnlockCelebrationOverlay.Visibility = Visibility.Visible;
+                            }
+                            else if (remoteTier == SubscriptionTier.Free)
+                            {
+                                UnlockCelebrationOverlay.Visibility = Visibility.Collapsed;
+                                PlanDowngradeOverlay.Visibility = Visibility.Visible;
+                            }
+                        }
+                    }
+                }
+            }
+            catch { }
         }
 
         private async void CheckForUpdatesAsync()
@@ -836,6 +913,11 @@ namespace LearnLock_App.Views
             UnlockCelebrationOverlay.Visibility = Visibility.Collapsed;
             // Switch tab to Dashboard
             Tab_Click(new Button { Tag = "Dashboard" }, new RoutedEventArgs());
+        }
+
+        private void CloseDowngradeModal_Click(object sender, RoutedEventArgs e)
+        {
+            PlanDowngradeOverlay.Visibility = Visibility.Collapsed;
         }
 
         private void UpgradeAccountPlan_Click(object sender, RoutedEventArgs e)
