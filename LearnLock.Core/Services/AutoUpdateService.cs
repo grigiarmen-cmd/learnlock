@@ -33,55 +33,39 @@ namespace LearnLock.Core.Services
         {
             try
             {
-                string apiUrl = $"https://api.github.com/repos/{GitHubOwner}/{GitHubRepo}/releases/latest";
-                var response = await _httpClient.GetAsync(apiUrl);
-                if (!response.IsSuccessStatusCode) return null;
-
-                string json = await response.Content.ReadAsStringAsync();
-                using var doc = JsonDocument.Parse(json);
-                var root = doc.RootElement;
-
-                if (!root.TryGetProperty("tag_name", out var tagProp)) return null;
-                string latestTag = tagProp.GetString() ?? "";
-
-                if (string.IsNullOrWhiteSpace(latestTag) || latestTag.Equals(currentVersion, StringComparison.OrdinalIgnoreCase))
+                // Primary source: Central LearnLock Web API (safe from GitHub bans)
+                string centralApiUrl = "https://learnlock-rho.vercel.app/api/version";
+                var response = await _httpClient.GetAsync(centralApiUrl);
+                if (response.IsSuccessStatusCode)
                 {
-                    return null;
-                }
+                    string json = await response.Content.ReadAsStringAsync();
+                    using var doc = JsonDocument.Parse(json);
+                    var root = doc.RootElement;
 
-                if (!root.TryGetProperty("assets", out var assetsProp) || assetsProp.ValueKind != JsonValueKind.Array)
-                {
-                    return null;
-                }
-
-                string downloadUrl = "";
-                foreach (var asset in assetsProp.EnumerateArray())
-                {
-                    if (asset.TryGetProperty("name", out var nameProp) && 
-                        asset.TryGetProperty("browser_download_url", out var urlProp))
+                    if (root.TryGetProperty("latestVersion", out var verProp))
                     {
-                        string name = nameProp.GetString() ?? "";
-                        if (name.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                        string latestVer = verProp.GetString() ?? "";
+                        if (!string.IsNullOrWhiteSpace(latestVer) && !latestVer.Equals(currentVersion, StringComparison.OrdinalIgnoreCase))
                         {
-                            downloadUrl = urlProp.GetString() ?? "";
-                            break;
+                            string downloadUrl = root.TryGetProperty("downloadUrl", out var dlProp) ? dlProp.GetString() ?? "" : "";
+                            string notes = root.TryGetProperty("releaseNotes", out var nProp) ? nProp.GetString() ?? "" : "";
+
+                            if (!string.IsNullOrEmpty(downloadUrl))
+                            {
+                                return new UpdateInfo
+                                {
+                                    version = latestVer,
+                                    url = downloadUrl,
+                                    releaseNotes = notes
+                                };
+                            }
                         }
                     }
-                }
-
-                if (!string.IsNullOrEmpty(downloadUrl))
-                {
-                    return new UpdateInfo
-                    {
-                        version = latestTag,
-                        url = downloadUrl,
-                        releaseNotes = root.TryGetProperty("body", out var b) ? b.GetString() ?? "" : ""
-                    };
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Failed to check for updates: {ex.Message}");
+                Debug.WriteLine($"Failed to check for updates from web API: {ex.Message}");
             }
             return null;
         }

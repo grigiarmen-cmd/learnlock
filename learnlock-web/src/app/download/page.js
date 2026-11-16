@@ -17,10 +17,10 @@ export default function DownloadPage() {
       badge: "Empfohlen",
       version: "Windows 10 / 11 (64-bit)",
       icon: "⊞",
-      primaryDownload: "https://github.com/obamalikesahh/learnlock/releases/download/v2.4.0/LearnLock-Setup.exe",
+      primaryDownload: "https://drive.google.com/uc?export=download&id=1SbOZ9wmNcN6EhIcl3EsU-_TvL0BQTOUe",
       primaryLabel: "Setup Installer (.exe)",
-      secondaryDownload: "https://github.com/obamalikesahh/learnlock/releases/download/v2.4.0/LearnLock-Setup.exe",
-      secondaryLabel: "Direktdownload (CDN)",
+      secondaryDownload: "https://drive.google.com/file/d/1SbOZ9wmNcN6EhIcl3EsU-_TvL0BQTOUe/view?usp=sharing",
+      secondaryLabel: "Google Drive Mirror",
       note: "Inklusive UAC Admin-Schutz & automatischer Multi-User Windows Synchronisierung."
     },
     {
