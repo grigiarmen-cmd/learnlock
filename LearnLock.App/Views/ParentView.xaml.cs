@@ -179,27 +179,25 @@ namespace LearnLock_App.Views
         {
             if (sender is Button btn && btn.Tag is string tabName)
             {
-                // Reset sidebar buttons styles
-                var unselectedForeground = new SolidColorBrush(ColorHelper.ToColor("#718096"));
+                // Reset sidebar buttons styles to sleek dark theme
+                var unselectedForeground = new SolidColorBrush(ColorHelper.ToColor("#94A3B8"));
                 var unselectedBackground = new SolidColorBrush(Colors.Transparent);
-                
-                TabDashboard.Foreground = unselectedForeground;
-                TabDashboard.Background = unselectedBackground;
-                TabChildren.Foreground = unselectedForeground;
-                TabChildren.Background = unselectedBackground;
-                TabAppBlocker.Foreground = unselectedForeground;
-                TabAppBlocker.Background = unselectedBackground;
-                TabSettings.Foreground = unselectedForeground;
-                TabSettings.Background = unselectedBackground;
-                if (TabAccount != null)
+                var unselectedBorder = new SolidColorBrush(Colors.Transparent);
+
+                foreach (var b in new[] { TabDashboard, TabChildren, TabAppBlocker, TabSettings, TabAccount })
                 {
-                    TabAccount.Foreground = unselectedForeground;
-                    TabAccount.Background = unselectedBackground;
+                    if (b != null)
+                    {
+                        b.Foreground = unselectedForeground;
+                        b.Background = unselectedBackground;
+                        b.BorderBrush = unselectedBorder;
+                    }
                 }
 
-                // Set selected button style (Consistent with Light Theme)
-                btn.Foreground = new SolidColorBrush(ColorHelper.ToColor("#2D3748"));
-                btn.Background = new SolidColorBrush(Colors.White);
+                // Highlight active button with glowing electric blue glass
+                btn.Foreground = new SolidColorBrush(Colors.White);
+                btn.Background = new SolidColorBrush(ColorHelper.ToColor("#0284C7"));
+                btn.BorderBrush = new SolidColorBrush(ColorHelper.ToColor("#38BDF8"));
 
                 // Switch panels visibility
                 PanelDashboard.Visibility = tabName == "Dashboard" ? Visibility.Visible : Visibility.Collapsed;
@@ -207,6 +205,18 @@ namespace LearnLock_App.Views
                 PanelAppBlocker.Visibility = tabName == "AppBlocker" ? Visibility.Visible : Visibility.Collapsed;
                 PanelSettings.Visibility = tabName == "Settings" ? Visibility.Visible : Visibility.Collapsed;
                 if (PanelAccount != null) PanelAccount.Visibility = tabName == "Account" ? Visibility.Visible : Visibility.Collapsed;
+
+                if (TopHeaderTitle != null)
+                {
+                    TopHeaderTitle.Text = tabName switch
+                    {
+                        "Dashboard" => "Eltern-Dashboard",
+                        "Settings" => "Abonnements & Pläne",
+                        "Account" => "Kontoeinstellungen",
+                        "Children" => "Kinderprofile verwalten",
+                        _ => "LearnLock Dashboard"
+                    };
+                }
 
                 if (tabName == "AppBlocker")
                 {
@@ -241,6 +251,14 @@ namespace LearnLock_App.Views
                 ChildrenItemsControl.ItemsSource = null;
                 ChildrenItemsControl.ItemsSource = _children;
                 if (DashboardChildrenList != null) DashboardChildrenList.ItemsSource = _children;
+
+                if (_children.Count > 0)
+                {
+                    var firstChild = _children[0];
+                    if (TopChildQuickName != null) TopChildQuickName.Text = $"{firstChild.Name} • Klasse {firstChild.SchoolGrade}";
+                    if (TopChildAvatarEmoji != null) TopChildAvatarEmoji.Text = firstChild.AvatarEmoji ?? "👦";
+                    if (DashTimerText != null) DashTimerText.Text = $"{(firstChild.CurrentTimeBalanceSeconds / 60)} Min.";
+                }
 
                 var parent = await _authService.GetParentProfileAsync();
                 var tier = parent?.Tier ?? SubscriptionTier.Free;
@@ -413,6 +431,7 @@ namespace LearnLock_App.Views
 
                     // Update Account Tab Info
                     if (AccountEmailText != null) AccountEmailText.Text = string.IsNullOrEmpty(parent.Email) ? "Keine E-Mail hinterlegt" : parent.Email;
+                    if (TopAccountPillName != null) TopAccountPillName.Text = string.IsNullOrEmpty(parent.Email) ? "Familie" : parent.Email.Split('@')[0];
                     if (AccountPlanText != null)
                     {
                         AccountPlanText.Text = parent.Tier switch {
@@ -494,6 +513,7 @@ namespace LearnLock_App.Views
             DailyLimitInput.Text = string.Empty;
             BlockedAppsInput.Text = string.Empty;
             DifficultyComboBox.SelectedIndex = 0;
+            if (AvatarComboBox != null) AvatarComboBox.SelectedIndex = 0;
 
             SubjectMath.IsChecked = true;
             SubjectGerman.IsChecked = false;
@@ -541,11 +561,13 @@ namespace LearnLock_App.Views
                 var child = context.ChildProfiles.Find(_editingChildId.Value);
                 if (child != null)
                 {
+                    string selectedAvatar = (AvatarComboBox?.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "👦";
                     child.Name = name;
                     child.SchoolGrade = grade;
                     child.DailyLimitSeconds = limitMinutes * 60;
                     child.BlockedApps = blocked;
                     child.DifficultyLevel = difficulty;
+                    child.AvatarEmoji = selectedAvatar;
                     
                     context.SaveChanges();
                     LoadChildrenProfiles();
@@ -626,8 +648,10 @@ namespace LearnLock_App.Views
 
             try
             {
+                string selectedAvatar = (AvatarComboBox?.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "👦";
                 var child = await _authService.CreateChildAsync(name, difficulty, limitMinutes * 60, grade, blocked);
                 child.AllowedSubjects = allowedSubjectsStr;
+                child.AvatarEmoji = selectedAvatar;
                 await _authService.UpdateChildAsync(child);
 
                 CreateChildPanel.Visibility = Visibility.Collapsed;
@@ -657,6 +681,18 @@ namespace LearnLock_App.Views
                 DailyLimitInput.Text = (child.DailyLimitSeconds / 60).ToString();
                 BlockedAppsInput.Text = child.BlockedApps;
                 DifficultyComboBox.SelectedIndex = (int)child.DifficultyLevel;
+
+                if (AvatarComboBox != null)
+                {
+                    for (int i = 0; i < AvatarComboBox.Items.Count; i++)
+                    {
+                        if (AvatarComboBox.Items[i] is ComboBoxItem cbi && cbi.Tag?.ToString() == child.AvatarEmoji)
+                        {
+                            AvatarComboBox.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
                 
                 if (SubjectsPanel != null)
                 {
@@ -1024,6 +1060,14 @@ namespace LearnLock_App.Views
                 });
             }
             catch { }
+        }
+
+        private void PlayNow_Click(object sender, RoutedEventArgs e)
+        {
+            if (_children != null && _children.Count > 0)
+            {
+                Frame.Navigate(typeof(ChildView), _children[0]);
+            }
         }
 
         private void Logout_Click(object sender, RoutedEventArgs e)

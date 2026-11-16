@@ -10,6 +10,7 @@ namespace LearnLock.Core.Models
         public int SchoolGrade { get; set; }
         public string BlockedApps { get; set; } = string.Empty; // Semicolon-separated process list
         public string AllowedSubjects { get; set; } = "Mathematik"; // Semicolon-separated subjects allowed
+        public string AvatarEmoji { get; set; } = "👦"; // Child profile avatar emoji/icon
         
         public int DailyLimitMinutes => DailyLimitSeconds / 60;
     }

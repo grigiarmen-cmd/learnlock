@@ -6,893 +6,982 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    RequestedTheme="Light"
-    Background="#FDFBF7">
+    RequestedTheme="Dark"
+    Background="#070C16">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="240" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Sidebar Panel -->
-        <Border BorderBrush="#E2E8F0" BorderThickness="0,0,1,0" Background="#FDFBF7">
-            <Grid Padding="20">
+        <!-- 🌌 Left Sidebar Navigation (Glowing Dark Blue Glass) -->
+        <Border Grid.Column="0" Background="#0A1124" BorderBrush="#142142" BorderThickness="0,0,1,0">
+            <Grid Padding="20,24">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <StackPanel Spacing="6">
-                    <TextBlock Text="🔒 LearnLock" FontSize="20" FontWeight="Bold" Foreground="#F97316" Margin="0,0,0,24"/>
-                    
-                    <Button x:Name="TabDashboard" Content="📊 Dashboard" Click="Tab_Click" Tag="Dashboard" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="#FFFFFF" Foreground="#2D3748" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
-                    <Button x:Name="TabChildren" Content="👦 Kinderprofile" Click="Tab_Click" Tag="Children" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
-                    <Button x:Name="TabAppBlocker" Content="🚫 App-Sperre" Click="Tab_Click" Tag="AppBlocker" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
-                    <Button x:Name="TabSettings" Content="⚙️ Einstellungen" Click="Tab_Click" Tag="Settings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
-                    <Button x:Name="TabAccount" Content="👤 Mein Konto" Click="Tab_Click" Tag="Account" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#718096" BorderThickness="0" Margin="0,0,0,6" Height="36" CornerRadius="6"/>
+                <!-- Brand Header -->
+                <StackPanel Spacing="6" Margin="4,0,0,32">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <TextBlock Text="Learn" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF"/>
+                        <TextBlock Text="Lock" FontSize="24" FontWeight="Bold" Foreground="#38BDF8"/>
+                    </StackPanel>
+                    <TextBlock Text="Lernen wird zur Belohnung!" FontSize="11" Foreground="#64748B" FontWeight="SemiBold"/>
                 </StackPanel>
 
-                <Button Grid.Row="2" Content="🚪 Abmelden" Click="Logout_Click" HorizontalAlignment="Stretch" Background="Transparent" BorderBrush="#E2E8F0" Foreground="#2D3748" CornerRadius="6"/>
+                <!-- Navigation Tabs -->
+                <StackPanel Grid.Row="1" Spacing="8">
+                    <!-- 1. Dashboard Tab -->
+                    <Button x:Name="TabDashboard" Click="Tab_Click" Tag="Dashboard" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="#0284C7" Foreground="#FFFFFF" BorderThickness="1" BorderBrush="#38BDF8" Height="46" CornerRadius="12" Padding="14,0">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="🏠" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Dashboard" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- 2. Abonnements Tab (vormals Settings) -->
+                    <Button x:Name="TabSettings" Click="Tab_Click" Tag="Settings" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#94A3B8" BorderThickness="0" Height="46" CornerRadius="12" Padding="14,0">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="📅" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Abonnements" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- 3. Konto Tab (mit integrierten Einstellungen) -->
+                    <Button x:Name="TabAccount" Click="Tab_Click" Tag="Account" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#94A3B8" BorderThickness="0" Height="46" CornerRadius="12" Padding="14,0">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="👤" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Konto" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- 4. Profile Tab (Kinderprofile) -->
+                    <Button x:Name="TabChildren" Click="Tab_Click" Tag="Children" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Background="Transparent" Foreground="#94A3B8" BorderThickness="0" Height="46" CornerRadius="12" Padding="14,0">
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <TextBlock Text="👥" FontSize="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Profile" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Invisible Backwards compatibility for TabAppBlocker -->
+                    <Button x:Name="TabAppBlocker" Visibility="Collapsed" Tag="AppBlocker"/>
+                </StackPanel>
+
+                <!-- Sidebar Footer Trophy Banner & Logout -->
+                <StackPanel Grid.Row="2" Spacing="16">
+                    <Border Background="#0E1B38" BorderBrush="#1E3360" BorderThickness="1" CornerRadius="14" Padding="14">
+                        <StackPanel Spacing="6">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="🏆" FontSize="18"/>
+                                <TextBlock Text="BESSERE KINDER" FontSize="11" FontWeight="Bold" Foreground="#F59E0B"/>
+                            </StackPanel>
+                            <TextBlock Text="HELLERE ZUKUNFT" FontSize="10" FontWeight="Bold" Foreground="#38BDF8"/>
+                            <TextBlock Text="Lernen. Spielen. Wachsen." FontSize="10" Foreground="#64748B"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Button Content="🚪 Abmelden" Click="Logout_Click" HorizontalAlignment="Stretch" Background="#0F172A" BorderBrush="#1E293B" BorderThickness="1" Foreground="#94A3B8" Height="38" CornerRadius="10"/>
+                </StackPanel>
             </Grid>
         </Border>
 
-        <!-- Content Area -->
-        <Grid Grid.Column="1" Padding="30">
+        <!-- 🚀 Right Content Area -->
+        <Grid Grid.Column="1" Padding="28,20,28,24">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Update Banner -->
-            <Border x:Name="UpdateBanner" Background="#FFFBEB" BorderBrush="#FCD34D" BorderThickness="1" CornerRadius="8" Padding="16" Margin="0,0,0,20" Visibility="Collapsed">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock x:Name="UpdateTitleText" Text="🎉 Ein neues Update ist verfügbar!" FontWeight="Bold" Foreground="#92400E" FontSize="16"/>
-                        <TextBlock x:Name="UpdateDescText" Text="Es gibt eine neue Version von LearnLock mit Verbesserungen und neuen Funktionen." Foreground="#B45309" Margin="0,4,0,0" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    <Button x:Name="InstallUpdateBtn" Grid.Column="1" Content="Jetzt installieren" Background="#F59E0B" Foreground="White" FontWeight="Bold" CornerRadius="6" Padding="20,10" Click="InstallUpdateBtn_Click" VerticalAlignment="Center"/>
-                </Grid>
-            </Border>
+            <!-- Global Top Bar (Greeting, Child Quick-Selector, Notifications, Profile Pill) -->
+            <Grid Grid.Row="0" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="1">
-                <!-- 📊 Dashboard Panel -->
-                <ScrollViewer x:Name="PanelDashboard" Visibility="Visible" VerticalScrollBarVisibility="Auto">
-                <StackPanel Spacing="24" Background="#FDFBF7">
-                    
-                    <!-- Header -->
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="Dashboard" FontSize="28" FontWeight="Bold" Foreground="#2D3748"/>
-                            <TextBlock Text="Behalte den Überblick über Nutzungszeiten und App-Sperren" FontSize="12" Foreground="#718096" Margin="0,4,0,0"/>
-                        </StackPanel>
-                        
-                        <Button x:Name="AddProfileHeaderBtn" Grid.Column="1" Content="+ Profil hinzufügen" Click="CreateChildButton_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="SemiBold" CornerRadius="20" Height="40" Padding="16,0" Margin="0,0,12,0" VerticalAlignment="Center"/>
-                        <Button Grid.Column="2" Content="Einstellungen" Click="Tab_Click" Tag="Settings" Background="Transparent" BorderBrush="#E2E8F0" BorderThickness="1" Foreground="#718096" CornerRadius="20" Height="40" Padding="16,0" VerticalAlignment="Center"/>
-                    </Grid>
-
-                    <!-- Top 4 KPI Cards -->
-                    <Grid ColumnSpacing="16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Card 1: Solid Accent -->
-                        <Border Background="#F97316" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Verfügbare Spielzeit" FontSize="12" Foreground="#DBEAFE" FontWeight="SemiBold"/>
-                                <TextBlock x:Name="StatTotalTimeText" Text="0 Std. 0 Min." FontSize="24" FontWeight="Bold" Foreground="#2D3748"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="&#xE711;" FontSize="10" Foreground="#F97316"/>
-                                    <TextBlock Text="Gesamtes Guthaben" FontSize="10" Foreground="#BFDBFE"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Card 2 -->
-                        <Border Grid.Column="1" Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Durchschn. Tageslimit" FontSize="12" Foreground="#718096" FontWeight="SemiBold"/>
-                                <TextBlock x:Name="StatDailyAvgText" Text="0 Std. 0 Min." FontSize="24" FontWeight="Bold" Foreground="#F8FAFC"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="&#xE909;" FontSize="10" Foreground="#10B981"/>
-                                    <TextBlock Text="Pro Kind konfiguriert" FontSize="10" Foreground="#718096"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Card 3 -->
-                        <Border Grid.Column="2" Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Aktive App-Sperren" FontSize="12" Foreground="#718096" FontWeight="SemiBold"/>
-                                <TextBlock x:Name="StatActiveLimitsText" Text="0 Apps" FontSize="24" FontWeight="Bold" Foreground="#F8FAFC"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="&#xE711;" FontSize="10" Foreground="#F97316"/>
-                                    <TextBlock Text="Lokal geblockt" FontSize="10" Foreground="#718096"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Card 4 -->
-                        <Border Grid.Column="3" Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Aktive Web-Filter" FontSize="12" Foreground="#718096" FontWeight="SemiBold"/>
-                                <TextBlock x:Name="StatKeywordsText" Text="0 Stichwörter" FontSize="24" FontWeight="Bold" Foreground="#F8FAFC"/>
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <FontIcon Glyph="&#xE8D7;" FontSize="10" Foreground="#F43F5E"/>
-                                    <TextBlock Text="Inkl. Kinderspezifisch" FontSize="10" Foreground="#718096"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
-                    <!-- Middle Row: Analytics, Reminders, Project/Apps -->
-                    <Grid ColumnSpacing="16" Height="280">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="1.2*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Bar Chart: Aktivitätsverlauf -->
-                        <Border Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="16" VerticalAlignment="Stretch">
-                                <TextBlock Text="Aktivitätsverlauf" FontSize="16" FontWeight="SemiBold" Foreground="#2D3748"/>
-                                <!-- Fake Bar Chart matching the image's rounded solid bars + striped bars -->
-                                <Grid Height="180" VerticalAlignment="Bottom">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="80" Background="#FDFBF7" CornerRadius="15"/>
-                                        <TextBlock Text="S" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="110" Background="#10B981" CornerRadius="15"/>
-                                        <TextBlock Text="M" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="140" Background="#34D399" CornerRadius="15"/>
-                                        <TextBlock Text="T" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="160" Background="#064E3B" CornerRadius="15"/>
-                                        <TextBlock Text="W" FontSize="12" Foreground="#2D3748" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="100" Background="#FDFBF7" CornerRadius="15"/>
-                                        <TextBlock Text="T" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="70" Background="#FDFBF7" CornerRadius="15"/>
-                                        <TextBlock Text="F" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                    <StackPanel Grid.Column="6" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="10">
-                                        <Border Width="30" Height="90" Background="#FDFBF7" CornerRadius="15"/>
-                                        <TextBlock Text="S" FontSize="12" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                </Grid>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Reminders / Current Status -->
-                        <Border Grid.Column="1" Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="16">
-                                <TextBlock Text="Systemstatus" FontSize="16" FontWeight="SemiBold" Foreground="#2D3748"/>
-                                <TextBlock x:Name="DashStatusTitle" Text="Keine aktive Sitzung" FontSize="18" FontWeight="Bold" Foreground="#F8FAFC" Margin="0,10,0,0"/>
-                                <TextBlock x:Name="DashStatusChild" Text="Kind: -" FontSize="12" Foreground="#718096"/>
-                                <TextBlock x:Name="DashStatusTime" Text="Verbleibende Zeit: -" FontSize="12" Foreground="#718096"/>
-                                
-                                <Button Content="Alle Sperren aufheben" Click="CancelCreateChild_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="SemiBold" CornerRadius="20" Height="40" HorizontalAlignment="Stretch" Margin="0,20,0,0"/>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Project / App List -->
-                        <Border Grid.Column="2" Background="#151E32" CornerRadius="16" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Regeln" FontSize="16" FontWeight="SemiBold" Foreground="#2D3748" VerticalAlignment="Center"/>
-                                    <Button Grid.Column="1" Content="+ Neu" Click="Tab_Click" Tag="AppBlocker" Background="Transparent" BorderBrush="#E2E8F0" BorderThickness="1" Foreground="#718096" CornerRadius="12" Height="28" Padding="10,0" FontSize="10"/>
-                                </Grid>
-
-                                <ScrollViewer Grid.Row="1" Margin="0,20,0,0" VerticalScrollBarVisibility="Hidden">
-                                    <ItemsControl x:Name="DashActiveRulesList">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="0,0,0,16">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <FontIcon Glyph="&#xE715;" FontSize="16" Foreground="#F97316"/>
-                                                    <StackPanel Grid.Column="1" Margin="12,0,0,0">
-                                                        <TextBlock Text="{Binding}" FontSize="12" FontWeight="SemiBold" Foreground="#F8FAFC" TextWrapping="Wrap"/>
-                                                        <TextBlock Text="Blockiert" FontSize="10" Foreground="#718096"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                            </Grid>
-                        </Border>
-                    </Grid>
-
-                    <!-- Bottom Row: Team Collaboration, Progress, Time Tracker -->
-                    <Grid ColumnSpacing="16" Height="220">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1.5*" />
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Team Collaboration / Kinderprofile -->
-                        <Border Background="#151E32" CornerRadius="16" Padding="20">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Text="Kinderprofile" FontSize="16" FontWeight="SemiBold" Foreground="#2D3748" VerticalAlignment="Center"/>
-                                    <Button Grid.Column="1" Content="+ Kind hinzufügen" Click="Tab_Click" Tag="Children" Background="Transparent" BorderBrush="#E2E8F0" BorderThickness="1" Foreground="#718096" CornerRadius="12" Height="28" Padding="10,0" FontSize="10"/>
-                                </Grid>
-
-                                <ScrollViewer Grid.Row="1" Margin="0,16,0,0" VerticalScrollBarVisibility="Hidden">
-                                    <ItemsControl x:Name="DashboardChildrenList">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="0,0,0,12">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="Auto"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Border Width="32" Height="32" CornerRadius="16" Background="#FDFBF7">
-                                                        <FontIcon Glyph="&#xE77b;" FontSize="14" Foreground="#718096"/>
-                                                    </Border>
-                                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold" Foreground="#F8FAFC"/>
-                                                        <TextBlock Text="Profil aktiv" FontSize="10" Foreground="#718096"/>
-                                                    </StackPanel>
-                                                    <Border Grid.Column="2" Background="#064E3B" CornerRadius="10" Padding="8,4" VerticalAlignment="Center">
-                                                        <TextBlock Text="OK" FontSize="10" Foreground="#34D399" FontWeight="SemiBold"/>
-                                                    </Border>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                            </Grid>
-                        </Border>
-
-                        <!-- Project Progress / Verbleibende Spielzeit -->
-                        <Border Grid.Column="1" Background="#151E32" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Guthaben genutzt" FontSize="16" FontWeight="SemiBold" Foreground="#2D3748"/>
-                                <!-- Fake Donut Chart, updated dynamically if needed -->
-                                <Grid Height="120" Margin="0,10,0,0">
-                                    <Ellipse Width="120" Height="120" StrokeThickness="16" Stroke="#1E293B" VerticalAlignment="Center"/>
-                                    <Ellipse Width="120" Height="120" StrokeThickness="16" Stroke="#2563EB" StrokeDashArray="2 6" VerticalAlignment="Center"/>
-                                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                        <TextBlock x:Name="DashProgressText" Text="0%" FontSize="28" FontWeight="Bold" Foreground="#2D3748" HorizontalAlignment="Center"/>
-                                        <TextBlock Text="Im Schnitt" FontSize="10" Foreground="#718096" HorizontalAlignment="Center"/>
-                                    </StackPanel>
-                                </Grid>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16" Margin="0,10,0,0">
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <Ellipse Width="8" Height="8" Fill="#F97316"/>
-                                        <TextBlock Text="Genutzt" FontSize="10" Foreground="#718096"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <Ellipse Width="8" Height="8" Fill="#1E293B"/>
-                                        <TextBlock Text="Offen" FontSize="10" Foreground="#718096"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-
-                        <!-- Time Tracker / Aktiver Timer -->
-                        <Border Grid.Column="2" Background="#F97316" CornerRadius="16" Padding="20">
-                            <StackPanel Spacing="16" VerticalAlignment="Center">
-                                <TextBlock Text="Aktivste Restzeit" FontSize="14" FontWeight="SemiBold" Foreground="#DBEAFE"/>
-                                <TextBlock x:Name="DashTimerText" Text="00:00:00" FontSize="36" FontWeight="Bold" Foreground="#2D3748" HorizontalAlignment="Center" Margin="0,10,0,10"/>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="16">
-                                    <Border Width="40" Height="40" Background="#FFFFFF" CornerRadius="20">
-                                        <FontIcon Glyph="&#xE768;" FontSize="16" Foreground="#F97316"/>
-                                    </Border>
-                                    <Border Width="40" Height="40" Background="#EF4444" CornerRadius="20">
-                                        <FontIcon Glyph="&#xE711;" FontSize="16" Foreground="#2D3748"/>
-                                    </Border>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-
+                <!-- Left Greeting Title (dynamically switches or welcomes parent) -->
+                <StackPanel VerticalAlignment="Center" Spacing="2">
+                    <TextBlock x:Name="TopHeaderTitle" Text="Eltern-Dashboard" FontSize="26" FontWeight="Bold" Foreground="#FFFFFF"/>
+                    <TextBlock x:Name="TopHeaderSubtitle" Text="Guten Tag! Hier ist deine Übersicht für Familie &amp; Lernen." FontSize="13" Foreground="#94A3B8"/>
                 </StackPanel>
-            </ScrollViewer>
 
-            <!-- 2. KINDERPROFILE TAB PANEL (MODERN REDESIGN) -->
-            <ScrollViewer x:Name="PanelChildren" Visibility="Collapsed">
-                <StackPanel Spacing="32" Background="#FDFBF7" Padding="0,0,0,40">
-                    
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Spacing="8">
-                            <TextBlock Text="Kinderprofile verwalten" FontSize="28" FontWeight="Bold" Foreground="#2D3748"/>
-                            <TextBlock Text="Richte individuelle Limits und Fächer für jedes Kind ein." FontSize="14" Foreground="#718096"/>
+                <!-- Right Quick Info Header -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="14" VerticalAlignment="Center">
+                    <!-- Quick Child Switcher Badge -->
+                    <Border Background="#0C1730" BorderBrush="#1E3360" BorderThickness="1" CornerRadius="20" Padding="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Width="26" Height="26" CornerRadius="13" Background="#0284C7">
+                                <TextBlock x:Name="TopChildAvatarEmoji" Text="👦" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock x:Name="TopChildQuickName" Text="Kind auswählen" FontSize="12" FontWeight="SemiBold" Foreground="#F1F5F9" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <Button x:Name="AddProfileDashboardBtn" Grid.Column="1" Content="+ Profil hinzufügen" Click="CreateChildButton_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="20" Height="44" Padding="20,0" VerticalAlignment="Center"/>
-                    </Grid>
+                    </Border>
 
-                    <!-- Active Profiles Grid -->
-                    <ItemsControl x:Name="ChildrenItemsControl">
-                        <!-- We use a WrapPanel for a card grid layout -->
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel Orientation="Vertical" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="0,0,24,24" Width="340">
-                                    <Border BorderBrush="#00FFFF" BorderThickness="2" CornerRadius="24" Padding="20">
-                                        <Border.Background>
-                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="#3000FFFF" Offset="0"/>
-                                                <GradientStop Color="#00151E32" Offset="0.3"/>
-                                            </LinearGradientBrush>
-                                        </Border.Background>
-                                        <StackPanel Spacing="16">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                
-                                                <Grid>
-                                                    <Border Width="72" Height="72" CornerRadius="36" Background="#FDFBF7" BorderBrush="#38BDF8" BorderThickness="2" VerticalAlignment="Center">
-                                                        <FontIcon Glyph="&#xE77B;" FontSize="32" Foreground="#E2E8F0"/>
-                                                    </Border>
-                                                    <Ellipse Width="16" Height="16" Fill="#10B981" Stroke="#151E32" StrokeThickness="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,4,4"/>
-                                                </Grid>
-                                                
-                                                <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center" Spacing="2">
-                                                    <StackPanel Orientation="Horizontal" Spacing="6" VerticalAlignment="Center">
-                                                        <Ellipse Width="8" Height="8" Fill="#10B981"/>
-                                                        <TextBlock Text="Online • Active" FontSize="11" Foreground="#10B981"/>
-                                                    </StackPanel>
-                                                    <TextBlock Text="{Binding Name}" FontSize="24" FontWeight="Bold" Foreground="#2D3748" Margin="0,2,0,0"/>
-                                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                                        <TextBlock Text="Klasse:" FontSize="13" Foreground="#718096"/>
-                                                        <TextBlock Text="{Binding SchoolGrade}" FontSize="13" Foreground="#718096"/>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </Grid>
-                                            
-                                            <StackPanel Spacing="8">
-                                                <TextBlock Text="Erlaubte Fächer" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                                                <Border Background="#F1F5F9" CornerRadius="8" Padding="12,8">
-                                                    <TextBlock Text="{Binding AllowedSubjects}" FontSize="12" Foreground="#F97316" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                                </Border>
-                                            </StackPanel>
-                                            
-                                            <StackPanel Spacing="6">
-                                                <TextBlock Text="Tageslimit" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                                                <ProgressBar Value="70" Maximum="100" Height="8" CornerRadius="4" Foreground="#F97316" Background="#E2E8F0"/>
-                                                <Grid>
-                                                    <StackPanel Orientation="Horizontal" Spacing="4">
-                                                        <TextBlock Text="Limit (Min):" FontSize="11" Foreground="#64748B"/>
-                                                        <TextBlock Text="{Binding DailyLimitMinutes}" FontSize="11" Foreground="#64748B" FontWeight="Bold"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </StackPanel>
-                                            
-                                            <Grid Margin="0,4,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
-                                                <StackPanel Spacing="8">
-                                                    <TextBlock Text="App-Nutzung" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                                        <Border Width="32" Height="32" CornerRadius="8" Background="#EF4444">
-                                                            <FontIcon Glyph="&#xE714;" FontSize="16" Foreground="White"/>
-                                                        </Border>
-                                                        <Border Width="32" Height="32" CornerRadius="8" Background="#F59E0B">
-                                                            <FontIcon Glyph="&#xE7FC;" FontSize="16" Foreground="White"/>
-                                                        </Border>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                                <StackPanel Grid.Column="1" Spacing="8">
-                                                    <TextBlock Text="Fokus-Score: 92%" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                                                    <TextBlock Text="〰〰📈" FontSize="18" Foreground="#F97316" HorizontalAlignment="Right"/>
-                                                </StackPanel>
-                                            </Grid>
+                    <!-- Bell Icon -->
+                    <Border Width="38" Height="38" CornerRadius="19" Background="#0C1730" BorderBrush="#1E3360" BorderThickness="1">
+                        <TextBlock Text="🔔" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
 
-                                            <Grid Margin="0,12,0,0">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                
-                                                <Button Content="✏️ Edit" Tag="{Binding}" Click="EditChildProfile_Click" Background="#33FFFFFF" BorderBrush="#40FFFFFF" BorderThickness="1" Foreground="#2D3748" FontWeight="SemiBold" CornerRadius="12" Height="36" Margin="0,0,8,0"/>
-                                                <Button Grid.Column="1" Content="🔒 Lock" Tag="{Binding}" Click="LockChildProfile_Click" Background="#40FF0000" BorderBrush="#80FF0000" BorderThickness="1" Foreground="#FF8080" FontWeight="SemiBold" CornerRadius="12" Height="36" HorizontalAlignment="Stretch" Margin="0,0,8,0"/>
-                                                <Button Grid.Column="2" Content="🗑️ Delete" Tag="{Binding Id}" Click="DeleteChildProfile_Click" Background="Transparent" BorderBrush="#F43F5E" BorderThickness="1" Foreground="#F43F5E" FontWeight="SemiBold" CornerRadius="12" Height="36"/>
-                                            </Grid>
-                                        </StackPanel>
-                                    </Border>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <!-- Create Child Wizard Overlay (Modern Liquid Glass Card) -->
-                    <Border x:Name="CreateChildPanel" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="20" Padding="32" Visibility="Collapsed" MaxWidth="680" HorizontalAlignment="Left">
-                        <ScrollViewer MaxHeight="520" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Spacing="20" Padding="0,0,12,0">
-                                <StackPanel Spacing="6">
-                                    <TextBlock x:Name="CreateChildTitle" Text="Neues Profil einrichten" FontSize="24" FontWeight="Bold" Foreground="#1E293B"/>
-                                    <TextBlock Text="Passe die Lern- und Nutzungszeit für dein Kind an." FontSize="14" Foreground="#64748B"/>
-                                </StackPanel>
-                                
-                                <Grid ColumnSpacing="20">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackPanel Spacing="16">
-                                        <TextBox x:Name="ChildNameInput" Header="Vorname des Kindes" PlaceholderText="z.B. Timmy" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Height="62"/>
-                                        <TextBox x:Name="ChildGradeInput" Header="Klassenstufe" PlaceholderText="z.B. 4" InputScope="Number" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Height="62"/>
-                                        <ComboBox x:Name="DifficultyComboBox" Header="Lern-Schwierigkeit" HorizontalAlignment="Stretch" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Height="62">
-                                            <ComboBoxItem Content="Einfach (Klassen 1-4)" Tag="0" IsSelected="True"/>
-                                            <ComboBoxItem Content="Mittel (Klassen 5-8)" Tag="1"/>
-                                            <ComboBoxItem Content="Schwer (Klassen 9-13)" Tag="2"/>
-                                        </ComboBox>
-                                    </StackPanel>
-                                    
-                                    <StackPanel Grid.Column="1" Spacing="16">
-                                        <TextBox x:Name="DailyLimitInput" Header="Tägliches Zeitlimit (Minuten)" PlaceholderText="z.B. 60" InputScope="Number" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Height="62"/>
-                                        <TextBox x:Name="BlockedAppsInput" Header="Blockierte Apps (Optional)" PlaceholderText="z.B. discord;steam" Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Height="62"/>
-                                    </StackPanel>
-                                </Grid>
-
-                                <StackPanel x:Name="SubjectsPanel" Spacing="12">
-                                    <TextBlock Text="Erlaubte Fächer auswählen (Upgrade für mehr Fächer)" FontSize="14" Foreground="#1E293B" FontWeight="SemiBold"/>
-                                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="16">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <CheckBox x:Name="SubjectMath" Content="Mathe" Foreground="#334155" Margin="0,0,12,12" IsChecked="True" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectGerman" Grid.Column="1" Content="Deutsch" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectEnglish" Grid.Column="2" Content="Englisch" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectBiology" Grid.Column="3" Content="Biologie" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectChemistry" Grid.Column="4" Content="Chemie" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            
-                                            <CheckBox x:Name="SubjectFrench" Grid.Row="1" Content="Französisch" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectSpanish" Grid.Row="1" Grid.Column="1" Content="Spanisch" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectReligion" Grid.Row="1" Grid.Column="2" Content="Religion" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                            <CheckBox x:Name="SubjectSport" Grid.Row="1" Grid.Column="3" Content="Sport" Foreground="#334155" Margin="0,0,12,12" Checked="Subject_Checked"/>
-                                        </Grid>
-                                    </Border>
-                                </StackPanel>
-
-                                <TextBlock x:Name="CreateChildErrorText" Foreground="#EF4444" FontSize="12" Visibility="Collapsed"/>
-
-                                <Border Height="1" Background="#E2E8F0" Margin="0,4,0,0"/>
-
-                                <StackPanel Orientation="Horizontal" Spacing="16" HorizontalAlignment="Right" Margin="0,4,0,0">
-                                    <Button Content="Abbrechen" Click="CancelCreateChild_Click" Background="Transparent" BorderBrush="#CBD5E1" BorderThickness="1" Foreground="#64748B" CornerRadius="20" Height="40" Padding="24,0"/>
-                                    <Button Content="Profil speichern" Click="SaveNewChildProfile_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="20" Height="40" Padding="24,0"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </ScrollViewer>
+                    <!-- Account Pill -->
+                    <Border Background="#0C1730" BorderBrush="#1E3360" BorderThickness="1" CornerRadius="20" Padding="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Width="26" Height="26" CornerRadius="13" Background="#38BDF8">
+                                <TextBlock Text="👤" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <TextBlock x:Name="TopAccountPillName" Text="Mein Konto" FontSize="12" FontWeight="SemiBold" Foreground="#FFFFFF" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
                 </StackPanel>
-            </ScrollViewer>
+            </Grid>
 
-            <!-- 3. APP-SPERRE TAB PANEL (MODERN REDESIGN) -->
-            <ScrollViewer x:Name="PanelAppBlocker" Visibility="Collapsed">
-                <StackPanel Spacing="32" Background="#FDFBF7" Padding="0,0,0,40">
-                    
-                    <StackPanel Spacing="8">
-                        <TextBlock Text="App-Sperre &amp; Filter" FontSize="28" FontWeight="Bold" Foreground="#2D3748"/>
-                        <TextBlock Text="Blockiere störende Programme oder schütze vor unerwünschten Webseiten durch Stichwörter." FontSize="14" Foreground="#718096" TextWrapping="Wrap"/>
-                    </StackPanel>
-                    
-                    <Grid>
-                        <Grid ColumnSpacing="24" x:Name="AppBlockerContent">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Left Column: App Toggles -->
-                            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24">
-                                <StackPanel Spacing="20">
-                                    <StackPanel Spacing="4">
-                                        <TextBlock Text="Aktive Programme" FontSize="18" FontWeight="Bold" Foreground="#1E293B"/>
-                                        <TextBlock Text="Sperre Programme mit nur einem Klick." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    
-                                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="12" Height="280">
-                                        <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <ItemsControl x:Name="RunningAppsList">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Padding="16,12" Margin="0,0,0,8">
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                    <ColumnDefinition Width="*" />
-                                                                    <ColumnDefinition Width="Auto" />
-                                                                </Grid.ColumnDefinitions>
-                                                                <Border Width="32" Height="32" CornerRadius="8" Background="#F1F5F9">
-                                                                    <FontIcon Glyph="{Binding IconGlyph}" FontSize="16" Foreground="{Binding IconColor}" VerticalAlignment="Center"/>
-                                                                </Border>
-                                                                <TextBlock Grid.Column="1" Text="{Binding AppName}" VerticalAlignment="Center" Foreground="#1E293B" FontSize="14" FontWeight="SemiBold" Margin="12,0,0,0"/>
-                                                                <ToggleSwitch Grid.Column="2" IsOn="{Binding IsBlocked, Mode=TwoWay}" OnContent="" OffContent="" MinWidth="0" Margin="0" VerticalAlignment="Center" Foreground="#10B981"/>
-                                                            </Grid>
-                                                        </Border>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </ScrollViewer>
-                                    </Border>
-                                    
-                                    <TextBox x:Name="GlobalBlockedAppsInput" Header="Manuell hinzufügen (.exe)" PlaceholderText="z.B. discord.exe; chrome.exe; roblox.exe" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Foreground="#1E293B"/>
-                                </StackPanel>
-                            </Border>
-
-                            <!-- Right Column: Keyword / Website Blocker (Aegis Style) -->
-                            <Border Grid.Column="1" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="24">
-                                <StackPanel Spacing="20">
-                                    <StackPanel Spacing="4">
-                                        <TextBlock Text="Web-Filter &amp; Stichwörter (Aegis Engine)" FontSize="18" FontWeight="Bold" Foreground="#1E293B"/>
-                                        <TextBlock Text="Wird ein Stichwort im Browser oder Fenster erkannt, wird die App sofort geschlossen." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
-                                    </StackPanel>
-                                    
-                                    <TextBox x:Name="GlobalBlockedKeywordsInput" Header="Aktive Stichwörter &amp; Domains (durch Komma getrennt)" PlaceholderText="z.B. youtube, tiktok, roblox, porn, xxx, omegle" AcceptsReturn="True" TextWrapping="Wrap" Height="140" Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="8" Foreground="#1E293B" Padding="12"/>
-                                    
-                                    <Button Content="🛡️ 30+ Schutz-Stichwörter (Aegis Preset laden)" Click="LoadAegisPreset_Click" Background="#F1F5F9" Foreground="#0284C7" FontWeight="Bold" CornerRadius="8" Height="36" HorizontalAlignment="Stretch"/>
-
-                                    <Button Content="Alle Regeln speichern &amp; aktivieren" Click="SaveGlobalBlockedApps_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="20" Height="42" HorizontalAlignment="Stretch" Margin="0,6,0,0"/>
-                                    <TextBlock x:Name="AppBlockerSuccessText" Text="Sperrliste aktualisiert und aktiv!" Foreground="#10B981" FontSize="12" Visibility="Collapsed" HorizontalAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
-                        </Grid>
-
-                        <Border x:Name="AppBlockerOverlay" Background="#D90B1121" Visibility="Collapsed" PointerPressed="AppBlockerOverlay_PointerPressed" CornerRadius="16">
-                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16" Background="#151E32" Padding="40" CornerRadius="16" BorderBrush="#2A3441" BorderThickness="1">
-                                <FontIcon Glyph="&#xE72E;" FontSize="48" Foreground="#F43F5E" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Premium Funktion" FontSize="24" FontWeight="Bold" Foreground="#2D3748" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Der App- &amp; Web-Filter erfordert mindestens das 'Basic' Abonnement." FontSize="14" Foreground="#718096" HorizontalAlignment="Center" MaxWidth="300" TextWrapping="Wrap" TextAlignment="Center"/>
-                                <Button Content="Pläne ansehen" Click="Tab_Click" Tag="Settings" Background="#F43F5E" Foreground="#2D3748" FontWeight="Bold" CornerRadius="20" Height="40" Padding="24,0" HorizontalAlignment="Center" Margin="0,10,0,0"/>
-                            </StackPanel>
-                        </Border>
-                    </Grid>
-                </StackPanel>
-            </ScrollViewer>
-
-            <!-- 4. EINSTELLUNGEN TAB PANEL (PRICING REDESIGN) -->
-            <ScrollViewer x:Name="PanelSettings" Visibility="Collapsed">
-                <StackPanel Spacing="32" Background="#FDFBF7" Padding="0,20,0,40">
-                    
-                    <!-- Advanced Settings Section (Compact) -->
-                    <StackPanel Spacing="16" HorizontalAlignment="Center" Width="800">
-                        <TextBlock Text="App-Einstellungen" FontSize="18" FontWeight="SemiBold" Foreground="#2D3748"/>
-                        <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12" Padding="20">
+            <!-- Main Panels Container -->
+            <Grid Grid.Row="1">
+                <!-- ========================================== -->
+                <!-- 1. 🏠 DASHBOARD PANEL (Exact Bild 1 Design) -->
+                <!-- ========================================== -->
+                <ScrollViewer x:Name="PanelDashboard" Visibility="Visible" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="20" Padding="0,0,8,30">
+                        <!-- Update Banner if available -->
+                        <Border x:Name="UpdateBanner" Background="#0C2548" BorderBrush="#0284C7" BorderThickness="1" CornerRadius="14" Padding="16" Visibility="Collapsed">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="12">
-                                    <ToggleSwitch x:Name="AutoStartToggle" Header="Beim Windows-Start automatisch ausführen" IsOn="False" Toggled="AutoStartToggle_Toggled" Foreground="#4A5568"/>
-                                    <ToggleSwitch x:Name="AIToggle" Header="Locky KI Chat aktivieren (nur Pro/Ultra)" IsOn="True" Toggled="AIToggle_Toggled" Foreground="#4A5568"/>
+                                <StackPanel Spacing="4">
+                                    <TextBlock x:Name="UpdateTitleText" Text="🎉 Neues Update verfügbar!" FontWeight="Bold" Foreground="#38BDF8" FontSize="14"/>
+                                    <TextBlock x:Name="UpdateDescText" Text="Eine neue Version von LearnLock steht bereit." Foreground="#94A3B8" FontSize="12"/>
                                 </StackPanel>
+                                <Button Grid.Column="1" x:Name="InstallUpdateBtn" Content="Jetzt aktualisieren" Click="InstallUpdateBtn_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="8" Height="34"/>
                             </Grid>
                         </Border>
-                    </StackPanel>
 
-                    <!-- Pricing Header -->
-                    <StackPanel Spacing="8" HorizontalAlignment="Center" Margin="0,40,0,20">
-                        <TextBlock Text="Wähle den passenden Plan" FontSize="42" FontWeight="Bold" Foreground="#1E293B" HorizontalAlignment="Center"/>
-                        <TextBlock Text="Volle Kontrolle, maximale Motivation &amp; Schutz für deine Familie." FontSize="16" Foreground="#64748B" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                    
-                    <!-- Pricing Cards Grid: 100€ Jährlich vs 250€ Lebenslang -->
-                    <Grid ColumnSpacing="24" HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="340" />
-                            <ColumnDefinition Width="360" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <!-- Premium Jährlich Plan -->
-                        <Border Grid.Column="0" Background="#FFFFFF" BorderThickness="1" BorderBrush="#E2E8F0" CornerRadius="20" Padding="32">
-                            <StackPanel Spacing="12">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <TextBlock Text="⭐" FontSize="18"/>
-                                    <TextBlock Text="Premium Jährlich" FontSize="20" FontWeight="Bold" Foreground="#1E293B"/>
-                                </StackPanel>
-                                <TextBlock Text="Für aktive Familien mit voller Flexibilität." FontSize="13" Foreground="#64748B" Height="36" TextWrapping="Wrap"/>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,12,0,0">
-                                    <TextBlock x:Name="PriceBasic" Text="100 €" FontSize="44" FontWeight="Bold" Foreground="#1E293B"/>
-                                    <TextBlock Text=" / Jahr" FontSize="14" Foreground="#64748B" Margin="6,0,0,6"/>
-                                </StackPanel>
-                                
-                                <Button Content="Jetzt abonnieren" Click="DirectStripeCheckout_Click" Tag="Pro" Foreground="#FFFFFF" Background="#3B82F6" HorizontalAlignment="Stretch" Margin="0,16,0,24" FontSize="15" FontWeight="Bold" CornerRadius="24" Height="46"/>
-                                
-                                <Border Height="1" Background="#E2E8F0" Margin="0,0,0,16"/>
-                                <TextBlock Text="ENTHÄLT ALLES:" FontSize="11" Foreground="#94A3B8" FontWeight="Bold" Margin="0,0,0,8"/>
-                                <StackPanel Spacing="12">
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981"/><TextBlock Text="Unbegrenzte Kinderprofile" FontSize="13" Foreground="#334155"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981"/><TextBlock Text="Alle Schulfächer (Mathe, Deutsch, Englisch...)" FontSize="13" Foreground="#334155"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981"/><TextBlock Text="App-Sperre &amp; Web-Stichwortfilter" FontSize="13" Foreground="#334155"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981"/><TextBlock Text="Locky KI Lern-Tutor" FontSize="13" FontWeight="Bold" Foreground="#3B82F6"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981"/><TextBlock Text="Regelmäßige Updates &amp; Support" FontSize="13" Foreground="#334155"/></StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
+                        <!-- Top 3 Metric Cards Row -->
+                        <Grid ColumnSpacing="18">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1.2*" />
+                            </Grid.ColumnDefinitions>
 
-                        <!-- Lifetime Plan (Featured Liquid Glass / Amber Glow) -->
-                        <Border Grid.Column="1" Background="#FFFBF5" BorderThickness="2" BorderBrush="#F97316" CornerRadius="24" Padding="32" Margin="0,-8,0,-8">
-                            <StackPanel Spacing="12">
-                                <Grid>
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <TextBlock Text="👑" FontSize="20"/>
-                                        <TextBlock Text="Lifetime Unlimited" FontSize="22" FontWeight="Bold" Foreground="#EA580C"/>
-                                    </StackPanel>
-                                    <Border Background="#F97316" CornerRadius="12" Padding="8,3" HorizontalAlignment="Right">
-                                        <TextBlock Text="BESTER WERT" FontSize="10" FontWeight="Bold" Foreground="#FFFFFF"/>
-                                    </Border>
-                                </Grid>
-                                <TextBlock Text="Einmal zahlen, für immer geschützt. Nie wieder Abos." FontSize="13" Foreground="#78350F" Height="36" TextWrapping="Wrap"/>
-                                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,12,0,0">
-                                    <TextBlock x:Name="PriceUltra" Text="250 €" FontSize="48" FontWeight="Bold" Foreground="#1E293B"/>
-                                    <TextBlock Text=" einmalig" FontSize="14" Foreground="#EA580C" FontWeight="Bold" Margin="6,0,0,6"/>
-                                </StackPanel>
-                                
-                                <Button Content="Lebenslang sichern" Click="DirectStripeCheckout_Click" Tag="Ultra" Foreground="#FFFFFF" Background="#F97316" HorizontalAlignment="Stretch" Margin="0,16,0,24" FontSize="16" FontWeight="Bold" CornerRadius="24" Height="48"/>
-                                
-                                <Border Height="1" Background="#FED7AA" Margin="0,0,0,16"/>
-                                <TextBlock Text="KOMPLETTES SYSTEM LEBENSLANG:" FontSize="11" Foreground="#EA580C" FontWeight="Bold" Margin="0,0,0,8"/>
-                                <StackPanel Spacing="12">
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#F97316"/><TextBlock Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="13" FontWeight="Bold" Foreground="#1E293B"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#F97316"/><TextBlock Text="Unbegrenzte Kinderprofile &amp; Geräte" FontSize="13" Foreground="#334155"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#F97316"/><TextBlock Text="Alle Fächer, Aufgaben &amp; KI-Funktionen" FontSize="13" Foreground="#334155"/></StackPanel>
-                                    <StackPanel Orientation="Horizontal" Spacing="10"><FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#F97316"/><TextBlock Text="Höchste Priorität bei Support &amp; Updates" FontSize="13" Foreground="#334155"/></StackPanel>
-                                </StackPanel>
-                            </StackPanel>
-                        </Border>
-                        
-                        <!-- Invisible elements for backwards compatibility -->
-                        <RadioButton x:Name="PlanFree" GroupName="Plans" Visibility="Collapsed" />
-                        <TextBlock x:Name="PricePro" Visibility="Collapsed" />
-                        <ToggleSwitch x:Name="SubscriptionIntervalToggle" Visibility="Collapsed" />
-                    </Grid>
-
-                    <StackPanel x:Name="StripeCheckoutPanel" Spacing="16" Margin="0,40,0,0" HorizontalAlignment="Center">
-                        <!-- Main Checkout Button (Now obsolete, keep visually as a global one or remove) -->
-                        <Button x:Name="StripeCheckoutButton" Content="💳 Mit Stripe abonnieren" Click="StripeCheckout_Click" Background="#2A2A2A" Foreground="#718096" FontWeight="Bold" Width="300" Height="56" CornerRadius="28" IsEnabled="False" FontSize="16" Visibility="Collapsed"/>
-                        
-                        <StackPanel x:Name="StripeWaitingPanel" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center" Visibility="Collapsed">
-                            <ProgressRing IsActive="True" Width="20" Height="20" Foreground="#6366F1"/>
-                            <TextBlock Text="Warten auf Zahlung in Stripe..." Foreground="#6366F1" VerticalAlignment="Center"/>
-                        </StackPanel>
-                        <TextBlock x:Name="StripeSuccessText" Text="✅ Zahlung erfolgreich! Plan aktualisiert." Foreground="#10B981" Visibility="Collapsed" HorizontalAlignment="Center"/>
-                        
-                        <!-- Free Plan Link -->
-                        <HyperlinkButton Content="Weiterhin kostenlos nutzen (Free Tier behalten)" Click="FreePlan_Click" Foreground="#718096" HorizontalAlignment="Center" FontSize="14" Margin="0,8,0,0"/>
-                    </StackPanel>
-                    
-                    <TextBlock x:Name="SettingsSuccessText" Text="Einstellungen erfolgreich gespeichert!" Foreground="#10B981" FontSize="12" Visibility="Collapsed" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </ScrollViewer>
-
-            <!-- 👤 Mein Konto Panel -->
-            <ScrollViewer x:Name="PanelAccount" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
-                <StackPanel Spacing="24" MaxWidth="600" HorizontalAlignment="Left" Padding="0,0,16,40">
-                    <StackPanel Spacing="4">
-                        <TextBlock Text="Mein Konto &amp; Abonnement" FontSize="26" FontWeight="Bold" Foreground="#1E293B"/>
-                        <TextBlock Text="Verwalte deine E-Mail-Adresse, Lizenz und Zahlungsoptionen." FontSize="14" Foreground="#64748B"/>
-                    </StackPanel>
-
-                    <!-- Account Card -->
-                    <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="18" Padding="28">
-                        <StackPanel Spacing="20">
-                            <!-- Email row -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="2">
-                                    <TextBlock Text="Registrierte Eltern-E-Mail" FontSize="12" FontWeight="SemiBold" Foreground="#94A3B8"/>
-                                    <TextBlock x:Name="AccountEmailText" Text="eltern@learnlock.local" FontSize="16" FontWeight="Bold" Foreground="#1E293B"/>
-                                </StackPanel>
-                                <Border Grid.Column="1" Background="#ECFDF5" BorderBrush="#A7F3D0" BorderThickness="1" CornerRadius="12" Padding="10,4">
-                                    <TextBlock Text="Aktiv" FontSize="12" FontWeight="Bold" Foreground="#10B981"/>
-                                </Border>
-                            </Grid>
-
-                            <Border Height="1" Background="#F1F5F9"/>
-
-                            <!-- Current Plan Row -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Spacing="2">
-                                    <TextBlock Text="Aktueller Plan" FontSize="12" FontWeight="SemiBold" Foreground="#94A3B8"/>
-                                    <TextBlock x:Name="AccountPlanText" Text="Free Tier (1 Kind / 1 Fach)" FontSize="18" FontWeight="Bold" Foreground="#F97316"/>
-                                </StackPanel>
-                                <Button Content="Plan upgraden" Click="UpgradeAccountPlan_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="16" Height="36" Padding="16,0" Grid.Column="1"/>
-                            </Grid>
-
-                            <Border Height="1" Background="#F1F5F9"/>
-
-                            <!-- Actions & Cancel -->
-                            <StackPanel Spacing="10">
-                                <TextBlock Text="Abo-Verwaltung &amp; Kündigung" FontSize="13" FontWeight="Bold" Foreground="#1E293B"/>
-                                <TextBlock Text="Du kannst dein Jahresabonnement jederzeit mit einem Klick kündigen oder deine Zahlungsmethode anpassen." FontSize="12" Foreground="#64748B" TextWrapping="Wrap"/>
-                                <Button Content="💳 Abo bei Stripe kündigen / verwalten" Click="CancelStripeSubscription_Click" Background="#F1F5F9" Foreground="#334155" BorderBrush="#CBD5E1" BorderThickness="1" FontWeight="SemiBold" CornerRadius="16" Height="40" Padding="18,0" HorizontalAlignment="Left" Margin="0,4,0,0"/>
-                            </StackPanel>
-
-                            <Border Height="1" Background="#FEE2E2"/>
-
-                            <!-- Danger Zone: Delete Account -->
-                            <Border Background="#FEF2F2" BorderBrush="#FECACA" BorderThickness="1" CornerRadius="14" Padding="18">
-                                <StackPanel Spacing="10">
-                                    <StackPanel Orientation="Horizontal" Spacing="8">
-                                        <TextBlock Text="⚠️" FontSize="16"/>
-                                        <TextBlock Text="Gefahrenzone: Konto löschen &amp; Reset" FontSize="14" FontWeight="Bold" Foreground="#DC2626"/>
-                                    </StackPanel>
-                                    <TextBlock Text="Möchtest du das Konto komplett zurücksetzen und die Ersteinrichtung erneut durchführen? Zum Schutz wird ein Bestätigungscode an deine E-Mail gesendet." FontSize="12" Foreground="#7F1D1D" TextWrapping="Wrap"/>
-                                    <Button x:Name="StartDeleteAccountBtn" Content="🗑️ Konto löschen &amp; Setup neu starten" Click="StartDeleteAccount_Click" Background="#DC2626" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="14" Height="38" Padding="18,0" HorizontalAlignment="Left"/>
-                                    
-                                    <!-- Confirmation Code Subpanel -->
-                                    <StackPanel x:Name="DeleteAccountConfirmPanel" Visibility="Collapsed" Spacing="10" Margin="0,8,0,0">
-                                        <TextBlock Text="Wir haben einen 6-stelligen Bestätigungscode an deine E-Mail gesendet:" FontSize="12" FontWeight="SemiBold" Foreground="#991B1B"/>
-                                        <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <TextBox x:Name="DeleteAccountCodeInput" PlaceholderText="6-stelliger Code" Width="160" CornerRadius="8" FontSize="14"/>
-                                            <Button Content="Endgültig löschen" Click="ConfirmDeleteAccount_Click" Background="#B91C1C" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="8" Height="36" Padding="14,0"/>
-                                            <Button Content="Abbrechen" Click="CancelDeleteAccount_Click" Background="#E2E8F0" Foreground="#475569" CornerRadius="8" Height="36" Padding="14,0"/>
+                            <!-- Card 1: Lernfortschritt Ring -->
+                            <Border Grid.Column="0" Background="#0B152E" BorderBrush="#192A4E" BorderThickness="1" CornerRadius="18" Padding="20">
+                                <StackPanel Spacing="14">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="📊" FontSize="15"/>
+                                            <TextBlock Text="Lernfortschritt" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
                                         </StackPanel>
-                                        <TextBlock x:Name="DeleteAccountErrorText" Visibility="Collapsed" Foreground="#DC2626" FontSize="12" FontWeight="Bold"/>
+                                        <TextBlock Text="Diese Woche ▾" FontSize="11" Foreground="#64748B" HorizontalAlignment="Right"/>
+                                    </Grid>
+
+                                    <Grid Margin="0,4,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Glowing Percentage Circle -->
+                                        <Border Width="100" Height="100" CornerRadius="50" BorderBrush="#0284C7" BorderThickness="6" Background="#061026" HorizontalAlignment="Center">
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock x:Name="DashProgressText" Text="72%" FontSize="24" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="Diese Woche" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0" Spacing="4">
+                                            <TextBlock Text="Tolle Leistung!" FontSize="14" FontWeight="Bold" Foreground="#F59E0B"/>
+                                            <TextBlock Text="Dein Kind ist auf einem sehr guten Weg zu seinen Lernzielen." FontSize="11" Foreground="#94A3B8" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 2: Spielzeit verdient -->
+                            <Border Grid.Column="1" Background="#0B152E" BorderBrush="#192A4E" BorderThickness="1" CornerRadius="18" Padding="20">
+                                <StackPanel Spacing="14">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="🎮" FontSize="15"/>
+                                        <TextBlock Text="Spielzeit verdient" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    </StackPanel>
+
+                                    <Grid Margin="0,4,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Border Width="56" Height="56" CornerRadius="28" BorderBrush="#F59E0B" BorderThickness="3" Background="#171A29" HorizontalAlignment="Center">
+                                            <TextBlock Text="⏱️" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0">
+                                            <TextBlock x:Name="DashTimerText" Text="45 Min." FontSize="24" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                            <TextBlock Text="durch erfolgreiches Lernen" FontSize="11" Foreground="#64748B"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Button Content="▶ Spielzeit freigeben" Click="PlayNow_Click" Background="#F59E0B" Foreground="#000000" FontWeight="Bold" FontSize="13" Height="38" CornerRadius="10" HorizontalAlignment="Stretch"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 3: Aktivität diese Woche (Barchart) -->
+                            <Border Grid.Column="2" Background="#0B152E" BorderBrush="#192A4E" BorderThickness="1" CornerRadius="18" Padding="20">
+                                <StackPanel Spacing="12">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="📈" FontSize="15"/>
+                                        <TextBlock Text="Aktivität diese Woche" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    </StackPanel>
+
+                                    <!-- Styled Mini Bar Graph -->
+                                    <Grid Height="90" Margin="0,4,0,0" VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Mo -->
+                                        <StackPanel Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="30" Background="#0284C7" CornerRadius="4"/>
+                                            <TextBlock Text="Mo" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- Di -->
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="50" Background="#0284C7" CornerRadius="4"/>
+                                            <TextBlock Text="Di" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- Mi -->
+                                        <StackPanel Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="80" Background="#38BDF8" CornerRadius="4"/>
+                                            <TextBlock Text="Mi" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- Do -->
+                                        <StackPanel Grid.Column="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="60" Background="#0284C7" CornerRadius="4"/>
+                                            <TextBlock Text="Do" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- Fr -->
+                                        <StackPanel Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="40" Background="#0284C7" CornerRadius="4"/>
+                                            <TextBlock Text="Fr" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- Sa -->
+                                        <StackPanel Grid.Column="5" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="75" Background="#38BDF8" CornerRadius="4"/>
+                                            <TextBlock Text="Sa" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                        <!-- So -->
+                                        <StackPanel Grid.Column="6" VerticalAlignment="Bottom" HorizontalAlignment="Center" Spacing="4">
+                                            <Border Width="16" Height="35" Background="#0284C7" CornerRadius="4"/>
+                                            <TextBlock Text="So" FontSize="9" Foreground="#64748B" HorizontalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Middle Row: Apps & Spielzeit + Letzte Aktivitäten -->
+                        <Grid ColumnSpacing="18">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Box: Apps & Spielzeit -->
+                            <Border Grid.Column="0" Background="#0B152E" BorderBrush="#192A4E" BorderThickness="1" CornerRadius="18" Padding="20">
+                                <StackPanel Spacing="16">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <TextBlock Text="📱" FontSize="16"/>
+                                        <TextBlock Text="Apps &amp; Spielzeit" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    </StackPanel>
+
+                                    <Grid ColumnSpacing="12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!-- Freigegebene Apps -->
+                                        <StackPanel Grid.Column="0" Spacing="10">
+                                            <TextBlock Text="✅ Freigegebene Apps" FontSize="12" FontWeight="SemiBold" Foreground="#10B981"/>
+                                            
+                                            <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="➕" FontSize="18" VerticalAlignment="Center"/>
+                                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                                        <TextBlock Text="Mathe Abenteuer" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                        <TextBlock Text="Lernen mit Spaß" FontSize="10" Foreground="#64748B"/>
+                                                    </StackPanel>
+                                                    <Border Grid.Column="2" Background="#064E3B" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="Freigegeben" FontSize="10" Foreground="#34D399" FontWeight="Bold"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="🚀" FontSize="18" VerticalAlignment="Center"/>
+                                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                                        <TextBlock Text="Code Quest" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                        <TextBlock Text="Programmieren" FontSize="10" Foreground="#64748B"/>
+                                                    </StackPanel>
+                                                    <Border Grid.Column="2" Background="#064E3B" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="Freigegeben" FontSize="10" Foreground="#34D399" FontWeight="Bold"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+
+                                        <!-- Gesperrte Apps -->
+                                        <StackPanel Grid.Column="1" Spacing="10">
+                                            <TextBlock Text="🚫 Gesperrte Apps" FontSize="12" FontWeight="SemiBold" Foreground="#F43F5E"/>
+                                            
+                                            <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="🎮" FontSize="18" VerticalAlignment="Center"/>
+                                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                                        <TextBlock Text="Battle Zone" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                        <TextBlock Text="Action-Spiel" FontSize="10" Foreground="#64748B"/>
+                                                    </StackPanel>
+                                                    <Border Grid.Column="2" Background="#4C0519" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="Gesperrt" FontSize="10" Foreground="#FB7185" FontWeight="Bold"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
+                                            <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="12,10">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="🏎️" FontSize="18" VerticalAlignment="Center"/>
+                                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                                        <TextBlock Text="Racing Pro" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                        <TextBlock Text="Rennspiel" FontSize="10" Foreground="#64748B"/>
+                                                    </StackPanel>
+                                                    <Border Grid.Column="2" Background="#4C0519" CornerRadius="6" Padding="6,2">
+                                                        <TextBlock Text="Gesperrt" FontSize="10" Foreground="#FB7185" FontWeight="Bold"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+                                        </StackPanel>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Right Box: Letzte Aktivitäten -->
+                            <Border Grid.Column="1" Background="#0B152E" BorderBrush="#192A4E" BorderThickness="1" CornerRadius="18" Padding="20">
+                                <StackPanel Spacing="14">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <TextBlock Text="⏱️" FontSize="15"/>
+                                            <TextBlock Text="Letzte Aktivitäten" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        </StackPanel>
+                                        <TextBlock Text="Alle anzeigen →" FontSize="11" Foreground="#38BDF8" HorizontalAlignment="Right"/>
+                                    </Grid>
+
+                                    <StackPanel Spacing="10">
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <Border Width="28" Height="28" CornerRadius="6" Background="#0284C7">
+                                                    <TextBlock Text="➗" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel>
+                                                    <TextBlock Text="Mathematik abgeschlossen" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                    <TextBlock Text="Kapitel 'Brüche &amp; Gleichungen'" FontSize="10" Foreground="#64748B"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <TextBlock Text="Heute 16:24" FontSize="10" Foreground="#64748B" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
+
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <Border Width="28" Height="28" CornerRadius="6" Background="#D97706">
+                                                    <TextBlock Text="🏆" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel>
+                                                    <TextBlock Text="Neue Spielzeit verdient" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                    <TextBlock Text="15 Minuten freigeschaltet" FontSize="10" Foreground="#64748B"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <TextBlock Text="Heute 15:10" FontSize="10" Foreground="#64748B" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
+
+                                        <Grid>
+                                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <Border Width="28" Height="28" CornerRadius="6" Background="#059669">
+                                                    <TextBlock Text="📖" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <StackPanel>
+                                                    <TextBlock Text="Englisch-Lektion gestartet" FontSize="11" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                    <TextBlock Text="Vokabeln &amp; Grammatik" FontSize="10" Foreground="#64748B"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <TextBlock Text="Heute 14:03" FontSize="10" Foreground="#64748B" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                        </Grid>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>
+                        </Grid>
+
+                        <!-- Bottom Banner -->
+                        <Border Background="#0A1633" BorderBrush="#1C305C" BorderThickness="1" CornerRadius="16" Padding="18">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="🏆" FontSize="26" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock Text="Konsequentes Lernen zahlt sich aus." FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    <TextBlock Text="Mit LearnLock wird Bildschirmzeit zur Belohnung – für eine starke Zukunft deines Kindes." FontSize="11" Foreground="#94A3B8"/>
+                                </StackPanel>
+                                <Button Grid.Column="2" Content="Mehr erfahren →" Background="#0F244C" BorderBrush="#1E3E7A" BorderThickness="1" Foreground="#38BDF8" FontWeight="SemiBold" FontSize="11" Height="32" CornerRadius="8"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Invisible binding elements to satisfy code-behind -->
+                        <TextBlock x:Name="StatTotalTimeText" Visibility="Collapsed"/>
+                        <TextBlock x:Name="StatDailyAvgText" Visibility="Collapsed"/>
+                        <TextBlock x:Name="StatActiveLimitsText" Visibility="Collapsed"/>
+                        <TextBlock x:Name="StatKeywordsText" Visibility="Collapsed"/>
+                        <ItemsControl x:Name="DashActiveRulesList" Visibility="Collapsed"/>
+                        <ItemsControl x:Name="DashboardChildrenList" Visibility="Collapsed"/>
+                        <Button x:Name="AddProfileDashboardBtn" Visibility="Collapsed"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- ========================================== -->
+                <!-- 2. 📅 ABONNEMENTS PANEL (Exact Bild 2 Design) -->
+                <!-- ========================================== -->
+                <ScrollViewer x:Name="PanelSettings" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="24" Padding="0,0,8,40" HorizontalAlignment="Center" MaxWidth="860">
+                        <!-- Heading -->
+                        <StackPanel Spacing="6" HorizontalAlignment="Center" Margin="0,10,0,10">
+                            <TextBlock Text="Wähle deinen LearnLock Plan" FontSize="32" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Volle Kontrolle, maximale Motivation und Schutz für deine Familie." FontSize="14" Foreground="#94A3B8" HorizontalAlignment="Center"/>
                         </StackPanel>
-                    </Border>
-                </StackPanel>
-            </ScrollViewer>
+
+                        <!-- Trust Badges -->
+                        <StackPanel Orientation="Horizontal" Spacing="24" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="🛡️" FontSize="14"/>
+                                <TextBlock Text="Sicher bezahlen" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <TextBlock Text="|" Foreground="#1E293B"/>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="🔄" FontSize="14"/>
+                                <TextBlock Text="Jederzeit kündbar" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                            </StackPanel>
+                            <TextBlock Text="|" Foreground="#1E293B"/>
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <TextBlock Text="⭐" FontSize="14"/>
+                                <TextBlock Text="30 Tage Geld-zurück-Garantie" FontSize="12" Foreground="#94A3B8" FontWeight="SemiBold"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- 2 Big Pricing Cards (100 € Jährlich vs 250 € Lifetime) -->
+                        <Grid ColumnSpacing="24" Margin="0,10,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="380" />
+                                <ColumnDefinition Width="380" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left: PREMIUM (100 € / Jahr) -->
+                            <Border Grid.Column="0" Background="#09132B" BorderBrush="#0284C7" BorderThickness="2" CornerRadius="22" Padding="28">
+                                <StackPanel Spacing="16">
+                                    <Border Width="48" Height="48" CornerRadius="14" Background="#0284C7" HorizontalAlignment="Left">
+                                        <TextBlock Text="⭐" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    
+                                    <StackPanel Spacing="2">
+                                        <TextBlock Text="PREMIUM" FontSize="22" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        <TextBlock Text="Für aktive Familien" FontSize="12" Foreground="#64748B"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,4,0,8">
+                                        <TextBlock x:Name="PriceBasic" Text="100 €" FontSize="44" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        <TextBlock Text=" pro Jahr" FontSize="14" Foreground="#64748B" Margin="6,0,0,6"/>
+                                    </StackPanel>
+
+                                    <Button Content="Premium wählen →" Click="DirectStripeCheckout_Click" Tag="Pro" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="12" HorizontalAlignment="Stretch"/>
+
+                                    <Border Height="1" Background="#162850" Margin="0,8,0,8"/>
+
+                                    <StackPanel Spacing="12">
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#38BDF8" FontWeight="Bold"/><TextBlock Text="Unbegrenzte Kinderprofile" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#38BDF8" FontWeight="Bold"/><TextBlock Text="Alle Schulfächer (Mathe, Deutsch...)" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#38BDF8" FontWeight="Bold"/><TextBlock Text="App-Sperre und Webfilter" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#38BDF8" FontWeight="Bold"/><TextBlock Text="Locky KI-Lern-Tutor" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#38BDF8" FontWeight="Bold"/><TextBlock Text="Regelmäßige Updates und Support" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Right: LIFETIME (250 € Einmalig) -->
+                            <Border Grid.Column="1" Background="#0A142E" BorderBrush="#EAB308" BorderThickness="2" CornerRadius="22" Padding="28">
+                                <StackPanel Spacing="16">
+                                    <Grid>
+                                        <Border Width="48" Height="48" CornerRadius="14" Background="#EAB308" HorizontalAlignment="Left">
+                                            <TextBlock Text="👑" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Background="#FEF08A" CornerRadius="6" Padding="8,3" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                            <TextBlock Text="BESTER WERT" FontSize="10" FontWeight="Bold" Foreground="#854D0E"/>
+                                        </Border>
+                                    </Grid>
+
+                                    <StackPanel Spacing="2">
+                                        <TextBlock Text="LIFETIME" FontSize="22" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        <TextBlock Text="Einmal zahlen. Für immer geschützt." FontSize="12" Foreground="#64748B"/>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,4,0,8">
+                                        <TextBlock x:Name="PriceUltra" Text="250 €" FontSize="44" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        <TextBlock Text=" einmalig" FontSize="14" Foreground="#F59E0B" FontWeight="Bold" Margin="6,0,0,6"/>
+                                    </StackPanel>
+
+                                    <Button Content="Lebenslang sichern →" Click="DirectStripeCheckout_Click" Tag="Ultra" Background="#EAB308" Foreground="#000000" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="12" HorizontalAlignment="Stretch"/>
+
+                                    <TextBlock Text="ⓘ Keine Verlängerung. Keine versteckten Kosten." FontSize="11" Foreground="#64748B" HorizontalAlignment="Center"/>
+
+                                    <Border Height="1" Background="#1E3360" Margin="0,4,0,8"/>
+
+                                    <StackPanel Spacing="12">
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#F59E0B" FontWeight="Bold"/><TextBlock Text="Lebenslanger Zugriff ohne Abo" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#F59E0B" FontWeight="Bold"/><TextBlock Text="Unbegrenzte Kinderprofile und Geräte" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#F59E0B" FontWeight="Bold"/><TextBlock Text="Alle Fächer, Aufgaben und KI-Funktionen" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                        <StackPanel Orientation="Horizontal" Spacing="10"><TextBlock Text="✓" Foreground="#F59E0B" FontWeight="Bold"/><TextBlock Text="Priorisierter Support und Updates" FontSize="13" Foreground="#CBD5E1"/></StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Invisible helper controls for compatibility -->
+                        <RadioButton x:Name="PlanFree" GroupName="Plans" Visibility="Collapsed" />
+                        <TextBlock x:Name="PricePro" Visibility="Collapsed" />
+                        <ToggleSwitch x:Name="SubscriptionIntervalToggle" Visibility="Collapsed" />
+                        <StackPanel x:Name="StripeCheckoutPanel" Visibility="Collapsed">
+                            <Button x:Name="StripeCheckoutButton" Click="StripeCheckout_Click"/>
+                            <StackPanel x:Name="StripeWaitingPanel"/>
+                            <TextBlock x:Name="StripeSuccessText"/>
+                            <HyperlinkButton Click="FreePlan_Click"/>
+                        </StackPanel>
+                        <TextBlock x:Name="SettingsSuccessText" Visibility="Collapsed"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- ========================================== -->
+                <!-- 3. 👤 KONTO PANEL (Exact Bild 3 Design mit Einstellungen integriert) -->
+                <!-- ========================================== -->
+                <ScrollViewer x:Name="PanelAccount" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="22" Padding="0,0,8,40" MaxWidth="900" HorizontalAlignment="Left">
+                        <StackPanel Spacing="4">
+                            <TextBlock Text="Kontoeinstellungen" FontSize="26" FontWeight="Bold" Foreground="#FFFFFF"/>
+                            <TextBlock Text="Verwalte deinen Account, dein Abo und deine App-Sicherheit." FontSize="13" Foreground="#94A3B8"/>
+                        </StackPanel>
+
+                        <!-- Top 3 Status Cards Row -->
+                        <Grid ColumnSpacing="16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="1.2*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Card 1: Kontostatus -->
+                            <Border Grid.Column="0" Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="16" Padding="18">
+                                <StackPanel Spacing="10">
+                                    <Grid>
+                                        <Border Width="38" Height="38" CornerRadius="10" Background="#0284C7">
+                                            <TextBlock Text="🛡️" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Border Background="#064E3B" CornerRadius="12" Padding="10,3" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                            <TextBlock Text="Aktiv" FontSize="11" FontWeight="Bold" Foreground="#34D399"/>
+                                        </Border>
+                                    </Grid>
+                                    <TextBlock Text="Kontostatus" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    <TextBlock x:Name="AccountEmailText" Text="eltern@learnlock.local" FontSize="12" Foreground="#94A3B8" TextTrimming="CharacterEllipsis"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 2: Aktueller Plan (Highlighted Gold) -->
+                            <Border Grid.Column="1" Background="#0B152E" BorderBrush="#EAB308" BorderThickness="2" CornerRadius="16" Padding="18">
+                                <StackPanel Spacing="10">
+                                    <Grid>
+                                        <Border Width="38" Height="38" CornerRadius="10" Background="#EAB308">
+                                            <TextBlock Text="👑" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                        <Button Content="Plan upgraden →" Click="UpgradeAccountPlan_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" FontSize="12" Height="32" CornerRadius="10" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                    </Grid>
+                                    <TextBlock Text="Aktueller Plan" FontSize="12" Foreground="#64748B"/>
+                                    <TextBlock x:Name="AccountPlanText" Text="Free Tier (1 Kind / 1 Fach)" FontSize="16" FontWeight="Bold" Foreground="#F59E0B"/>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Card 3: Sicherheit -->
+                            <Border Grid.Column="2" Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="16" Padding="18">
+                                <StackPanel Spacing="10">
+                                    <Border Width="38" Height="38" CornerRadius="10" Background="#0284C7" HorizontalAlignment="Left">
+                                        <TextBlock Text="🔒" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBlock Text="Sicherheit" FontSize="14" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                    <TextBlock Text="Dein Elternkonto ist geschützt." FontSize="12" Foreground="#94A3B8"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Box: Abo-Verwaltung -->
+                        <Border Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="18" Padding="20">
+                            <StackPanel Spacing="14">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="📅" FontSize="16"/>
+                                    <TextBlock Text="Abo-Verwaltung" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                </StackPanel>
+                                <TextBlock Text="Verwalte dein LearnLock-Abo und deine Zahlungsoptionen." FontSize="12" Foreground="#64748B"/>
+
+                                <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="16,12">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <TextBlock Text="📄" FontSize="18" VerticalAlignment="Center"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="Abonnement verwalten" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <TextBlock Text="Zahlungen, Laufzeit und Tarif" FontSize="11" Foreground="#64748B"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Content="Verwalten →" Click="CancelStripeSubscription_Click" Background="#0F244C" BorderBrush="#1E3E7A" BorderThickness="1" Foreground="#38BDF8" FontWeight="SemiBold" FontSize="12" Height="34" CornerRadius="8" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+
+                                <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="16,12">
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" Spacing="12">
+                                            <TextBlock Text="💳" FontSize="18" VerticalAlignment="Center"/>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="Zahlungsmethode" FontSize="13" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                <TextBlock Text="Sicher über Stripe verwaltet" FontSize="11" Foreground="#64748B"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <Button Content="Bearbeiten →" Click="CancelStripeSubscription_Click" Background="#0F244C" BorderBrush="#1E3E7A" BorderThickness="1" Foreground="#38BDF8" FontWeight="SemiBold" FontSize="12" Height="34" CornerRadius="8" HorizontalAlignment="Right"/>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Box: Einstellungen & Datenschutz (Integriert!) -->
+                        <Border Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="18" Padding="20">
+                            <StackPanel Spacing="16">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="⚙️" FontSize="16"/>
+                                    <TextBlock Text="Konto- &amp; Systemeinstellungen" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                </StackPanel>
+                                <TextBlock Text="Systemweite Schutzoptionen, Autostart und KI-Assistenz anpassen." FontSize="12" Foreground="#64748B"/>
+
+                                <ToggleSwitch x:Name="AutoStartToggle" Header="Beim Windows-Start automatisch starten &amp; schützen" IsOn="False" Toggled="AutoStartToggle_Toggled" Foreground="#CBD5E1"/>
+                                <Border Height="1" Background="#162850"/>
+                                <ToggleSwitch x:Name="AIToggle" Header="Locky KI Lern-Tutor für Kinder aktivieren" IsOn="True" Toggled="AIToggle_Toggled" Foreground="#CBD5E1"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Box: Gefahrenzone (Konto löschen) -->
+                        <Border Background="#2A0B13" BorderBrush="#7F1D1D" BorderThickness="1" CornerRadius="18" Padding="20">
+                            <StackPanel Spacing="12">
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                        <TextBlock Text="🗑️" FontSize="16"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="Gefahrenzone: Konto löschen" FontSize="14" FontWeight="Bold" Foreground="#F87171"/>
+                                            <TextBlock Text="Konto und alle Daten dauerhaft löschen." FontSize="11" Foreground="#FCA5A5"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    <Button x:Name="StartDeleteAccountBtn" Content="Konto löschen" Click="StartDeleteAccount_Click" Background="#991B1B" Foreground="#FFFFFF" FontWeight="Bold" FontSize="12" Height="34" CornerRadius="8" HorizontalAlignment="Right"/>
+                                </Grid>
+
+                                <!-- Confirmation Code Subpanel -->
+                                <StackPanel x:Name="DeleteAccountConfirmPanel" Visibility="Collapsed" Spacing="10" Margin="0,10,0,0">
+                                    <TextBlock Text="6-stelliger Bestätigungscode wurde an deine E-Mail gesendet:" FontSize="12" Foreground="#FCA5A5"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <TextBox x:Name="DeleteAccountCodeInput" PlaceholderText="123456" Width="140" Height="36" CornerRadius="8"/>
+                                        <Button Content="Endgültig löschen" Click="ConfirmDeleteAccount_Click" Background="#DC2626" Foreground="#FFFFFF" FontWeight="Bold" Height="36" CornerRadius="8"/>
+                                        <Button Content="Abbrechen" Click="CancelDeleteAccount_Click" Background="#334155" Foreground="#CBD5E1" Height="36" CornerRadius="8"/>
+                                    </StackPanel>
+                                    <TextBlock x:Name="DeleteAccountErrorText" Visibility="Collapsed" Foreground="#EF4444" FontSize="12" FontWeight="Bold"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- ========================================== -->
+                <!-- 4. 👥 PROFILE PANEL (Exact Bild 4 Design mit Avatar & Tiefem Scrollen) -->
+                <!-- ========================================== -->
+                <ScrollViewer x:Name="PanelChildren" Visibility="Collapsed" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Spacing="22" Padding="0,0,8,40" MaxWidth="920" HorizontalAlignment="Left">
+                        <!-- Header with Add Profile Button -->
+                        <Grid>
+                            <StackPanel Spacing="4">
+                                <TextBlock Text="Kinderprofile verwalten" FontSize="26" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                <TextBlock Text="Richte individuelle Lernziele, Limits und Fächer für jedes Kind ein." FontSize="13" Foreground="#94A3B8"/>
+                            </StackPanel>
+                            <Button x:Name="AddProfileHeaderBtn" Click="CreateChildButton_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" FontSize="13" Height="40" CornerRadius="12" Padding="18,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <TextBlock Text="＋" FontSize="16" FontWeight="Bold"/>
+                                    <TextBlock Text="Profil hinzufügen" VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+
+                        <!-- 🧒 "Deine Kinder" Cards Grid -->
+                        <StackPanel Spacing="14">
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <TextBlock Text="👥" FontSize="16"/>
+                                <TextBlock Text="Deine Kinder" FontSize="15" FontWeight="Bold" Foreground="#FFFFFF"/>
+                            </StackPanel>
+
+                            <!-- Horizontal Grid or ItemsControl for Child Cards -->
+                            <ItemsControl x:Name="ChildrenItemsControl">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" Spacing="16"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!-- Futuristic Glass Child Card -->
+                                        <Border Width="340" Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="1.5" CornerRadius="20" Padding="20">
+                                            <StackPanel Spacing="14">
+                                                <!-- Top: Avatar + Name + Badges -->
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Avatar Border with Glow -->
+                                                    <Border Width="64" Height="64" CornerRadius="32" Background="#0369A1" BorderBrush="#38BDF8" BorderThickness="2" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding AvatarEmoji, FallbackValue='👦'}" FontSize="32" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    </Border>
+
+                                                    <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center" Spacing="2">
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <Ellipse Width="8" Height="8" Fill="#10B981"/>
+                                                            <TextBlock Text="Online • Aktiv" FontSize="11" Foreground="#10B981" FontWeight="SemiBold"/>
+                                                        </StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                                        <TextBlock Text="{Binding SchoolGrade, ConverterParameter='Klasse {0}'}" FontSize="12" Foreground="#64748B"/>
+                                                    </StackPanel>
+                                                </Grid>
+
+                                                <!-- Tageslimit Progress Bar -->
+                                                <StackPanel Spacing="6">
+                                                    <Grid>
+                                                        <TextBlock Text="Tageslimit" FontSize="12" Foreground="#64748B"/>
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="4">
+                                                            <TextBlock Text="{Binding DailyLimitMinutes}" FontSize="12" FontWeight="Bold" Foreground="#38BDF8"/>
+                                                            <TextBlock Text="Min." FontSize="12" Foreground="#64748B"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    <ProgressBar Value="75" Maximum="100" Height="6" CornerRadius="3" Foreground="#0284C7" Background="#162850"/>
+                                                </StackPanel>
+
+                                                <!-- Erlaubte Fächer Badges -->
+                                                <StackPanel Spacing="6">
+                                                    <TextBlock Text="Erlaubte Fächer" FontSize="12" Foreground="#64748B"/>
+                                                    <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="8" Padding="10,6">
+                                                        <TextBlock Text="{Binding AllowedSubjects}" FontSize="11" Foreground="#F59E0B" FontWeight="Bold" TextWrapping="Wrap"/>
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <!-- Action Buttons: Bearbeiten, Sperren, Löschen -->
+                                                <Grid Margin="0,4,0,0" ColumnSpacing="6">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <Button Content="✏️ Bearbeiten" Tag="{Binding}" Click="EditChildProfile_Click" Background="#0F244C" BorderBrush="#1E3E7A" BorderThickness="1" Foreground="#38BDF8" FontWeight="SemiBold" FontSize="11" Height="34" CornerRadius="8" HorizontalAlignment="Stretch"/>
+                                                    <Button Grid.Column="1" Content="🔒 Sperren" Tag="{Binding}" Click="LockChildProfile_Click" Background="#3B0713" BorderBrush="#881337" BorderThickness="1" Foreground="#FDA4AF" FontWeight="SemiBold" FontSize="11" Height="34" CornerRadius="8" HorizontalAlignment="Stretch"/>
+                                                    <Button Grid.Column="2" Content="🗑️" Tag="{Binding Id}" Click="DeleteChildProfile_Click" Background="Transparent" BorderBrush="#7F1D1D" BorderThickness="1" Foreground="#F87171" FontWeight="Bold" FontSize="12" Width="36" Height="34" CornerRadius="8"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
+                        <!-- ⚙️ Create/Edit Child Form (Now with Avatar Picker & Deep Scroll!) -->
+                        <Border x:Name="CreateChildPanel" Background="#0B152E" BorderBrush="#0284C7" BorderThickness="2" CornerRadius="20" Padding="24" Visibility="Collapsed" MaxWidth="720" HorizontalAlignment="Left">
+                            <!-- Deep ScrollViewer with comfortable MaxHeight -->
+                            <ScrollViewer MaxHeight="600" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Spacing="18" Padding="0,0,14,20">
+                                    <StackPanel Spacing="4">
+                                        <TextBlock x:Name="CreateChildTitle" Text="Neues Kinderprofil einrichten" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF"/>
+                                        <TextBlock Text="Passe Vorname, Profilbild, Klassenstufe und Lernfächer an." FontSize="12" Foreground="#94A3B8"/>
+                                    </StackPanel>
+
+                                    <!-- 🎨 Profilbild / Avatar Emoji Auswahl -->
+                                    <StackPanel Spacing="8">
+                                        <TextBlock Text="Profilbild / Avatar wählen:" FontSize="13" FontWeight="SemiBold" Foreground="#38BDF8"/>
+                                        <ComboBox x:Name="AvatarComboBox" HorizontalAlignment="Left" Width="240" Height="40" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF">
+                                            <ComboBoxItem Content="👦 Junge (Standard)" Tag="👦" IsSelected="True"/>
+                                            <ComboBoxItem Content="👧 Mädchen" Tag="👧"/>
+                                            <ComboBoxItem Content="🦁 Löwe" Tag="🦁"/>
+                                            <ComboBoxItem Content="🚀 Rakete" Tag="🚀"/>
+                                            <ComboBoxItem Content="🦄 Einhorn" Tag="🦄"/>
+                                            <ComboBoxItem Content="🎮 Gamer" Tag="🎮"/>
+                                            <ComboBoxItem Content="⚽ Fußball" Tag="⚽"/>
+                                            <ComboBoxItem Content="🦖 Dino" Tag="🦖"/>
+                                            <ComboBoxItem Content="🤖 Roboter" Tag="🤖"/>
+                                        </ComboBox>
+                                    </StackPanel>
+
+                                    <Grid ColumnSpacing="18">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Spacing="14">
+                                            <TextBox x:Name="ChildNameInput" Header="Vorname des Kindes" PlaceholderText="z.B. Timmy" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF" Height="58"/>
+                                            <TextBox x:Name="ChildGradeInput" Header="Klassenstufe (1 - 13)" PlaceholderText="z.B. 4" InputScope="Number" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF" Height="58"/>
+                                            <ComboBox x:Name="DifficultyComboBox" Header="Lern-Schwierigkeit" HorizontalAlignment="Stretch" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF" Height="58">
+                                                <ComboBoxItem Content="Einfach (Klassen 1-4)" Tag="0" IsSelected="True"/>
+                                                <ComboBoxItem Content="Mittel (Klassen 5-8)" Tag="1"/>
+                                                <ComboBoxItem Content="Schwer (Klassen 9-13)" Tag="2"/>
+                                            </ComboBox>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Spacing="14">
+                                            <TextBox x:Name="DailyLimitInput" Header="Tägliches Zeitlimit (Minuten)" PlaceholderText="z.B. 60" InputScope="Number" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF" Height="58"/>
+                                            <TextBox x:Name="BlockedAppsInput" Header="Blockierte Apps (Optional)" PlaceholderText="z.B. discord;steam;roblox" Background="#0E1B38" BorderBrush="#1C2F57" CornerRadius="8" Foreground="#FFFFFF" Height="58"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- Fächer-Auswahl -->
+                                    <StackPanel x:Name="SubjectsPanel" Spacing="10">
+                                        <TextBlock Text="Erlaubte Fächer auswählen (nach offiziellen Fachanforderungen):" FontSize="13" Foreground="#FFFFFF" FontWeight="SemiBold"/>
+                                        <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="12" Padding="16">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <CheckBox x:Name="SubjectMath" Content="Mathe" Foreground="#FFFFFF" Margin="0,0,10,10" IsChecked="True" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectGerman" Grid.Column="1" Content="Deutsch" Foreground="#FFFFFF" Margin="0,0,10,10" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectEnglish" Grid.Column="2" Content="Englisch" Foreground="#FFFFFF" Margin="0,0,10,10" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectBiology" Grid.Column="3" Content="Biologie" Foreground="#FFFFFF" Margin="0,0,10,10" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectChemistry" Grid.Column="4" Content="Chemie" Foreground="#FFFFFF" Margin="0,0,10,10" Checked="Subject_Checked"/>
+
+                                                <CheckBox x:Name="SubjectFrench" Grid.Row="1" Content="Französisch" Foreground="#FFFFFF" Margin="0,0,10,0" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectSpanish" Grid.Row="1" Grid.Column="1" Content="Spanisch" Foreground="#FFFFFF" Margin="0,0,10,0" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectReligion" Grid.Row="1" Grid.Column="2" Content="Religion" Foreground="#FFFFFF" Margin="0,0,10,0" Checked="Subject_Checked"/>
+                                                <CheckBox x:Name="SubjectSport" Grid.Row="1" Grid.Column="3" Content="Sport" Foreground="#FFFFFF" Margin="0,0,10,0" Checked="Subject_Checked"/>
+                                            </Grid>
+                                        </Border>
+                                    </StackPanel>
+
+                                    <TextBlock x:Name="CreateChildErrorText" Foreground="#EF4444" FontSize="12" Visibility="Collapsed"/>
+
+                                    <Border Height="1" Background="#1C2F57"/>
+
+                                    <StackPanel Orientation="Horizontal" Spacing="14" HorizontalAlignment="Right">
+                                        <Button Content="Abbrechen" Click="CancelCreateChild_Click" Background="Transparent" BorderBrush="#334155" BorderThickness="1" Foreground="#94A3B8" CornerRadius="10" Height="38" Padding="20,0"/>
+                                        <Button Content="Profil speichern" Click="SaveNewChildProfile_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" CornerRadius="10" Height="38" Padding="24,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Invisible PanelAppBlocker container for code-behind compatibility -->
+                <Grid x:Name="PanelAppBlocker" Visibility="Collapsed">
+                    <Grid x:Name="AppBlockerOverlay" Visibility="Collapsed"/>
+                    <ItemsControl x:Name="RunningAppsList" Visibility="Collapsed"/>
+                    <TextBox x:Name="GlobalBlockedAppsInput" Visibility="Collapsed"/>
+                    <TextBox x:Name="GlobalBlockedKeywordsInput" Visibility="Collapsed"/>
+                    <TextBlock x:Name="AppBlockerSuccessText" Visibility="Collapsed"/>
+                </Grid>
             </Grid>
         </Grid>
 
         <!-- 🎉 Epic Celebration & Unlock Modal Overlay -->
         <Grid x:Name="UnlockCelebrationOverlay" Grid.ColumnSpan="2" Canvas.ZIndex="999" Visibility="Collapsed" Background="#D9050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" Width="480" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Background="#0B152E" BorderBrush="#0284C7" BorderThickness="2" CornerRadius="28" Padding="36" Width="480" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Spacing="20" HorizontalAlignment="Center">
-                    <!-- Icon / Badge with pulse -->
-                    <Border Background="#FEF3C7" BorderBrush="#FDE68A" BorderThickness="2" CornerRadius="50" Width="88" Height="88" HorizontalAlignment="Center">
+                    <Border Background="#0C2548" BorderBrush="#38BDF8" BorderThickness="2" CornerRadius="50" Width="88" Height="88" HorizontalAlignment="Center">
                         <TextBlock Text="👑" FontSize="44" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-
-                    <!-- Headline & Subtitle -->
                     <StackPanel Spacing="6" HorizontalAlignment="Center">
-                        <TextBlock x:Name="CelebrationPlanTitle" Text="🎉 Lifetime Unlimited freigeschaltet!" FontSize="22" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <TextBlock Text="Herzlichen Glückwunsch! Du hast nun uneingeschränkten Vollzugriff." FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock x:Name="CelebrationPlanTitle" Text="🎉 Lifetime Unlimited freigeschaltet!" FontSize="22" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Herzlichen Glückwunsch! Du hast nun uneingeschränkten Vollzugriff." FontSize="13" Foreground="#94A3B8" HorizontalAlignment="Center" TextAlignment="Center"/>
                     </StackPanel>
-
-                    <!-- Unlocked Features List -->
-                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="18">
-                        <StackPanel Spacing="12">
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Unbegrenzte Kinderprofile anlegen" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon Glyph="&#xE73E;" FontSize="14" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Alle Schulfächer freigeschaltet (Mathe, Deutsch, Englisch...)" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="App- &amp; Webblocker mit Aegis 30+ Schutz aktiviert" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock Text="Locky KI Lern-Tutor unbegrenzt nutzbar" FontSize="13" FontWeight="SemiBold" Foreground="#1E293B"/>
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <FontIcon Glyph="&#xE73E;" FontSize="13" Foreground="#10B981" FontWeight="Bold"/>
-                                <TextBlock x:Name="CelebrationDurationText" Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="13" FontWeight="Bold" Foreground="#F97316"/>
-                            </StackPanel>
+                    <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="16" Padding="18">
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="• Unbegrenzte Kinderprofile anlegen" FontSize="13" Foreground="#CBD5E1"/>
+                            <TextBlock Text="• Alle Schulfächer freigeschaltet" FontSize="13" Foreground="#CBD5E1"/>
+                            <TextBlock Text="• App- &amp; Webblocker mit Schutz aktiviert" FontSize="13" Foreground="#CBD5E1"/>
+                            <TextBlock x:Name="CelebrationDurationText" Text="Lebenslanger Zugriff ohne Verlängerung" FontSize="13" FontWeight="Bold" Foreground="#F59E0B"/>
                         </StackPanel>
                     </Border>
-
-                    <!-- Close Button -->
-                    <Button Content="🚀 Jetzt loslegen &amp; Dashboard entdecken" Click="CloseCelebration_Click" Background="#F97316" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="23" HorizontalAlignment="Stretch"/>
+                    <Button Content="🚀 Jetzt loslegen &amp; Dashboard entdecken" Click="CloseCelebration_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15" Height="46" CornerRadius="23" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Border>
         </Grid>
 
         <!-- ℹ️ Plan Downgraded / Reset to Free Overlay Modal -->
         <Grid x:Name="PlanDowngradeOverlay" Grid.ColumnSpan="2" Canvas.ZIndex="999" Visibility="Collapsed" Background="#D9050B14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Border Background="#FFFFFF" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="28" Padding="36" Width="440" MaxWidth="460" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Border Background="#0B152E" BorderBrush="#1C2F57" BorderThickness="2" CornerRadius="28" Padding="36" Width="440" MaxWidth="460" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <StackPanel Spacing="20" HorizontalAlignment="Center">
-                    <Border Background="#EFF6FF" BorderBrush="#DBEAFE" BorderThickness="2" CornerRadius="50" Width="80" Height="80" HorizontalAlignment="Center">
+                    <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="2" CornerRadius="50" Width="80" Height="80" HorizontalAlignment="Center">
                         <TextBlock Text="🔒" FontSize="38" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
-
                     <StackPanel Spacing="6" HorizontalAlignment="Center">
-                        <TextBlock Text="Konto-Status aktualisiert" FontSize="20" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Center" TextAlignment="Center"/>
-                        <TextBlock Text="Dein Plan wurde auf das kostenlose Free-Tier angepasst." FontSize="13" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Konto-Status aktualisiert" FontSize="20" FontWeight="Bold" Foreground="#FFFFFF" HorizontalAlignment="Center" TextAlignment="Center"/>
+                        <TextBlock Text="Dein Plan wurde auf das kostenlose Free-Tier angepasst." FontSize="13" Foreground="#94A3B8" HorizontalAlignment="Center" TextAlignment="Center"/>
                     </StackPanel>
-
-                    <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Padding="16">
+                    <Border Background="#0E1B38" BorderBrush="#1C2F57" BorderThickness="1" CornerRadius="16" Padding="16">
                         <StackPanel Spacing="8">
-                            <TextBlock Text="• Aktiver Plan: Kostenloses Free-Tier" FontSize="13" FontWeight="SemiBold" Foreground="#334155"/>
-                            <TextBlock Text="• 1 Kinderprofil &amp; Basis-Lernfächer nutzbar" FontSize="12" Foreground="#64748B"/>
-                            <TextBlock Text="• Du kannst jederzeit wieder auf Lifetime upgraden." FontSize="12" Foreground="#64748B"/>
+                            <TextBlock Text="• Aktiver Plan: Kostenloses Free-Tier" FontSize="13" FontWeight="SemiBold" Foreground="#CBD5E1"/>
+                            <TextBlock Text="• 1 Kinderprofil &amp; Basis-Lernfächer nutzbar" FontSize="12" Foreground="#94A3B8"/>
                         </StackPanel>
                     </Border>
-
-                    <Button Content="Alles klar, verstanden" Click="CloseDowngradeModal_Click" Background="#2563EB" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14" Height="42" CornerRadius="21" HorizontalAlignment="Stretch"/>
+                    <Button Content="Alles klar, verstanden" Click="CloseDowngradeModal_Click" Background="#0284C7" Foreground="#FFFFFF" FontWeight="Bold" FontSize="14" Height="42" CornerRadius="21" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Border>
         </Grid>
     </Grid>
 </Page>
-
-

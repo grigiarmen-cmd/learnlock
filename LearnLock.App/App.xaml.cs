@@ -106,6 +106,15 @@ namespace LearnLock_App
                     );
                 }
                 catch { }
+
+                try
+                {
+                    Microsoft.EntityFrameworkCore.RelationalDatabaseFacadeExtensions.ExecuteSqlRaw(
+                        context.Database, 
+                        "ALTER TABLE ChildProfiles ADD COLUMN AvatarEmoji TEXT DEFAULT '👦'"
+                    );
+                }
+                catch { }
             }
             
             // Start the global app blocker
